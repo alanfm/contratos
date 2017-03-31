@@ -115,16 +115,17 @@ class View
      */
     public function show()
     {
-        if (!file_exists($this->getTemplate())) {
-            throw new \Exception('O arquivo do template não existe.');       
-        }
-
         if (count($this->getData()) > 0) {
             extract($this->getData(), EXTR_OVERWRITE);
         }
         
-        include_once $this->getTemplate();
+        include $this->getTemplate();
 
         return $this;
+    }    
+
+    public static function link($uri)
+    {
+        return URL_BASE . $uri;
     }
 }

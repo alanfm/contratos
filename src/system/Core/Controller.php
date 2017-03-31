@@ -17,11 +17,11 @@ class Controller
 {
     /**
      * @var object
-     * @access private
+     * @access protected
      * 
      * recebe um objeto view
      */
-    private $view;
+    protected $view;
 
     /**
      * @var mix
