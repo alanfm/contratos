@@ -1,0 +1,5 @@
+vendor/
+.phpintel/
+assets/
+
+composer.lock
