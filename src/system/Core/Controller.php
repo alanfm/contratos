@@ -103,4 +103,12 @@ class Controller
 
         return $this;
     }
+
+    protected function content($content, $data = null)
+    {
+        $this->view('template/header')->show();
+        $this->view('template/menu')->show();
+        $this->view($content)->data($data??[])->show();
+        $this->view('template/footer')->show();
+    }
 }

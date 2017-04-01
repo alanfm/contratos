@@ -22,7 +22,7 @@ define('URL_BASE','http://contratos.dev/');
  */
 define('DB_HOST', 'localhost'); // Host onde está o banco de dados
 define('DB_DBMS', 'mysql');		// Sistema de Gerenciamento de Banco de Dados
-define('DB_NAME', 'academia');		// Nome do banco de dados
+define('DB_NAME', 'contratos');		// Nome do banco de dados
 define('DB_USER', 'root');		// Usuário do banco de dados
 define('DB_PASS', '');		// Senha do usuário do banco de dados
 

@@ -13,9 +13,6 @@ class Home extends Controller
 
     public function index()
     {
-        $this->view('template/header')->show();
-        $this->view('template/menu')->show();
-        $this->view('home/index')->show();
-        $this->view('template/footer')->show();
+        $this->content('home/index', ['clientes'=>'025']);
     }
 }

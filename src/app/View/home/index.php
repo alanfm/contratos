@@ -2,33 +2,45 @@
     <div class="col-lg-3">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title"><i class="fa fa-user-circle-o" aria-hidden="true"></i> Clientes</h3>
+                <h3 class="panel-title">
+                    <i class="fa fa-user-circle-o fa-lg" aria-hidden="true"></i> Clientes
+                    <a href="#" class="btn btn-default btn-xs pull-right" title="Novo"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></a>
+                </h3>
             </div>
-            <div class="panel-body">Total de Clientes Cadastrados: 010</div>
+            <div class="panel-body"><h3>Clientes Cadastrados: <?=$clientes;?></h3></div>
         </div>
     </div>
     <div class="col-lg-3">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title"><i class="fa fa-file-text-o" aria-hidden="true"></i> Contratos</h3>
+                <h3 class="panel-title">
+                    <i class="fa fa-file-text-o fa-lg" aria-hidden="true"></i> Contratos
+                    <a href="#" class="btn btn-default btn-xs pull-right" title="Novo"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></a>
+                </h3>
             </div>
-            <div class="panel-body">Total de Contratos Cadastrados: 015</div>
+            <div class="panel-body"><h3>Contratos Cadastrados: <?=$clientes;?></h3></div>
         </div>
     </div>
     <div class="col-lg-3">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title"><i class="fa fa-braille" aria-hidden="true"></i> Quadras</h3>
+                <h3 class="panel-title">
+                    <i class="fa fa-plus-square-o fa-lg" aria-hidden="true"></i> Quadras
+                    <a href="#" class="btn btn-default btn-xs pull-right" title="Novo"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></a>
+                </h3>
             </div>
-            <div class="panel-body">Total de Quadras Cadastrados: 015</div>
+            <div class="panel-body"><h3>Quadras Cadastrados: <?=$clientes;?></h3></div>
         </div>
     </div>
     <div class="col-lg-3">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title"><i class="fa fa-square-o" aria-hidden="true"></i> Lotes</h3>
+                <h3 class="panel-title">
+                    <i class="fa fa-square-o fa-lg" aria-hidden="true"></i> Lotes
+                    <a href="#" class="btn btn-default btn-xs pull-right" title="Novo"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></a>
+                </h3>
             </div>
-            <div class="panel-body">Total de Lotes Cadastrados: 015</div>
+            <div class="panel-body"><h3>Lotes Cadastrados: <?=$clientes;?></h3></div>
         </div>
     </div>
 </section>
