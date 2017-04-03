@@ -27,4 +27,8 @@ Route::group(['prefix' => 'terrenos'], function() {
     Route::post('/quadras/pesquisar', function() {
         (new Quadras())->search();
     });
+
+    Route::get('/quadras/pagina/{page}', function($page) {
+        (new Quadras())->pagination($page);
+    });
 });

@@ -46,8 +46,25 @@ class Quadras extends Controller
 
     public function read($id = null)
     {
+        if (!isset($_SESSION['quadras']['pagination'])) {
+            $this->pagination(1, false);
+        }
+
         if (is_null($id)) {
-            return Model::all(['select'=>'*', 'limit'=>10, 'offset'=>0, 'order'=>'id DESC']);
+            $data = Model::all(['select'=>'*',
+                                'limit'=>10,
+                                'offset'=>$_SESSION['quadras']['pagination'],
+                                'order'=>'id DESC']);
+
+            $count = Model::count();
+
+            if ($count > 10) {
+                $_SESSION['quadras']['count'] = $count % 10? (int)($count / 10) + 1: $count / 10;
+            } else {
+                $_SESSION['quadras']['count'] = 1;
+            }
+
+            return $data;
         }
 
         return Model::find($id);
@@ -90,8 +107,9 @@ class Quadras extends Controller
             exit();
         }
 
+        $_SESSION['quadras']['search'] = true;
         $_SESSION['search'] = serialize(Model::all(['conditions'=>['descricao LIKE CONCAT("%",?,"%")', filter_input(INPUT_POST, 'search')],
-                                                                   'limit'=>10, 'offset'=>0, 'order'=>'id DESC']));
+                                                                   'order'=>'id DESC']));
         Utilities::redirect('terrenos/quadras');
         exit();
     }
@@ -105,5 +123,17 @@ class Quadras extends Controller
 
         $this->data['form']['descricao'] = $quadra->descricao;
         return false;
+    }
+
+    public function pagination($page = 1, $redirect = true)
+    {
+        $_SESSION['quadras']['pagination'] = $page > 1? ($page - 1) * 10: 0;
+        $_SESSION['quadras']['current_page'] = $page > 1? $page: 1;
+
+        if ($redirect) {
+            Utilities::redirect('terrenos/quadras');
+        }
+
+        exit();
     }
 }
