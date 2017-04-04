@@ -7,4 +7,5 @@ use \ActiveRecord\Model;
 class Cidades extends Model
 {    
     static $table_name = 'cidades';
+    static $belongs_to = [['estados']];
 }

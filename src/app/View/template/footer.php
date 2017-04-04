@@ -20,7 +20,6 @@
             $(function(){
                 $('#estado').change(function(){
                     if($(this).val()) {
-
                         $.getJSON('enderecos/cidades/' + $(this).val(), function(data) {
                             console.log(data);
                             var options = []; 
@@ -31,6 +30,24 @@
                         });
                     } else {
                         $('#cidade').html('<option value="">-- Escolha um estado --</option>');
+                    }
+                });
+            });
+            $(function(){
+                $('#terreno').change(function(){
+                    if($(this).val()) {
+                        $.getJSON('terrenos/quadras/' + $(this).val(), function(data) {
+                            var options = []; 
+                            $.each(data, function(k, v){
+                                options.push('<option value="' + v.id + '">' + v.descricao + '</option>');
+                            });  
+                            $('#quadra').html(options.join(''));
+                        })
+                        .fail(function() {
+                            $('#quadra').html('<option value="">-- Este terreno não tem quadras --</option>');
+                        });
+                    } else {
+                        $('#quadra').html('<option value="">-- Escolha um terreno --</option>');
                     }
                 });
             });

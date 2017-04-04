@@ -18,12 +18,13 @@
                     <input type="hidden" value="<?=System\Utilities::token();?>" name="token">
                     <div class="form-group">
                         <label for="descricao">Terreno</label>
-                        <select name="terreno">
-                            <?php foreach($terrenos as $ter):?>
-                            <option value="<?=$ter->id?>"<?=$ter->id == $terreno->id? " selected": ""?>><?=$ter->descricao;?></option>
+                        <select name="terreno" class="form-control">
+                            <?php foreach($terrenos as $terreno):?>
+                            <option value="<?=$terreno->id?>"<?=$terreno->id == $form['terreno']? " selected": ""?>>
+                                <?=$terreno->descricao;?>
+                            </option>
                             <?php endforeach;?>
                         </select>
-                        <input type="text" value="<?=$form['terreno']?>" name="terreno" class="form-control" placeholder="Descrição da Quadra">
                     </div>
                     <div class="form-group">
                         <label for="descricao">Descrição</label>
@@ -56,19 +57,21 @@
                 <thead>
                     <tr class="row">
                         <th class="col-md-1">#</th>
-                        <th class="col-md-9">Descricção</th>
+                        <th class="col-md-5">Descricção</th>
+                        <th class="col-md-4">Terreno</th>
                         <th class="col-md-2">Opções</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach($data as $quadra):?>
+                    <?php foreach($data as $tupla):?>
                     <tr class="row">
-                        <td class="col-md-1"><?=$quadra->id?></td>
-                        <td class="col-md-9"><?=$quadra->descricao?></td>
+                        <td class="col-md-1"><?=$tupla->id?></td>
+                        <td class="col-md-5"><?=$tupla->descricao?></td>
+                        <td class="col-md-4"><?=$tupla->terreno?></td>
                         <td class="col-md-2">                            
                             <div class="btn-group" role="group">
-                                <a href="<?=self::link('terrenos/quadras/editar/'.$quadra->id)?>" class="btn btn-warning btn-xs" title="Editar"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></i></a>
-                                <a href="<?=self::link('terrenos/quadras/apagar/'.$quadra->id)?>" class="btn btn-danger btn-xs delete" title="Remover"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
+                                <a href="<?=self::link('terrenos/quadras/editar/'.$tupla->id)?>" class="btn btn-warning btn-xs" title="Editar"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></i></a>
+                                <a href="<?=self::link('terrenos/quadras/apagar/'.$tupla->id)?>" class="btn btn-danger btn-xs delete" title="Remover"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
                             </div>
                         </td>
                     </tr>

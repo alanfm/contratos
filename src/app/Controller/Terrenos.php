@@ -29,16 +29,19 @@ class Terrenos extends Controller
         $this->data['edit'] = true;
         $this->form($this->read($id));
         $this->data['data'] = $this->read();
+        $this->data['estados'] = Estados::all();
+        $this->data['cidades'] = Cidades::all(['conditions'=>['estados_id = ?', $this->data['form']['estado']]]);
         $this->content('terrenos/terrenos', $this->data);
     }
 
     public function create()
     {
-        $this->data['descricao'] = filter_input(INPUT_POST, 'descricao');
-        $this->data['bairro'] = filter_input(INPUT_POST, 'bairro');
-        $this->data['cidades_id'] = filter_input(INPUT_POST, 'cidade');
+        $data['descricao'] = filter_input(INPUT_POST, 'descricao');
+        $data['logradouro'] = filter_input(INPUT_POST, 'logradouro');
+        $data['bairro'] = filter_input(INPUT_POST, 'bairro');
+        $data['cidades_id'] = filter_input(INPUT_POST, 'cidade');
 
-        if (filter_input(INPUT_POST, 'token') !== Utilities::token() || !Model::create($this->data)) {
+        if (filter_input(INPUT_POST, 'token') !== Utilities::token() || !Model::create($data)) {
             $_SESSION['alert'] = ['message'=>'Erro ao realizar o cadastro!', 'error'=>'danger'];
             Utilities::redirect('terrenos');
             exit();
@@ -52,11 +55,13 @@ class Terrenos extends Controller
     public function read($id = null)
     {
         if (!isset($_SESSION['terrenos']['pagination'])) {
-            $this->pagination(1, false);
+            $this->pagination();
         }
 
         if (is_null($id)) {
-            $data = Model::all(['select'=>'*',
+            $join = 'INNER JOIN estados ON (estados.id = cidades.estados_id)';
+            $data = Model::all(['select'=>'terrenos.*, cidades.nome as cidade, estados.uf as estado',
+                                'joins'=>['cidades', $join],
                                 'limit'=>10,
                                 'offset'=>$_SESSION['terrenos']['pagination'],
                                 'order'=>'id DESC']);
@@ -77,7 +82,10 @@ class Terrenos extends Controller
 
     public function update($id)
     {
-        $data['descricao'] = filter_input(INPUT_POST, 'descricao');        
+        $data['descricao'] = filter_input(INPUT_POST, 'descricao');
+        $data['logradouro'] = filter_input(INPUT_POST, 'logradouro');
+        $data['bairro'] = filter_input(INPUT_POST, 'bairro');
+        $data['cidades_id'] = filter_input(INPUT_POST, 'cidade');
 
         if (filter_input(INPUT_POST, 'token') !== Utilities::token() || !Model::find($id)->update_attributes($data)) {
             $_SESSION['alert'] = ['message'=>'Erro ao tentar alterar o registro!', 'error'=>'danger'];
@@ -112,9 +120,12 @@ class Terrenos extends Controller
             exit();
         }
 
-        $_SESSION['terrenos']['search'] = true;
-        $_SESSION['search'] = serialize(Model::all(['conditions'=>['descricao LIKE CONCAT("%",?,"%")', filter_input(INPUT_POST, 'search')],
-                                                                   'order'=>'id DESC']));
+        $_SESSION['terrenos']['search'] = true;        
+        $join = 'INNER JOIN estados ON (estados.id = cidades.estados_id)';
+        $_SESSION['search'] = serialize(Model::all(['select'=>'terrenos.*, cidades.nome as cidade, estados.uf as estado',
+                                                    'conditions'=>['descricao LIKE CONCAT("%",?,"%")', filter_input(INPUT_POST, 'search')],
+                                                    'joins'=>['cidades', $join],
+                                                    'order'=>'id DESC']));
         Utilities::redirect('terrenos');
         exit();
     }
@@ -123,6 +134,7 @@ class Terrenos extends Controller
     {
         if (!is_object($model)) {
             $this->data['form']['descricao'] = null;
+            $this->data['form']['logradouro'] = null;
             $this->data['form']['bairro'] = null;
             $this->data['form']['cidade'] = null;
             $this->data['form']['estado'] = null;
@@ -130,10 +142,12 @@ class Terrenos extends Controller
         }
 
         $this->data['form']['descricao'] = $model->descricao;
+        $this->data['form']['logradouro'] = $model->logradouro;
         $this->data['form']['bairro'] = $model->bairro;
         $this->data['form']['cidade'] = $model->cidades_id;
-        $this->data['form']['estado'] = Estado::find(Cidades::find($model->cidades_id)->estados_id);
-        return false;
+        $this->data['form']['estado'] = Estados::find(Cidades::find($model->cidades_id)->estados_id)->id;
+
+        return;
     }
 
     public function pagination($page = 1, $redirect = true)

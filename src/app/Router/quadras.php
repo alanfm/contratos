@@ -30,4 +30,8 @@ Route::group(['prefix' => 'terrenos'], function() {
     Route::get('/quadras/pagina/{page}', function($page) {
         (new Quadras())->pagination($page);
     });
+
+    Route::get('/quadras/{terreno}', function($terreno) {
+        (new Quadras())->quadras_by_terreno($terreno);
+    });
 });

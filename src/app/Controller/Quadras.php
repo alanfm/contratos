@@ -17,7 +17,7 @@ class Quadras extends Controller
     public function index()
     {
         $this->form(null);
-        $this->data['terrenos'] = 
+        $this->data['terrenos'] = Terrenos::all();
         $this->data['data'] = isset($_SESSION['search'])? unserialize($_SESSION['search']): $this->read();
         unset($_SESSION['search']);
         $this->content('terrenos/quadras', $this->data);
@@ -34,6 +34,7 @@ class Quadras extends Controller
     public function create()
     {
         $this->data['descricao'] = filter_input(INPUT_POST, 'descricao');
+        $this->data['terrenos_id'] = filter_input(INPUT_POST, 'terreno');
 
         if (filter_input(INPUT_POST, 'token') !== Utilities::token() || !Model::create($this->data)) {
             $_SESSION['alert'] = ['message'=>'Erro ao realizar o cadastro!', 'error'=>'danger'];
@@ -49,11 +50,12 @@ class Quadras extends Controller
     public function read($id = null)
     {
         if (!isset($_SESSION['quadras']['pagination'])) {
-            $this->pagination(1, false);
+            $this->pagination();
         }
 
         if (is_null($id)) {
-            $data = Model::all(['select'=>'*',
+            $data = Model::all(['select'=>'quadras.*, terrenos.descricao as terreno',
+                                'joins'=>['terrenos'],
                                 'limit'=>10,
                                 'offset'=>$_SESSION['quadras']['pagination'],
                                 'order'=>'id DESC']);
@@ -120,11 +122,13 @@ class Quadras extends Controller
     {
         if (!is_object($quadra)) {
             $this->data['form']['descricao'] = null;
+            $this->data['form']['terreno'] = null;
             return;
         }
 
         $this->data['form']['descricao'] = $quadra->descricao;
-        return false;
+        $this->data['form']['terreno'] = $quadra->terrenos_id;
+        return;
     }
 
     public function pagination($page = 1, $redirect = true)
@@ -137,5 +141,14 @@ class Quadras extends Controller
         }
 
         exit();
+    }
+
+    public function quadras_by_terreno($terreno)
+    {
+        foreach (Model::all(['conditions'=>['terrenos_id = ?', $terreno]]) as $quadra) {
+            $data[] = ['id'=>$quadra->id, 'descricao'=>$quadra->descricao];
+        }
+
+        return $this->outputJSON($data);
     }
 }

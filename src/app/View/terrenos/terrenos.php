@@ -18,11 +18,15 @@
                     <input type="hidden" value="<?=System\Utilities::token();?>" name="token">
                     <div class="form-group">
                         <label for="descricao">Descrição</label>
-                        <input type="text" value="<?=$form['descricao']?>" name="descricao" class="form-control" placeholder="Descrição do Terreno">
+                        <input type="text" value="<?=$form['descricao']?>" name="descricao" class="form-control" placeholder="Descrição do Terreno" require>
+                    </div>
+                    <div class="form-group">
+                        <label for="descricao">Logradouro</label>
+                        <input type="text" value="<?=$form['logradouro']?>" name="logradouro" class="form-control" placeholder="Rua, Avenida, Travessia etc." require>
                     </div>
                     <div class="form-group">
                         <label for="descricao">Bairro</label>
-                        <input type="text" value="<?=$form['bairro']?>" name="bairro" class="form-control" placeholder="Bairro do Terreno">
+                        <input type="text" value="<?=$form['bairro']?>" name="bairro" class="form-control" placeholder="Bairro do Terreno" require>
                     </div>
                     <div class="form-group">
                         <label for="descricao">Estado</label>
@@ -35,8 +39,12 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="descricao">Cidade</label>
+                        <label for="descricao">Cidade</label require>
                         <select name="cidade" class="form-control" id="cidade">
+                        <?php if (isset($edit)):
+                            foreach ($cidades as $city):?>
+                            <option value="<?=$city->id?>"<?=$city->id == $form['cidade']? ' selected':''?>><?=$city->nome?></option>
+                        <?php endforeach; endif;?>
                         </select>
                     </div>
                     <div class="form-group text-center">
@@ -67,8 +75,9 @@
                     <tr class="row">
                         <th class="col-md-1">#</th>
                         <th class="col-md-3">Descricção</th>
-                        <th class="col-md-3">Bairro</th>
-                        <th class="col-md-3">Cidade/UF</th>
+                        <th class="col-md-2">Logradouro</th>
+                        <th class="col-md-2">Bairro</th>
+                        <th class="col-md-2">Cidade/UF</th>
                         <th class="col-md-2">Opções</th>
                     </tr>
                 </thead>
@@ -77,8 +86,9 @@
                     <tr class="row">
                         <td class="col-md-1"><?=$tupla->id?></td>
                         <td class="col-md-3"><?=$tupla->descricao?></td>
-                        <td class="col-md-3"><?=$tupla->bairro?></td>
-                        <td class="col-md-3"><?=$tupla->bairro?></td>
+                        <td class="col-md-2"><?=$tupla->logradouro?></td>
+                        <td class="col-md-2"><?=$tupla->bairro?></td>
+                        <td class="col-md-2"><?=$tupla->cidade . '/' . $tupla->estado?></td>
                         <td class="col-md-2">                            
                             <div class="btn-group" role="group">
                                 <a href="<?=self::link('terrenos/editar/'.$tupla->id)?>" class="btn btn-warning btn-xs" title="Editar"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></i></a>

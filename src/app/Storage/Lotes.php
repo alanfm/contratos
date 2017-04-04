@@ -7,4 +7,5 @@ use \ActiveRecord\Model;
 class Lotes extends Model
 {    
     static $table_name = 'lotes';
+    static $belongs_to = [['quadras']];
 }

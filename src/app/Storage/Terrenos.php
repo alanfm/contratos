@@ -7,4 +7,5 @@ use \ActiveRecord\Model;
 class Terrenos extends Model
 {    
     static $table_name = 'terrenos';
+    static $belongs_to = [['cidades']];
 }
