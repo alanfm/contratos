@@ -12,6 +12,7 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Terrenos <span class="caret"></span></a>
                         <ul class="dropdown-menu">
+                            <li><a href="<?=self::link('terrenos')?>">Terrenos</a></li>
                             <li><a href="<?=self::link('terrenos/quadras')?>">Quadra</a></li>
                             <li><a href="<?=self::link('terrenos/lotes')?>">Lotes</a></li>
                         </ul>

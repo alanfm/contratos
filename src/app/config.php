@@ -31,5 +31,5 @@ define('DB_PASS', '');		// Senha do usuário do banco de dados
  */
 \ActiveRecord\Config::initialize(function($cfg) {
     $cfg->set_connections(array('development' =>
-                                sprintf('mysql://%s:%s@%s/%s', DB_USER, DB_PASS, DB_HOST, DB_NAME)));
+                                sprintf('mysql://%s:%s@%s/%s?charset=utf8', DB_USER, DB_PASS, DB_HOST, DB_NAME)));
 });

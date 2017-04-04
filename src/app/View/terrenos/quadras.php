@@ -17,6 +17,15 @@
                 <form action="" method="post">
                     <input type="hidden" value="<?=System\Utilities::token();?>" name="token">
                     <div class="form-group">
+                        <label for="descricao">Terreno</label>
+                        <select name="terreno">
+                            <?php foreach($terrenos as $ter):?>
+                            <option value="<?=$ter->id?>"<?=$ter->id == $terreno->id? " selected": ""?>><?=$ter->descricao;?></option>
+                            <?php endforeach;?>
+                        </select>
+                        <input type="text" value="<?=$form['terreno']?>" name="terreno" class="form-control" placeholder="Descrição da Quadra">
+                    </div>
+                    <div class="form-group">
                         <label for="descricao">Descrição</label>
                         <input type="text" value="<?=$form['descricao']?>" name="descricao" class="form-control" placeholder="Descrição da Quadra">
                     </div>

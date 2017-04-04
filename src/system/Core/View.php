@@ -17,6 +17,8 @@ namespace System\Core;
  * @author Alan Freire - alan_freire@msn.com
  */
 
+use System\Utilities;
+
 class View
 {
     /**

@@ -17,6 +17,23 @@
                     window.location.href = $(this).attr('href');
                 }
             });
+            $(function(){
+                $('#estado').change(function(){
+                    if($(this).val()) {
+
+                        $.getJSON('enderecos/cidades/' + $(this).val(), function(data) {
+                            console.log(data);
+                            var options = []; 
+                            $.each(data, function(k, v){
+                                options.push('<option value="' + v.id + '">' + v.nome + '</option>');
+                            });  
+                            $('#cidade').html(options.join(''));
+                        });
+                    } else {
+                        $('#cidade').html('<option value="">-- Escolha um estado --</option>');
+                    }
+                });
+            });
         </script>
     </body>
 </html>

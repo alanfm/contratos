@@ -1,34 +1,33 @@
 <?php
 
-use App\Controller\Quadras;
-use App\Controller\Lotes;
+use App\Controller\Terrenos;
 
 Route::group(['prefix' => 'terrenos'], function() {
-    Route::get('/quadras', function() {
-        (new Quadras())->index();
+    Route::get('/', function() {
+        (new Terrenos())->index();
     });
 
-    Route::post('/quadras', function() {
-        (new Quadras())->create();
+    Route::post('/', function() {
+        (new Terrenos())->create();
     });
 
-    Route::get('/quadras/editar/{id}', function($id) {
-        (new Quadras())->edit($id);
+    Route::get('/editar/{id}', function($id) {
+        (new Terrenos())->edit($id);
     });
 
-    Route::post('/quadras/editar/{id}', function($id) {
-        (new Quadras())->update($id);
+    Route::post('/editar/{id}', function($id) {
+        (new Terrenos())->update($id);
     });
 
-    Route::get('/quadras/apagar/{id}', function($id) {
-        (new Quadras())->delete($id);
+    Route::get('/apagar/{id}', function($id) {
+        (new Terrenos())->delete($id);
     });
 
-    Route::post('/quadras/pesquisar', function() {
-        (new Quadras())->search();
+    Route::post('/pesquisar', function() {
+        (new Terrenos())->search();
     });
 
-    Route::get('/quadras/pagina/{page}', function($page) {
-        (new Quadras())->pagination($page);
+    Route::get('/pagina/{page}', function($page) {
+        (new Terrenos())->pagination($page);
     });
 });
