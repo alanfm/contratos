@@ -29,8 +29,8 @@ class Lotes extends Controller
         $this->data['edit'] = true;
         $this->form($this->read($id));
         $this->data['data'] = $this->read();
-        $this->data['terrenos'] = Estados::all();
-        $this->data['quadras'] = Cidades::all(['conditions'=>['terrenos_id = ?', $this->data['form']['terreno']]]);
+        $this->data['terrenos'] = Terrenos::all();
+        $this->data['quadras'] = Quadras::all(['conditions'=>['terrenos_id = ?', $this->data['form']['terreno']]]);
         $this->content('terrenos/lotes', $this->data);
     }
 
