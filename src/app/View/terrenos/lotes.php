@@ -62,6 +62,9 @@
                     </div>
                     <div class="form-group text-center">
                         <button class="btn btn-default btn-lg" type="submit" title="Salvar"><i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i> Salvar</button>
+                        <?php if (isset($edit)):?>
+                            <a href="<?=self::link('terrenos/lotes')?>" class="btn btn-default" title="Cancelar"><i class="fa fa-ban fa-lg" aria-hidden="true"></i> Cancelar</a>
+                        <?php endif;?>
                     </div>
                 </form>
             </div>
@@ -85,30 +88,30 @@
             </div>
             <table class="table table-striped table-hover">
                 <thead>
-                    <tr class="row">
-                        <th class="col-md-1">#</th>
-                        <th class="col-md-2">Descricção</th>
-                        <th class="col-md-1">Comp.</th>
-                        <th class="col-md-1">Larg.</th>
-                        <th class="col-md-1">Valor</th>
-                        <th class="col-md-2">Terreno</th>
-                        <th class="col-md-1">Quadra</th>
-                        <th class="col-md-1">Situação</th>
-                        <th class="col-md-2">Opções</th>
+                    <tr>
+                        <th>#</th>
+                        <th>Descricção</th>
+                        <th>Comp.</th>
+                        <th>Larg.</th>
+                        <th>Valor</th>
+                        <th>Terreno</th>
+                        <th>Quadra</th>
+                        <th>Situação</th>
+                        <th>Opções</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach($data as $tupla):?>
-                    <tr class="row">
-                        <td class="col-md-1"><?=$tupla->id?></td>
-                        <td class="col-md-2"><?=$tupla->descricao?></td>
-                        <td class="col-md-1"><?=$tupla->comprimento?></td>
-                        <td class="col-md-1"><?=$tupla->largura?></td>
-                        <td class="col-md-1"><?=$tupla->valor?></td>
-                        <td class="col-md-2"><?=$tupla->terreno?></td>
-                        <td class="col-md-1"><?=$tupla->quadra?></td>
-                        <td class="col-md-1"><?=ucfirst($tupla->situacao)?></td>
-                        <td class="col-md-2">                            
+                    <tr>
+                        <td><?=$tupla->id?></td>
+                        <td><?=$tupla->descricao?></td>
+                        <td><?=number_format($tupla->comprimento, 2, ',', '.')?></td>
+                        <td><?=number_format($tupla->largura, 2, ',', '.')?></td>
+                        <td><?='R$ ' . number_format($tupla->valor, 2, ',', '.')?></td>
+                        <td><?=$tupla->terreno?></td>
+                        <td><?=$tupla->quadra?></td>
+                        <td><?=ucfirst($tupla->situacao)?></td>
+                        <td>                            
                             <div class="btn-group" role="group">
                                 <a href="<?=self::link('terrenos/lotes/editar/'.$tupla->id)?>" class="btn btn-warning btn-xs" title="Editar"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></i></a>
                                 <a href="<?=self::link('terrenos/lotes/apagar/'.$tupla->id)?>" class="btn btn-danger btn-xs delete" title="Remover"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>

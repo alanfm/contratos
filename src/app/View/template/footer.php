@@ -9,6 +9,7 @@
         </footer>
         <script src="public/js/jquery-3.1.1.min.js"></script>
         <script src="public/js/bootstrap.min.js"></script>
+        <script src="public/js/jquery.mask.min.js"></script>
         <script>
             $(document).on('click', '.delete', function(event) {
                 event.preventDefault();
@@ -16,6 +17,9 @@
                 if (result) {
                     window.location.href = $(this).attr('href');
                 }
+            });
+            $(function(){
+                $('.date').mask('00/00/0000');
             });
             $(function(){
                 $('#estado').change(function(){
@@ -27,6 +31,9 @@
                                 options.push('<option value="' + v.id + '">' + v.nome + '</option>');
                             });  
                             $('#cidade').html(options.join(''));
+                        })
+                        .fail(function() {
+                            $('#quadra').html('<option value="">-- Este terreno não tem quadras --</option>');
                         });
                     } else {
                         $('#cidade').html('<option value="">-- Escolha um estado --</option>');

@@ -32,6 +32,9 @@
                     </div>
                     <div class="form-group text-center">
                         <button class="btn btn-default btn-lg" type="submit" title="Salvar"><i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i> Salvar</button>
+                        <?php if (isset($edit)):?>
+                            <a href="<?=self::link('terrenos/quadras')?>" class="btn btn-default" title="Cancelar"><i class="fa fa-ban fa-lg" aria-hidden="true"></i> Cancelar</a>
+                        <?php endif;?>
                     </div>
                 </form>
             </div>

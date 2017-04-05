@@ -37,9 +37,9 @@ class Lotes extends Controller
     public function create()
     {
         $data['descricao'] = filter_input(INPUT_POST, 'descricao');
-        $data['largura'] = filter_input(INPUT_POST, 'largura');
-        $data['comprimento'] = filter_input(INPUT_POST, 'comprimento');
-        $data['valor'] = filter_input(INPUT_POST, 'valor');
+        $data['largura'] = str_replace(',', '.', filter_input(INPUT_POST, 'largura'));
+        $data['comprimento'] = str_replace(',', '.', filter_input(INPUT_POST, 'comprimento'));
+        $data['valor'] = str_replace(',', '.', filter_input(INPUT_POST, 'valor'));;
         $data['situacao'] = filter_input(INPUT_POST, 'situacao');
         $data['quadras_id'] = filter_input(INPUT_POST, 'quadra');
 
@@ -153,7 +153,7 @@ class Lotes extends Controller
         $this->data['form']['valor'] = $model->valor;
         $this->data['form']['situacao'] = $model->situacao;
         $this->data['form']['quadra'] = $model->quadras_id;
-        $this->data['form']['estado'] = Terrenos::find(Quadras::find($model->quadras_id)->terrenos_id)->id;
+        $this->data['form']['terreno'] = Terrenos::find(Quadras::find($model->quadras_id)->terrenos_id)->id;
 
         return;
     }

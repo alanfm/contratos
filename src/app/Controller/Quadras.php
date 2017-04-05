@@ -26,6 +26,7 @@ class Quadras extends Controller
     public function edit($id)
     {
         $this->data['edit'] = true;
+        $this->data['terrenos'] = Terrenos::all();
         $this->form($this->read($id));
         $this->data['data'] = $this->read();
         $this->content('terrenos/quadras', $this->data);
@@ -120,16 +121,10 @@ class Quadras extends Controller
         exit();
     }
 
-    public function form($quadra)
+    public function form($model)
     {
-        if (!is_object($quadra)) {
-            $this->data['form']['descricao'] = null;
-            $this->data['form']['terreno'] = null;
-            return;
-        }
-
-        $this->data['form']['descricao'] = $quadra->descricao;
-        $this->data['form']['terreno'] = $quadra->terrenos_id;
+        $this->data['form']['descricao'] = is_object($model)? $model->descricao: null;
+        $this->data['form']['terreno'] = is_object($model)? $model->terrenos_id: null;
         return;
     }
 

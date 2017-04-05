@@ -31,6 +31,7 @@
                     <div class="form-group">
                         <label for="descricao">Estado</label>
                         <select name="estado" class="form-control" id="estado" required>
+                            <option value="">-- Selecione um Estado --</option>
                         <?php foreach($estados as $estado):?>
                             <option value="<?=$estado->id?>"<?=$form['estado'] == $estado->id? ' selected': '';?>>
                                 <?=$estado->uf. ' - ' .$estado->nome;?>
@@ -41,6 +42,7 @@
                     <div class="form-group">
                         <label for="descricao">Cidade</label required>
                         <select name="cidade" class="form-control" id="cidade">
+                            <option value="">-- Selecione um Estado --</option>
                         <?php if (isset($edit)):
                             foreach ($cidades as $city):?>
                             <option value="<?=$city->id?>"<?=$city->id == $form['cidade']? ' selected':''?>><?=$city->nome?></option>
@@ -49,6 +51,9 @@
                     </div>
                     <div class="form-group text-center">
                         <button class="btn btn-default btn-lg" type="submit" title="Salvar"><i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i> Salvar</button>
+                        <?php if (isset($edit)):?>
+                            <a href="<?=self::link('terrenos')?>" class="btn btn-default" title="Cancelar"><i class="fa fa-ban fa-lg" aria-hidden="true"></i> Cancelar</a>
+                        <?php endif;?>
                     </div>
                 </form>
             </div>

@@ -45,6 +45,9 @@
                     </div>
                     <div class="form-group text-center">
                         <button class="btn btn-default btn-lg" type="submit" title="Salvar"><i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i> Salvar</button>
+                        <?php if (isset($edit)):?>
+                            <a href="<?=self::link('usuarios')?>" class="btn btn-default" title="Cancelar"><i class="fa fa-ban fa-lg" aria-hidden="true"></i> Cancelar</a>
+                        <?php endif;?>
                     </div>
                 </form>
             </div>
@@ -69,26 +72,26 @@
             <table class="table table-striped table-hover">
                 <thead>
                     <tr class="row">
-                        <th class="col-md-1">#</th>
-                        <th class="col-md-2">Nome</th>
-                        <th class="col-md-2">E-mail</th>
-                        <th class="col-md-2">Criado em</th>
-                        <th class="col-md-2">Ultimo Acesso</th>
-                        <th class="col-md-1">Nível</th>
-                        <th class="col-md-2">Opções</th>
+                        <th>#</th>
+                        <th>Nome</th>
+                        <th>E-mail</th>
+                        <th>Criado em</th>
+                        <th>Ultimo Acesso</th>
+                        <th>Nível</th>
+                        <th>Opções</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php $nivel = ['admin'=>'Admin', 'manager'=>'Gerente', 'salesman'=>'Vendedor'];
                     foreach($data as $tupla):?>
                     <tr class="row">
-                        <td class="col-md-1"><?=$tupla->id?></td>
-                        <td class="col-md-2"><?=$tupla->usuario?></td>
-                        <td class="col-md-2"><?=$tupla->email?></td>
-                        <td class="col-md-2"><?=date("d-m-Y H:i:s", strtotime($tupla->criado_em))?></td>
-                        <td class="col-md-2"><?=$tupla->ultimo_acesso? date("d-m-Y H:i:s", strtotime($tupla->ultimo_acesso)): ''?></td>
-                        <td class="col-md-1"><?=$nivel[$tupla->nivel]?></td>
-                        <td class="col-md-2">                            
+                        <td><?=$tupla->id?></td>
+                        <td><?=$tupla->usuario?></td>
+                        <td><?=$tupla->email?></td>
+                        <td><?=date("d-m-Y H:i:s", strtotime($tupla->criado_em))?></td>
+                        <td><?=$tupla->ultimo_acesso? date("d-m-Y H:i:s", strtotime($tupla->ultimo_acesso)): ''?></td>
+                        <td><?=$nivel[$tupla->nivel]?></td>
+                        <td>                            
                             <div class="btn-group" role="group">
                                 <a href="<?=self::link('usuarios/editar/'.$tupla->id)?>" class="btn btn-warning btn-xs" title="Editar"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></i></a>
                                 <a href="<?=self::link('usuarios/apagar/'.$tupla->id)?>" class="btn btn-danger btn-xs delete" title="Remover"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
