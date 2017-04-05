@@ -18,7 +18,7 @@
                     <input type="hidden" value="<?=System\Utilities::token();?>" name="token">
                     <div class="form-group">
                         <label for="descricao">Terreno</label>
-                        <select name="terreno" class="form-control">
+                        <select name="terreno" class="form-control" autofocus>
                             <?php foreach($terrenos as $terreno):?>
                             <option value="<?=$terreno->id?>"<?=$terreno->id == $form['terreno']? " selected": ""?>>
                                 <?=$terreno->descricao;?>
@@ -89,7 +89,7 @@
             <?php endif;?>
             <?php if (isset($_SESSION['quadras']['search'])): unset($_SESSION['quadras']['search']);?>
                 <div class="text-center">
-                    <a href="<?=self::link('terrenos/quadras');?>" class="btn btn-primary" style="margin-bottom: 2rem;">Mostrar todos</a>
+                    <a href="<?=self::link('terrenos/quadras');?>" class="btn btn-primary" style="margin-bottom: 2rem;margin-top: 2rem;">Mostrar todos</a>
                 </div>
             <?php endif;?>
         </div>

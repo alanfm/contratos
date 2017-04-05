@@ -124,10 +124,10 @@ class Lotes extends Controller
             exit();
         }
 
-        $_SESSION['terrenos']['search'] = true;        
+        $_SESSION['lotes']['search'] = true;        
         $join = 'INNER JOIN terrenos ON (terrenos.id = quadras.terrenos_id)';
         $_SESSION['search'] = serialize(Model::all(['select'=>'lotes.*, quadras.descricao as quadra, terrenos.descricao as terreno',
-                                                    'conditions'=>['descricao LIKE CONCAT("%",?,"%")', filter_input(INPUT_POST, 'search')],
+                                                    'conditions'=>['lotes.descricao LIKE CONCAT("%",?,"%")', filter_input(INPUT_POST, 'search')],
                                                     'joins'=>['quadras', $join],
                                                     'order'=>'id DESC']));
         Utilities::redirect('terrenos/lotes');

@@ -18,19 +18,19 @@
                     <input type="hidden" value="<?=System\Utilities::token();?>" name="token">
                     <div class="form-group">
                         <label for="descricao">Descrição</label>
-                        <input type="text" value="<?=$form['descricao']?>" name="descricao" class="form-control" placeholder="Descrição do Terreno" require>
+                        <input type="text" value="<?=$form['descricao']?>" name="descricao" class="form-control" placeholder="Descrição do Terreno" required autofocus>
                     </div>
                     <div class="form-group">
                         <label for="descricao">Logradouro</label>
-                        <input type="text" value="<?=$form['logradouro']?>" name="logradouro" class="form-control" placeholder="Rua, Avenida, Travessia etc." require>
+                        <input type="text" value="<?=$form['logradouro']?>" name="logradouro" class="form-control" placeholder="Rua, Avenida, Travessia etc." required>
                     </div>
                     <div class="form-group">
                         <label for="descricao">Bairro</label>
-                        <input type="text" value="<?=$form['bairro']?>" name="bairro" class="form-control" placeholder="Bairro do Terreno" require>
+                        <input type="text" value="<?=$form['bairro']?>" name="bairro" class="form-control" placeholder="Bairro do Terreno" required>
                     </div>
                     <div class="form-group">
                         <label for="descricao">Estado</label>
-                        <select name="estado" class="form-control" id="estado">
+                        <select name="estado" class="form-control" id="estado" required>
                         <?php foreach($estados as $estado):?>
                             <option value="<?=$estado->id?>"<?=$form['estado'] == $estado->id? ' selected': '';?>>
                                 <?=$estado->uf. ' - ' .$estado->nome;?>
@@ -39,7 +39,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="descricao">Cidade</label require>
+                        <label for="descricao">Cidade</label required>
                         <select name="cidade" class="form-control" id="cidade">
                         <?php if (isset($edit)):
                             foreach ($cidades as $city):?>
@@ -110,7 +110,7 @@
             <?php endif;?>
             <?php if (isset($_SESSION['terrenos']['search'])): unset($_SESSION['terrenos']['search']);?>
                 <div class="text-center">
-                    <a href="<?=self::link('terrenos');?>" class="btn btn-primary" style="margin-bottom: 2rem;">Mostrar todos</a>
+                    <a href="<?=self::link('terrenos');?>" class="btn btn-primary" style="margin-bottom: 2rem; margin-top: 2rem;">Mostrar todos</a>
                 </div>
             <?php endif;?>
         </div>

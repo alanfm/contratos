@@ -112,8 +112,10 @@ class Quadras extends Controller
         }
 
         $_SESSION['quadras']['search'] = true;
-        $_SESSION['search'] = serialize(Model::all(['conditions'=>['descricao LIKE CONCAT("%",?,"%")', filter_input(INPUT_POST, 'search')],
-                                                                   'order'=>'id DESC']));
+        $_SESSION['search'] = serialize(Model::all(['select'=>'quadras.*, terrenos.descricao as terreno',
+                                                    'joins'=>['terrenos'],
+                                                    'conditions'=>['quadras.descricao LIKE CONCAT("%",?,"%")', filter_input(INPUT_POST, 'search')],
+                                                    'order'=>'id DESC']));
         Utilities::redirect('terrenos/quadras');
         exit();
     }

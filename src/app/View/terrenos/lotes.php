@@ -18,7 +18,7 @@
                     <input type="hidden" value="<?=System\Utilities::token();?>" name="token">
                     <div class="form-group">
                         <label for="descricao">Descrição</label>
-                        <input type="text" value="<?=$form['descricao']?>" name="descricao" class="form-control" placeholder="Descrição do Lote" required>
+                        <input type="text" value="<?=$form['descricao']?>" name="descricao" class="form-control" placeholder="Descrição do Lote" required autofocus>
                     </div>
                     <div class="form-group">
                         <label for="descricao">Comprimento</label>
@@ -73,7 +73,7 @@
                 <h3 class="panel-title">Pesquisar por Lotes</h3>
             </div>
             <div class="panel-body">
-                <form action="<?=self::link('lotes/pesquisar');?>" method="post">
+                <form action="<?=self::link('terrenos/lotes/pesquisar');?>" method="post">
                     <input type="hidden" value="<?=System\Utilities::token();?>" name="token">
                     <div class="input-group">
                         <input type="text" class="form-control" name="search" placeholder="Buscar por Lotes" required>
@@ -131,7 +131,7 @@
             <?php endif;?>
             <?php if (isset($_SESSION['lotes']['search'])): unset($_SESSION['lotes']['search']);?>
                 <div class="text-center">
-                    <a href="<?=self::link('terrenos/lotes');?>" class="btn btn-primary" style="margin-bottom: 2rem;">Mostrar todos</a>
+                    <a href="<?=self::link('terrenos/lotes');?>" class="btn btn-primary" style="margin-bottom: 2rem;margin-top: 2rem;">Mostrar todos</a>
                 </div>
             <?php endif;?>
         </div>

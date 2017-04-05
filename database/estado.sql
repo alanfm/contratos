@@ -25,5 +25,4 @@ INSERT INTO `estados` (`id`, `nome`, `uf`, `ibge`, `sl`, `ddd`) VALUES
 (24, 'Santa Catarina', 'SC', 42, 1, '47,48,49'),
 (25, 'Sergipe', 'SE', 28, 1, '79'),
 (26, 'São Paulo', 'SP', 35, 1, '11,12,13,14,15,16,17,18,19'),
-(27, 'Tocantins', 'TO', 17, 1, '63'),
-(99, 'Exterior', 'EX', 99, NULL, NULL);
+(27, 'Tocantins', 'TO', 17, 1, '63');
