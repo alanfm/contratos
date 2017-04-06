@@ -34,7 +34,7 @@
                     </div>
                     <div class="form-group">
                         <label for="rg_emissao">Data de Emissão</label>
-                        <input type="text" value="<?=$form['rg_emissao']?>" name="rg_emissao" class="form-control date" placeholder="Data de Emissão do R.G." required>
+                        <input type="text" value="<?=$form['rg_emissao']?>" name="rg_emissao" class="form-control date" placeholder="dd/mm/aaaa" required>
                     </div>
                     <div class="form-group">
                         <label for="rg_org_expedidor">Orgão Expedidor do R.G.</label>
@@ -102,6 +102,13 @@
                                 <a href="<?=self::link('clientes/detalhes/'.$tupla->id)?>" class="btn btn-info btn-xs" title="Detalhes"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i></i></a>
                                 <a href="<?=self::link('clientes/editar/'.$tupla->id)?>" class="btn btn-warning btn-xs" title="Editar"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></i></a>
                                 <a href="<?=self::link('clientes/apagar/'.$tupla->id)?>" class="btn btn-danger btn-xs delete" title="Remover"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
+                                <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-plus fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;<span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="<?=self::link('enderecos/' . $tupla->id)?>">Endereço</a></li>
+                                    <li><a href="<?=self::link('telefones/' . $tupla->id)?>">Telefone</a></li>
+                                </ul>
                             </div>
                         </td>
                     </tr>
