@@ -128,6 +128,12 @@ class Clientes extends Controller
         exit();
     }
 
+    public function details($id)
+    {
+        $this->data['cliente'] = Model::find($id);
+        $this->content('pessoas/clientes_details', $this->data);
+    }
+
     public function form($model = null)
     {
         $this->data['form']['nome'] = is_object($model)? $model->nome: null;

@@ -27,6 +27,10 @@ Route::group(['prefix' => 'clientes'], function() {
         (new Clientes())->search();
     });
 
+    Route::get('/detalhes/{id}', function($id) {
+        (new Clientes())->details($id);
+    });
+
     Route::get('/pagina/{page}', function($page) {
         (new Clientes())->pagination($page);
     });
