@@ -5,6 +5,7 @@ namespace App\Controller;
 use System\Core\Controller;
 use System\Utilities;
 use App\Storage\Pessoas as Model;
+use App\Storage\Telefones;
 
 class Clientes extends Controller
 {
@@ -131,6 +132,7 @@ class Clientes extends Controller
     public function details($id)
     {
         $this->data['cliente'] = Model::find($id);
+        $this->data['telefones'] = Telefones::all(['conditions'=>['pessoas_id = ?', $id]]);
         $this->content('pessoas/clientes_details', $this->data);
     }
 

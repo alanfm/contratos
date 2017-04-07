@@ -5,6 +5,7 @@
     <div class="col-md-4">
         <div class="panel panel-default">
             <div class="panel-heading">
+                <a href="<?=self::link('clientes/editar/'.$cliente->id)?>" class="btn btn-warning btn-xs pull-right" title="Editar"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></a>
                 <h3 class="panel-title">Dados Pessoais</h3>
             </div>
             <ul class="list-group">
@@ -41,29 +42,82 @@
     </div>
     <div class="col-md-8">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-7">
                 <div class="panel panel-default">
                     <div class="panel-heading">
+                        <a href="<?=self::link('clientes/enderecos/'.$cliente->id)?>" class="btn btn-default btn-xs pull-right" title="Novo"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></a>
                         <h3 class="panel-title">Endereços</h3>
                     </div>
-                    <div class="panel-body">
-                        Panel content
-                    </div>
+                    <table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Endereço</th>
+                                <th>Bairro</th>
+                                <th>C.E.P.</th>
+                                <th>Cidade/UF</th>
+                                <th>Opções</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>12</td>
+                                <td>Rua Teste, S/N</td>
+                                <td>Centro</td>
+                                <td>62.120-000</td>
+                                <td>Alcântaras/CE</td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <a href="<?=self::link('clientes/editar/'.$cliente->id)?>" class="btn btn-warning btn-xs" title="Editar"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></i></a>
+                                        <a href="<?=self::link('clientes/apagar/'.$cliente->id)?>" class="btn btn-danger btn-xs delete" title="Remover"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-5">
                 <div class="panel panel-default">
                     <div class="panel-heading">
+                        <a href="<?=self::link('clientes/telefones/'.$cliente->id)?>" class="btn btn-default btn-xs pull-right" title="Novo"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></a>
                         <h3 class="panel-title">Telefones</h3>
                     </div>
-                    <div class="panel-body">
-                        Panel content
-                    </div>
+                    <table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>DDD</th>
+                                <th>Telefone</th>
+                                <th>Operadora</th>
+                                <th>Tipo</th>
+                                <th>Opções</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($telefones as $tupla):?>
+                            <tr>
+                                <td><?=$tupla->id?></td>
+                                <td><?=$tupla->ddd?></td>
+                                <td><?=$tupla->numero?></td>
+                                <td><?=$tupla->operadora?></td>
+                                <td><?=$tupla->tipo?></td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <a href="<?=self::link('clientes/editar/'.$cliente->id.'/'.$tupla->id)?>" class="btn btn-warning btn-xs" title="Editar"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></i></a>
+                                        <a href="<?=self::link('clientes/apagar/'.$cliente->id.'/'.$tupla->id)?>" class="btn btn-danger btn-xs delete" title="Remover"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
+                                    </div>                                    
+                                </td>
+                            </tr>
+                            <?php endforeach;?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
             <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
+                        <a href="<?=self::link('contratos/'.$cliente->id)?>" class="btn btn-default btn-xs pull-right" title="Novo"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></a>
                         <h3 class="panel-title">Contratos</h3>
                     </div>
                     <div class="panel-body">
