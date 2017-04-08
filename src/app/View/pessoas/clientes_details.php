@@ -60,19 +60,21 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>12</td>
-                                <td>Rua Teste, S/N</td>
-                                <td>Centro</td>
-                                <td>62.120-000</td>
-                                <td>Alcântaras/CE</td>
-                                <td>
-                                    <div class="btn-group" role="group">
-                                        <a href="<?=self::link('clientes/editar/'.$cliente->id)?>" class="btn btn-warning btn-xs" title="Editar"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></i></a>
-                                        <a href="<?=self::link('clientes/apagar/'.$cliente->id)?>" class="btn btn-danger btn-xs delete" title="Remover"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
-                                    </div>
-                                </td>
-                            </tr>
+                            <?php foreach($enderecos as $endereco):?>
+                                <tr>
+                                    <td><?=$endereco->id?></td>
+                                    <td><?=$endereco->logradouro . ', ' . ($endereco->numero?? 'S/N') . ', ' . ($endereco->complemento?? 'sem complemento')?></td>
+                                    <td><?=$endereco->bairro?></td>
+                                    <td><?=$endereco->cep?></td>
+                                    <td><?=$endereco->cidade.'/'.$endereco->estado?></td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <a href="<?=self::link('clientes/enderecos/editar/'.$cliente->id.'/'.$endereco->id)?>" class="btn btn-warning btn-xs" title="Editar"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></i></a>
+                                            <a href="<?=self::link('clientes/enderecos/apagar/'.$cliente->id.'/'.$endereco->id)?>" class="btn btn-danger btn-xs delete" title="Remover"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php endforeach;?>
                         </tbody>
                     </table>
                 </div>
@@ -101,11 +103,11 @@
                                 <td><?=$tupla->ddd?></td>
                                 <td><?=$tupla->numero?></td>
                                 <td><?=$tupla->operadora?></td>
-                                <td><?=$tupla->tipo?></td>
+                                <td><?=ucfirst($tupla->tipo)?></td>
                                 <td>
                                     <div class="btn-group" role="group">
-                                        <a href="<?=self::link('clientes/editar/'.$cliente->id.'/'.$tupla->id)?>" class="btn btn-warning btn-xs" title="Editar"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></i></a>
-                                        <a href="<?=self::link('clientes/apagar/'.$cliente->id.'/'.$tupla->id)?>" class="btn btn-danger btn-xs delete" title="Remover"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
+                                        <a href="<?=self::link('clientes/telefones/editar/'.$cliente->id.'/'.$tupla->id)?>" class="btn btn-warning btn-xs" title="Editar"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></i></a>
+                                        <a href="<?=self::link('clientes/telefones/apagar/'.$cliente->id.'/'.$tupla->id)?>" class="btn btn-danger btn-xs delete" title="Remover"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
                                     </div>                                    
                                 </td>
                             </tr>

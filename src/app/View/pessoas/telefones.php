@@ -1,5 +1,6 @@
 <div class="page-header">
-  <h1><i class="fa fa-user-circle-o fa-lg" aria-hidden="true"></i> Telefones de <small><?=$cliente->nome?></small></h1>
+    <a href="<?=self::link('clientes/detalhes/'.$cliente->id)?>" class="btn btn-info btn-lg pull-right"><i class="fa fa-user-circle-o fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;Detalhes</a>
+    <h1><i class="fa fa-user-circle-o fa-lg" aria-hidden="true"></i> Telefones de <small><?=$cliente->nome?></small></h1>
 </div>
 <div class="row">
     <section class="col-md-6">
@@ -80,7 +81,7 @@
                         <td><?=$tupla->ddd?></td>
                         <td><?=System\Utilities::mask($tupla->numero, '####-#####')?></td>
                         <td><?=$tupla->operadora?></td>
-                        <td><?=$tupla->tipo?></td>
+                        <td><?=ucfirst($tupla->tipo)?></td>
                         <td>                            
                             <div class="btn-group" role="group">
                                 <a href="<?=self::link('clientes/telefones/editar/'.$cliente->id.'/'.$tupla->id)?>" class="btn btn-warning btn-xs" title="Editar"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></i></a>

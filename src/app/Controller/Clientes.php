@@ -6,6 +6,7 @@ use System\Core\Controller;
 use System\Utilities;
 use App\Storage\Pessoas as Model;
 use App\Storage\Telefones;
+use App\Storage\Enderecos;
 
 class Clientes extends Controller
 {
@@ -133,6 +134,10 @@ class Clientes extends Controller
     {
         $this->data['cliente'] = Model::find($id);
         $this->data['telefones'] = Telefones::all(['conditions'=>['pessoas_id = ?', $id]]);
+        $join = 'INNER JOIN estados ON (cidades.estados_id = estados.id)';
+        $this->data['enderecos'] = Enderecos::all(['select'=>'enderecos.*, cidades.nome as cidade, estados.uf as estado',
+                                                   'conditions'=>['pessoas_id = ?', $id],
+                                                   'joins'=>['cidades', $join]]);
         $this->content('pessoas/clientes_details', $this->data);
     }
 
