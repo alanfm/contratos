@@ -20,8 +20,7 @@
             });
             $(function(){
                 $('.date').mask('00/00/0000');
-            });
-            $(function(){
+
                 $('#estado').change(function(){
                     if($(this).val()) {
                         $.getJSON('enderecos/cidades/' + $(this).val(), function(data) {
@@ -39,15 +38,15 @@
                         $('#cidade').html('<option value="">-- Escolha um estado --</option>');
                     }
                 });
-            });
-            $(function(){
+
                 $('#terreno').change(function(){
                     if($(this).val()) {
                         $.getJSON('terrenos/quadras/' + $(this).val(), function(data) {
-                            var options = []; 
+                            var options = [];
+                            options.push('<option value="">-- Escolha uma quadra --</option>');
                             $.each(data, function(k, v){
                                 options.push('<option value="' + v.id + '">' + v.descricao + '</option>');
-                            });  
+                            });
                             $('#quadra').html(options.join(''));
                         })
                         .fail(function() {
@@ -55,6 +54,24 @@
                         });
                     } else {
                         $('#quadra').html('<option value="">-- Escolha um terreno --</option>');
+                    }
+                });
+
+                $(document).on('change', '#quadra', function(){
+                    console.log($(this).val());
+                    if($(this).val()) {
+                        $.getJSON('terrenos/lotes/' + $(this).val(), function(data) {
+                            var options = []; 
+                            $.each(data, function(k, v){
+                                options.push('<option value="' + v.id + '">' + v.descricao + '</option>');
+                            });
+                            $('#lote').html(options.join(''));
+                        })
+                        .fail(function() {
+                            $('#lote').html('<option value="">-- Este quadra não tem lotes --</option>');
+                        });
+                    } else {
+                        $('#lote').html('<option value="">-- Escolha uma quadra --</option>');
                     }
                 });
             });

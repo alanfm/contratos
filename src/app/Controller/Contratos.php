@@ -23,7 +23,7 @@ class Contratos extends Controller
         $this->form(null);
         $this->data['cliente'] = Pessoas::find($cliente);
         $this->data['terrenos'] = Terrenos::all();
-        $this->data['data'] = isset($_SESSION['search'])? unserialize($_SESSION['search']): $this->read($cliente);
+        $this->data['data'] = $this->read($cliente);
         unset($_SESSION['search']);
         $this->content('contratos/contratos', $this->data);
     }
@@ -33,23 +33,27 @@ class Contratos extends Controller
         $this->data['edit'] = true;
         $this->form($this->read($cliente, $id));
         $this->data['cliente'] = Pessoas::find($cliente);
-        $this->data['estados'] = Estados::All();
-        $this->data['cidades'] = Cidades::all(['conditions'=>['estados_id = ?', $this->data['form']['estado']]]);
+        $this->data['lotes'] = Lotes::all(['conditions'=>'quadras_id = ? AND situacao = aberto', $this->data['form']['quadra']]);
+        $this->data['quadras'] = Quadra::all(['conditions'=>'terrenos_id = ?', $this->data['form']['terreno']]);
+        $this->data['terrenos'] = Terrenos::all();
         $this->data['data'] = $this->read( $cliente);
         $this->content('contratos/contratos', $this->data);
     }
 
     public function create($cliente)
     {
-        $data['logradouro'] = filter_input(INPUT_POST, 'logradouro');
-        $data['numero'] = filter_input(INPUT_POST, 'numero');
-        $data['complemento'] = filter_input(INPUT_POST, 'complemento');
-        $data['bairro'] = filter_input(INPUT_POST, 'bairro');
-        $data['cep'] = filter_input(INPUT_POST, 'cep');
-        $data['cidades_id'] = filter_input(INPUT_POST, 'cidade');
+        $data['data'] = date('Y-m-d');
+        $data['entrada'] = filter_input(INPUT_POST, 'entrada');
+        $data['parcelas'] = filter_input(INPUT_POST, 'parcelas');
+        $data['vencimento'] = filter_input(INPUT_POST, 'vencimento');
+        $data['status'] = filter_input(INPUT_POST, 'status');
+        $data['lotes_id'] = filter_input(INPUT_POST, 'lote');
+        $data['usuarios_id'] = 1; // Corrigir quando implementar móduto de Autenticação!
         $data['pessoas_id'] = $cliente;
 
-        if (filter_input(INPUT_POST, 'token') !== Utilities::token() || !Model::create($data)) {
+        if (filter_input(INPUT_POST, 'token') !== Utilities::token() ||            
+            !Lotes::find($data['lotes_id'])->update_attributes(['situacao'=>'vendido']) || // Muda situação do lote para vendido
+            !Model::create($data)) {
             $_SESSION['alert'] = ['message'=>'Erro ao realizar o cadastro!', 'error'=>'danger'];
             Utilities::redirect('contratos/'.$cliente);
             exit();
@@ -62,25 +66,25 @@ class Contratos extends Controller
 
     public function read($cliente, $id = null)
     {
-        if (!isset($_SESSION['enderecos']['pagination'])) {
+        if (!isset($_SESSION['contratos']['pagination'])) {
             $this->pagination($cliente);
         }
 
         if (is_null($id)) {
-            $join = 'INNER JOIN estados ON (estados.id = cidades.estados_id)';
-            $data = Model::all(['select'=>'enderecos.*, cidades.nome as cidade, estados.uf as estado',
+            $join = 'INNER JOIN quadras ON (quadras.id = lotes.quadras_id) INNER JOIN terrenos ON (terrenos.id = quadras.terrenos_id)';
+            $data = Model::all(['select'=>'contratos.*, lotes.descricao as lote, quadras.descricao as quadra, terrenos.descricao as terreno',
                                 'conditions'=>['pessoas_id = ?', $cliente],
-                                'joins'=>['cidades', $join],
+                                'joins'=>['lotes', $join],
                                 'limit'=>10,
-                                'offset'=>$_SESSION['enderecos']['pagination'],
+                                'offset'=>$_SESSION['contratos']['pagination'],
                                 'order'=>'id DESC']);
 
             $count = Model::count();
 
             if ($count > 10) {
-                $_SESSION['enderecos']['count'] = $count % 10? (int)($count / 10) + 1: $count / 10;
+                $_SESSION['contratos']['count'] = $count % 10? (int)($count / 10) + 1: $count / 10;
             } else {
-                $_SESSION['enderecos']['count'] = 1;
+                $_SESSION['contratos']['count'] = 1;
             }
 
             return $data;
@@ -91,12 +95,11 @@ class Contratos extends Controller
 
     public function update($cliente, $id)
     {
-        $data['logradouro'] = filter_input(INPUT_POST, 'logradouro');
-        $data['numero'] = filter_input(INPUT_POST, 'numero');
-        $data['complemento'] = filter_input(INPUT_POST, 'complemento');
-        $data['bairro'] = filter_input(INPUT_POST, 'bairro');
-        $data['cep'] = filter_input(INPUT_POST, 'cep');
-        $data['cidades_id'] = filter_input(INPUT_POST, 'cidade');     
+        $data['entrada'] = filter_input(INPUT_POST, 'entrada');
+        $data['parcelas'] = filter_input(INPUT_POST, 'parcelas');
+        $data['vencimento'] = filter_input(INPUT_POST, 'vencimento');
+        $data['status'] = filter_input(INPUT_POST, 'status');
+        $data['lotes_id'] = filter_input(INPUT_POST, 'lote');     
 
         if (filter_input(INPUT_POST, 'token') !== Utilities::token() || !Model::find($id)->update_attributes($data)) {
             $_SESSION['alert'] = ['message'=>'Erro ao tentar alterar o registro!', 'error'=>'danger'];
@@ -132,10 +135,10 @@ class Contratos extends Controller
         }
 
         $_SESSION['contratos/'.$id]['search'] = true;
-        $join = 'INNER JOIN estados ON (estados.id = cidades.estados_id)';
+        $join = 'INNER JOIN quadras ON (quadras.id = lotes.quadras_id) INNER JOIN terrenos ON (terrenos.is = quadras.terrenos_id)';
         $_SESSION['search'] = serialize(Model::all(['select'=>'enderecos.*, cidades.nome as cidade, estados.uf as estado',
-                                                    'joins'=>['cidades', $join],
-                                                    'conditions'=>['(enderecos.pessoas_id = ?) AND (enderecos.logradouro LIKE CONCAT("%",?,"%"))',
+                                                    'joins'=>['lotes', $join],
+                                                    'conditions'=>['(contratos.pessoas_id = ?) AND (contratos.logradouro LIKE CONCAT("%",?,"%"))',
                                                                    $cliente,
                                                                    filter_input(INPUT_POST, 'search')],
                                                     'order'=>'id DESC']));
@@ -145,20 +148,21 @@ class Contratos extends Controller
 
     public function form($model = null)
     {
-        $this->data['form']['logradouro'] = is_object($model)? $model->logradouro: null;
-        $this->data['form']['numero'] = is_object($model)? $model->numero: null;
-        $this->data['form']['complemento'] = is_object($model)? $model->complemento: null;
-        $this->data['form']['bairro'] = is_object($model)? $model->bairro: null;
-        $this->data['form']['cep'] = is_object($model)? $model->cep: null;
-        $this->data['form']['cidade'] = is_object($model)? $model->cidades_id: null;
-        $this->data['form']['estado'] = is_object($model)? Estados::find(Cidades::find($model->cidades_id)->estados_id)->id: null;
+        $this->data['form']['data'] = is_object($model)? $model->data: null;
+        $this->data['form']['entrada'] = is_object($model)? $model->entrada: null;
+        $this->data['form']['parcelas'] = is_object($model)? $model->parcelas: null;
+        $this->data['form']['vencimento'] = is_object($model)? $model->vencimento: null;
+        $this->data['form']['status'] = is_object($model)? $model->status: null;
+        $this->data['form']['lotes'] = is_object($model)? $model->lotess_id: null;
+        $this->data['form']['quadra'] = is_object($model)? Quadra::find(Lotes::find($model->lotes_id)->quadras_id)->id: null;
+        $this->data['form']['terreno'] = is_object($model)? Terreno::find(Quadra::find(Lotes::find($model->lotes_id)->quadras_id)->terrenos_id)->id: null;
         return;
     }
 
     public function pagination($cliente, $page = 1, $redirect = true)
     {
-        $_SESSION['enderecos']['pagination'] = $page > 1? ($page - 1) * 10: 0;
-        $_SESSION['enderecos']['current_page'] = $page > 1? $page: 1;
+        $_SESSION['contratos']['pagination'] = $page > 1? ($page - 1) * 10: 0;
+        $_SESSION['contratos']['current_page'] = $page > 1? $page: 1;
 
         if ($redirect) {
             Utilities::redirect('contratos/'.$cliente);

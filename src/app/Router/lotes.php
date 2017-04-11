@@ -30,4 +30,8 @@ Route::group(['prefix' => 'terrenos'], function() {
     Route::get('/lotes/pagina/{page}', function($page) {
         (new Lotes())->pagination($page);
     });
+
+    Route::get('/lotes/{quadra}', function($quadra) {
+        (new Lotes())->lotes_by_quadra($quadra);
+    });
 });

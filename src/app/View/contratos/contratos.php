@@ -30,6 +30,13 @@
                         <input type="number" value="<?=$form['vencimento']?>" name="vencimento" class="form-control" placeholder="Dia do vencimento das parcelas">
                     </div>
                     <div class="form-group">
+                        <label for="situacao">Situação</label>
+                        <select name="situacao" class="form-control" id="situacao" required>
+                            <option value="1"<?=$form['status']? ' selected':''?>>Ativo</option>
+                            <option value="0"<?=$form['status'] === 0? ' selected':''?>>Cancelado</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label for="terreno">Terreno</label>
                         <select name="terreno" class="form-control" id="terreno" required>
                             <option value="">-- Selecione um Terreno --</option>
@@ -74,17 +81,6 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title">Pesquisar por Contrato</h3>
-            </div>
-            <div class="panel-body">
-                <form action="<?=self::link('contratos/pesquisar/'.$cliente->id);?>" method="post">
-                    <input type="hidden" value="<?=System\Utilities::token();?>" name="token">
-                    <div class="input-group">
-                        <input type="text" class="form-control" name="search" placeholder="Buscar por Contrato" required>
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="submit"><i class="fa fa-search fa-lg" aria-hidden="true"></i></button>
-                        </span>
-                    </div>
-                </form>
             </div>
             <table class="table table-striped table-hover">
                 <thead>

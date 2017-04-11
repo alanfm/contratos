@@ -168,5 +168,14 @@ class Lotes extends Controller
         }
 
         exit();
+    }    
+
+    public function lotes_by_quadra($quadra)
+    {
+        foreach (Model::all(['conditions'=>['quadras_id = ?', $quadra]]) as $lote) {
+            $data[] = ['id'=>$lote->id, 'descricao'=>$lote->descricao];
+        }
+
+        return $this->outputJSON($data);
     }
 }
