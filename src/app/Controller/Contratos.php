@@ -33,8 +33,8 @@ class Contratos extends Controller
         $this->data['edit'] = true;
         $this->form($this->read($cliente, $id));
         $this->data['cliente'] = Pessoas::find($cliente);
-        $this->data['lotes'] = Lotes::all(['conditions'=>'quadras_id = ? AND situacao = aberto', $this->data['form']['quadra']]);
-        $this->data['quadras'] = Quadra::all(['conditions'=>'terrenos_id = ?', $this->data['form']['terreno']]);
+        $this->data['lotes'] = Lotes::all(['conditions'=>['quadras_id = ? AND situacao = ?', $this->data['form']['quadra'], 'aberto']]);
+        $this->data['quadras'] = Quadras::all(['conditions'=>['terrenos_id = ?', $this->data['form']['terreno']]]);
         $this->data['terrenos'] = Terrenos::all();
         $this->data['data'] = $this->read( $cliente);
         $this->content('contratos/contratos', $this->data);
@@ -153,9 +153,9 @@ class Contratos extends Controller
         $this->data['form']['parcelas'] = is_object($model)? $model->parcelas: null;
         $this->data['form']['vencimento'] = is_object($model)? $model->vencimento: null;
         $this->data['form']['status'] = is_object($model)? $model->status: null;
-        $this->data['form']['lotes'] = is_object($model)? $model->lotess_id: null;
-        $this->data['form']['quadra'] = is_object($model)? Quadra::find(Lotes::find($model->lotes_id)->quadras_id)->id: null;
-        $this->data['form']['terreno'] = is_object($model)? Terreno::find(Quadra::find(Lotes::find($model->lotes_id)->quadras_id)->terrenos_id)->id: null;
+        $this->data['form']['lote'] = is_object($model)? $model->lotes_id: null;
+        $this->data['form']['quadra'] = is_object($model)? Quadras::find(Lotes::find($model->lotes_id)->quadras_id)->id: null;
+        $this->data['form']['terreno'] = is_object($model)? Terrenos::find(Quadras::find(Lotes::find($model->lotes_id)->quadras_id)->terrenos_id)->id: null;
         return;
     }
 

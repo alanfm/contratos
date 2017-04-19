@@ -19,7 +19,7 @@
                     <input type="hidden" value="<?=System\Utilities::token();?>" name="token">
                     <div class="form-group">
                         <label for="entrada">Entrada</label>
-                        <input type="text" value="<?=$form['entrada']?>" name="entrada" class="form-control" placeholder="Valor da entrada" required autofocus>
+                        <input type="number" value="<?=$form['entrada']?>" name="entrada" class="form-control" placeholder="Valor da entrada" required autofocus>
                     </div>
                     <div class="form-group">
                         <label for="parcelas">Parcelas</label>
@@ -31,7 +31,7 @@
                     </div>
                     <div class="form-group">
                         <label for="situacao">Situação</label>
-                        <select name="situacao" class="form-control" id="situacao" required>
+                        <select name="status" class="form-control" id="situacao" required>
                             <option value="1"<?=$form['status']? ' selected':''?>>Ativo</option>
                             <option value="0"<?=$form['status'] === 0? ' selected':''?>>Cancelado</option>
                         </select>
@@ -59,10 +59,10 @@
                     </div>                    
                     <div class="form-group">
                         <label for="lote">Lotes</label required>
-                        <select name="lote" class="form-control" id="lote">
+                        <select name="lote" class="form-control" id="lote" data="<?=$form['lote']?>">
                             <option value="">-- Selecione uma Quadra --</option>
                         <?php if (isset($edit)):
-                            foreach ($quadras as $lote):?>
+                            foreach ($lotes as $lote):?>
                             <option value="<?=$lote->id?>"<?=$lote->id == $form['lote']? ' selected':''?>><?=$lote->descricao?></option>
                         <?php endforeach; endif;?>
                         </select>
@@ -101,10 +101,11 @@
                         <td><?=date('d/m/Y', strtotime($tupla->data))?></td>
                         <td><?='R$ ' . number_format($tupla->entrada, 2, ',', '.')?></td>
                         <td><?=$tupla->vencimento?></td>
-                        <td><?=$tupla->status?></td>
+                        <td><?=$tupla->status? 'Ativo': 'Cancelado'?></td>
                         <td><?=$tupla->terreno.'/'.$tupla->quadra.'/'.$tupla->lote?></td>
                         <td>                            
                             <div class="btn-group" role="group">
+                                <a href="<?=self::link('contratos/info/'.$cliente->id.'/'.$tupla->id)?>" class="btn btn-info btn-xs" title="Detalhes"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i></i></a>
                                 <a href="<?=self::link('contratos/editar/'.$cliente->id.'/'.$tupla->id)?>" class="btn btn-warning btn-xs" title="Editar"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></i></a>
                                 <a href="<?=self::link('contratos/apagar/'.$cliente->id.'/'.$tupla->id)?>" class="btn btn-danger btn-xs delete" title="Remover"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
                             </div>

@@ -172,7 +172,7 @@ class Lotes extends Controller
 
     public function lotes_by_quadra($quadra)
     {
-        foreach (Model::all(['conditions'=>['quadras_id = ?', $quadra]]) as $lote) {
+        foreach (Model::all(['conditions'=>['quadras_id = ? AND situacao = ?', $quadra, 'aberto']]) as $lote) {
             $data[] = ['id'=>$lote->id, 'descricao'=>$lote->descricao];
         }
 
