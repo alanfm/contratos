@@ -35,8 +35,8 @@
                     <div class="form-group">
                         <label for="descricao">Situação</label>
                         <select name="situacao" class="form-control" id="situacao" required>
-                            <option value="aberto">Em aberto</option>
-                            <option value="vendido">Vendido</option>
+                            <option value="aberto"<?=$form['situacao'] == 'aberto'? ' selected': ''?>>Em aberto</option>
+                            <option value="vendido"<?=$form['situacao'] == 'vendido'? ' selected': ''?>>Vendido</option>
                         </select>
                     </div>
                     <div class="form-group">

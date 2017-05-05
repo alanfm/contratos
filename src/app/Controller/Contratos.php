@@ -170,4 +170,16 @@ class Contratos extends Controller
 
         exit();
     }
+
+    public function details($id)
+    {
+
+        $join = 'INNER JOIN quadras ON (quadras.id = lotes.quadras_id) INNER JOIN terrenos ON (terrenos.id = quadras.terrenos_id)';
+        $data['contrato'] = Model::all(['select'=>'contratos.*, lotes.descricao as lote, quadras.descricao as quadra, terrenos.descricao as terreno',
+                            'conditions'=>['contratos.id = ?', $id],
+                            'joins'=>['lotes', $join]])[0];
+
+        $data['cliente'] = Pessoas::find($data['contrato']->pessoas_id);
+        $this->content('contratos/details', $data);
+    }
 }

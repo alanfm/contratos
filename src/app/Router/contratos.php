@@ -27,8 +27,8 @@ Route::group(['prefix' => 'contratos'], function() {
         (new Contratos())->search($cliente);
     });
 
-    Route::get('/detalhes/{cliente}/{id}', function($cliente, $id) {
-        (new Contratos())->details($cliente, $id);
+    Route::get('/detalhes/{id}', function($id) {
+        (new Contratos())->details($id);
     });
 
     Route::get('/pagina/{cliente}/{page}', function($cliente, $page) {

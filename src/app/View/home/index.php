@@ -15,7 +15,6 @@
             <div class="panel-heading">
                 <h3 class="panel-title">
                     <i class="fa fa-file-text-o fa-lg" aria-hidden="true"></i> Contratos
-                    <a href="<?=self::link('contratos')?>" class="btn btn-default btn-xs pull-right" title="Novo"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></a>
                 </h3>
             </div>
             <div class="panel-body"><h3>Contratos Cadastrados: <?=$contratos_count;?></h3></div>

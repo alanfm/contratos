@@ -122,9 +122,38 @@
                         <a href="<?=self::link('contratos/'.$cliente->id)?>" class="btn btn-default btn-xs pull-right" title="Novo"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></a>
                         <h3 class="panel-title">Contratos</h3>
                     </div>
-                    <div class="panel-body">
-                        Panel content
-                    </div>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr class="row">
+                                <th>#</th>
+                                <th>Data</th>
+                                <th>Entrada</th>
+                                <th>Vencimento</th>
+                                <th>Situação</th>
+                                <th>Terreno/Quadra/Lote</th>
+                                <th>Opções</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($contratos as $tupla):?>
+                            <tr class="row">
+                                <td><?=$tupla->id?></td>
+                                <td><?=date('d/m/Y', strtotime($tupla->data))?></td>
+                                <td><?='R$ ' . number_format($tupla->entrada, 2, ',', '.')?></td>
+                                <td><?=$tupla->vencimento?></td>
+                                <td><?=$tupla->status? 'Ativo': 'Cancelado'?></td>
+                                <td><?=$tupla->terreno.'/'.$tupla->quadra.'/'.$tupla->lote?></td>
+                                <td>                            
+                                    <div class="btn-group" role="group">
+                                        <a href="<?=self::link('contratos/detalhes/'.$tupla->id)?>" class="btn btn-info btn-xs" title="Detalhes"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i></i></a>
+                                        <a href="<?=self::link('contratos/editar/'.$cliente->id.'/'.$tupla->id)?>" class="btn btn-warning btn-xs" title="Editar"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></i></a>
+                                        <a href="<?=self::link('contratos/cancelar/'.$cliente->id.'/'.$tupla->id)?>" class="btn btn-danger btn-xs delete" title="Cancelar"><i class="fa fa-ban fa-lg" aria-hidden="true"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <?php endforeach;?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

@@ -8,7 +8,6 @@
                 <ul class="nav navbar-nav">
                     <li><a href="<?=self::link('')?>">Principal</a></li>
                     <li><a href="<?=self::link('clientes')?>">Clientes</a></li>
-                    <li><a href="<?=self::link('contratos')?>">Contratos</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Terrenos <span class="caret"></span></a>
                         <ul class="dropdown-menu">

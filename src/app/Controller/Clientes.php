@@ -7,6 +7,7 @@ use System\Utilities;
 use App\Storage\Pessoas as Model;
 use App\Storage\Telefones;
 use App\Storage\Enderecos;
+use App\Storage\Contratos;
 
 class Clientes extends Controller
 {
@@ -111,7 +112,6 @@ class Clientes extends Controller
         $_SESSION['alert'] = ['message'=>'Registro apagado com sucesso!', 'error'=>'success'];
         Utilities::redirect('clientes');
         exit();
-
     }
 
     public function search()
@@ -134,10 +134,16 @@ class Clientes extends Controller
     {
         $this->data['cliente'] = Model::find($id);
         $this->data['telefones'] = Telefones::all(['conditions'=>['pessoas_id = ?', $id]]);
+
         $join = 'INNER JOIN estados ON (cidades.estados_id = estados.id)';
         $this->data['enderecos'] = Enderecos::all(['select'=>'enderecos.*, cidades.nome as cidade, estados.uf as estado',
                                                    'conditions'=>['pessoas_id = ?', $id],
                                                    'joins'=>['cidades', $join]]);
+
+        $join = 'INNER JOIN quadras ON (quadras.id = lotes.quadras_id) INNER JOIN terrenos ON (terrenos.id = quadras.terrenos_id)';
+        $this->data['contratos'] = Contratos::all(['select'=>'contratos.*, lotes.descricao as lote, quadras.descricao as quadra, terrenos.descricao as terreno',
+                                                   'conditions'=>['pessoas_id = ?', $id],
+                                                   'joins'=>['lotes', $join]]);
         $this->content('pessoas/clientes_details', $this->data);
     }
 
