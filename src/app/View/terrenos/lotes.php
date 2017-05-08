@@ -30,18 +30,18 @@
                     </div>
                     <div class="form-group">
                         <label for="descricao">Valor</label>
-                        <input type="text" value="<?=$form['valor']?>" name="valor" class="form-control" placeholder="R$ 0,00" required>
+                        <input type="text" value="<?=$form['valor']?>" name="valor" class="form-control" placeholder="R$ 0,00" required<?=$form['situacao'] == 'vendido'? ' disabled': ''?>>
                     </div>
                     <div class="form-group">
                         <label for="descricao">Situação</label>
-                        <select name="situacao" class="form-control" id="situacao" required>
+                        <select name="situacao" class="form-control" id="situacao" required<?=$form['situacao'] == 'vendido'? ' disabled': ''?>>
                             <option value="aberto"<?=$form['situacao'] == 'aberto'? ' selected': ''?>>Em aberto</option>
                             <option value="vendido"<?=$form['situacao'] == 'vendido'? ' selected': ''?>>Vendido</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="descricao">Terreno</label>
-                        <select name="terreno" class="form-control" id="terreno" required>
+                        <select name="terreno" class="form-control" id="terreno" required<?=$form['situacao'] == 'vendido'? ' disabled': ''?>>
                             <option value="">-- Selecione um Terreno --</option>
                         <?php foreach($terrenos as $terreno):?>
                             <option value="<?=$terreno->id?>"<?=$form['terreno'] == $terreno->id? ' selected': '';?>>
@@ -52,7 +52,7 @@
                     </div>
                     <div class="form-group">
                         <label for="descricao">Quadra</label>
-                        <select name="quadra" class="form-control" id="quadra" required>
+                        <select name="quadra" class="form-control" id="quadra" required<?=$form['situacao'] == 'vendido'? ' disabled': ''?>>
                             <option value="">-- Selecione um Terreno --</option>
                         <?php if (isset($edit)):
                             foreach ($quadras as $quadra):?>
@@ -114,7 +114,9 @@
                         <td>                            
                             <div class="btn-group" role="group">
                                 <a href="<?=self::link('terrenos/lotes/editar/'.$tupla->id)?>" class="btn btn-warning btn-xs" title="Editar"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></i></a>
-                                <a href="<?=self::link('terrenos/lotes/apagar/'.$tupla->id)?>" class="btn btn-danger btn-xs delete" title="Remover"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
+                                <?php if ($tupla->situacao !== 'vendido'): ?>
+                                    <a href="<?=self::link('terrenos/lotes/apagar/'.$tupla->id)?>" class="btn btn-danger btn-xs delete" title="Remover"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
+                                <?php endif;?>
                             </div>
                         </td>
                     </tr>

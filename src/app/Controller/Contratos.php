@@ -10,6 +10,7 @@ use App\Storage\Lotes;
 use App\Storage\Quadras;
 use App\Storage\Terrenos;
 use App\Storage\Usuarios;
+use App\Storage\Parcelas;
 
 class Contratos extends Controller
 {
@@ -57,6 +58,29 @@ class Contratos extends Controller
             $_SESSION['alert'] = ['message'=>'Erro ao realizar o cadastro!', 'error'=>'danger'];
             Utilities::redirect('contratos/'.$cliente);
             exit();
+        }
+
+        $valor = (Lotes::find($data['lotes_id'])->valor - $data['entrada'])/$data['parcelas'];
+        // Método de manipulação de data não otimizado
+        $date = explode('-', date('Y-m-d'));
+        $date[2] = $data['vencimento'];
+        $date = implode('-', $date);
+        $date = \DateTime::createFromFormat('Y-m-d', $date);
+
+        $contratos_id = Model::find('last')->id;
+
+        for ($i = 0; $i < $data['parcelas']; $i++) {
+            $par['descricao'] = sprintf("Parcela %02d", $i+1);
+            $par['valor'] = $valor;
+            $par['status'] = false;
+            $par['vencimento'] = $i == 0? $date->format('Y-m-d'): $date->add(new \DateInterval('P1M'))->format('Y-m-d');
+            $par['contratos_id'] = $contratos_id;
+
+            if (!Parcelas::create($par)) {
+                $_SESSION['alert'] = ['message'=>'Erro ao realizar o cadastro!', 'error'=>'danger'];
+                Utilities::redirect('contratos/'.$cliente);
+                exit();
+            }
         }
 
         $_SESSION['alert'] = ['message'=>'Cadastro realizado com sucesso!', 'error'=>'success'];
@@ -178,7 +202,8 @@ class Contratos extends Controller
         $data['contrato'] = Model::all(['select'=>'contratos.*, lotes.descricao as lote, quadras.descricao as quadra, terrenos.descricao as terreno',
                             'conditions'=>['contratos.id = ?', $id],
                             'joins'=>['lotes', $join]])[0];
-
+        $data['parcelas'] = Parcelas::all(['conditions'=>['contratos_id = ?', $id]]);
+        $data['parcelas_pagas'] = Parcelas::count(['conditions'=>['quitada <> NULL']]);
         $data['cliente'] = Pessoas::find($data['contrato']->pessoas_id);
         $this->content('contratos/details', $data);
     }
