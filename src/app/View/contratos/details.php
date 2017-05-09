@@ -49,7 +49,7 @@
             </div>
             <div class="panel-body">            
                 <a href="#" class="btn btn-info btn-block">Visualizar Contrato</a>
-                <a href="#" class="btn btn-success btn-block">Visualizar Carnê de Pagamento</a>
+                <a href="<?=self::link('parcelas/carne/'.$contrato->id)?>" class="btn btn-success btn-block" target="_blank">Visualizar Carnê de Pagamento</a>
                 <a href="#" class="btn btn-danger btn-block">Cancelar Contrato</a>
             </div>
         </div>
