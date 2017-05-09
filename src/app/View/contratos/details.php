@@ -16,6 +16,7 @@
                         <th>Entrada</th>
                         <th>Parcelas</th>
                         <th>Pagas</th>
+                        <th>Total Pago</th>
                         <th>Vencimento</th>
                         <th>Situação</th>
                         <th>Terreno/Quadra/Lote</th>
@@ -28,6 +29,7 @@
                         <td><?='R$ ' . number_format($contrato->entrada, 2, ',', '.')?></td>
                         <td><?=$contrato->parcelas?></td>
                         <td><?=$parcelas_pagas?></td>
+                        <td><?='R$ ' . number_format($valor_recebido, 2, ',', '.')?></td>
                         <td><?=$contrato->vencimento?></td>
                         <td><?=$contrato->status? 'Ativo': 'Cancelado'?></td>
                         <td><?=$contrato->terreno.'/'.$contrato->quadra.'/'.$contrato->lote?></td>
@@ -87,14 +89,15 @@
                         <td><?=date('d/m/Y', strtotime($tupla->vencimento))?></td>
                         <td><?='R$ ' . number_format($tupla->valor, 2, ',', '.')?></td>
                         <td><?=!is_null($tupla->quitada)? date('d/m/Y', strtotime($tupla->quitada)): '-'?></td>
-                        <td><?='R$ ' . ($tupla->recebido? date('d/m/Y', strtotime($tupla->recebido)):'0,00')?></td>
+                        <td><?='R$ ' . ($tupla->recebido? number_format($tupla->valor, 2, ',', '.'):'0,00')?></td>
                         <td><?=$tupla->documento?? '-'?></td>
                         <td><?=$tupla->status? 'Quitada':'Em aberto'?></td>
                         <td>                            
                             <div class="btn-group" role="group">
-                                <a href="#" class="btn btn-success btn-xs" title="Editar" data-toggle="modal" data-target="#pay"><i class="fa fa-money fa-lg" aria-hidden="true"></i></i></a>
-                                <a href="<?=self::link('contratos/parcelas/editar/'.$tupla->id)?>" class="btn btn-warning btn-xs" title="Editar"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></i></a>
-                                <a href="<?=self::link('contratos/parcelas/cancelar/'.$tupla->id)?>" class="btn btn-danger btn-xs delete" title="Cancelar"><i class="fa fa-ban fa-lg" aria-hidden="true"></i></a>
+                                <?php if (!$tupla->status):?>
+                                    <a href="#" class="btn btn-success btn-xs payment" title="Pagamento" data-toggle="modal" data-target="#pay" data-parcela="<?=$tupla->id?>"><i class="fa fa-money fa-lg" aria-hidden="true"></i></i></a>
+                                    <a href="<?=self::link('contratos/parcelas/cancelar/'.$tupla->id)?>" class="btn btn-danger btn-xs delete" title="Cancelar"><i class="fa fa-ban fa-lg" aria-hidden="true"></i></a>
+                                <?php endif;?>
                             </div>
                         </td>
                     </tr>
@@ -112,9 +115,14 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">Modal title</h4>
             </div>
-            <form action="" method="post">
+            <form action="<?=self::link('/parcelas/pagamento')?>" method="post">
                 <div class="modal-body">
-                    <input type="hidden" value="<?=System\Utilities::token();?>" name="token">
+                    <input type="hidden" value="<?=System\Utilities::token();?>" name="token">                    
+                    <div class="form-group">
+                        <label for="parcela">Parcela</label>
+                        <input type="text" name="parcela_show" value="" class="form-control payment-input" disabled>
+                        <input type="hidden" name="parcela" value="" class="form-control payment-input">
+                    </div>
                     <div class="form-group">
                         <label for="quitada">Data</label>
                         <input type="text" step="any" name="quitada" class="form-control date" placeholder="Data da entrada" required>
@@ -125,12 +133,12 @@
                     </div>
                     <div class="form-group">
                         <label for="documento">Número documento</label>
-                        <input type="number" step="any" name="documento" class="form-control" placeholder="Número da documento" required>
+                        <input type="text" name="documento" class="form-control" placeholder="Número da documento" required>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="reset" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Salvar</button>
+                    <button type="reset" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i> Salvar</button>
                 </div>
             </form>
         </div>

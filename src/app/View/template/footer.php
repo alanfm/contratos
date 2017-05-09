@@ -18,8 +18,12 @@
                     window.location.href = $(this).attr('href');
                 }
             });
+            $(document).on('click', '.payment', function(){
+                $('.payment-input').attr('value', $(this).data('parcela'));
+            });
             $(function(){
                 $('.date').mask('00/00/0000');
+                $('.cnpj').mask('00.000.000/0000-00');
 
                 $('#estado').change(function(){
                     if($(this).val()) {

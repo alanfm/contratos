@@ -203,8 +203,21 @@ class Contratos extends Controller
                             'conditions'=>['contratos.id = ?', $id],
                             'joins'=>['lotes', $join]])[0];
         $data['parcelas'] = Parcelas::all(['conditions'=>['contratos_id = ?', $id]]);
-        $data['parcelas_pagas'] = Parcelas::count(['conditions'=>['quitada <> NULL']]);
+        $data['parcelas_pagas'] = Parcelas::count(['conditions'=>['status = 1']]);
+
+        $data['valor_recebido'] = $this->sum_parcelas($id) + Model::find($id)->entrada;
+
         $data['cliente'] = Pessoas::find($data['contrato']->pessoas_id);
         $this->content('contratos/details', $data);
+    }
+
+    private function sum_parcelas($contrato)
+    {
+        $total = 0;
+        foreach(Parcelas::all(['conditions'=>['contratos_id = ? AND status = 1', $contrato]]) as $parcela) {
+            $total += $parcela->recebido;
+        }
+
+        return $total;
     }
 }

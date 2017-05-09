@@ -13,7 +13,7 @@
             table {
                 width: 100%;
                 border-collapse: collapse;
-                margin-bottom: 3rem;
+                margin-bottom: 2.8rem;
             }
             table td {
                 border: 1px solid #000;
@@ -24,7 +24,7 @@
                 padding: 0;
             }
             p {
-                font-size: 9.5pt;
+                font-size: 10pt;
             }
             .text-center {
                 text-align: center;
@@ -42,61 +42,63 @@
         </style>
     </head>
     <body>
-        <?php for ($i = 0; $i < 3; $i++):?>
+        <?php 
+        $count = 1;
+        foreach($parcelas as $parcela):?>
         <table cellspacing="0" cellpadding="0">
             <tbody>
                 <tr>
                     <td class="col-1" colspan="2" style="text-align: center;"><img src="public/imgs/caixa.png" alt="" width="100px"></td>
-                    <td class="col-2" colspan="4" style="text-align: center"><h3>TERRENO ALGODÕES - ALCÂNTARAS</h3></td>
+                    <td class="col-2" colspan="4" style="text-align: center"><h3><?=strtoupper($empresa->nome)?></h3></td>
                 </tr>
                 <tr>
                     <td>
                         <p>Parcela/total</p>
-                        <p class="text-center">1/36</p>
+                        <p class="text-center"><?=sprintf('%02d/%02d', $count++, count($parcelas))?></p>
                     </td>
                     <td>
                         <p>Valor</p>
-                        <p class="text-center">R$ 100,02</p>
+                        <p class="text-center"><?='R$' . number_format($parcela->valor, 2, ',', '.')?></p>
                     </td>
                     <td class="col-2" colspan="4">
                         <p>PAGAMENTO: Depósito identificado ou tranferência para:</p>
-                        <p><strong>Conta:</strong> 566832-9, <strong>Agência:</strong> 6529-6, <strong>Operação:</strong> 13, <strong>Banco:</strong> Caixa Econômica Federal</p>
+                        <p><strong>Banco:</strong> <?=$conta->banco?>, <strong>Agência:</strong> <?=$conta->agencia?>, <strong>Conta:</strong> <?=$conta->conta?>, <strong>Operação:</strong> <?=$conta->operacao?></p>
                     </td>
                 </tr>
                 <tr>
                     <td class="col-1" colspan="2">
                         <p>Vecimento</p>
-                        <p class="text-center">12/06/2017</p>
+                        <p class="text-center"><?=date('d/m/Y', strtotime($parcela->vencimento))?></p>
                     </td>
                     <td colspan="3">
                         <p>Beneficiário:</p>
-                        <p>FULANO DE TALS PEREIRA</p>
+                        <p><?=$vendedor->nome?></p>
                     </td>
                     <td colspan="1">
                         <p>C.P.F.:</p>
-                        <p>026.369.456-98</p>
+                        <p><?=System\Utilities::mask($vendedor->cpf, '###.###.###-##')?></p>
                     </td>
                 </tr>
                 <tr>
                     <td class="col-1" colspan="2">
-                        <p>Conta/Agencia/Operação</p>
-                        <p class="text-center">566832-9/6529-6/13</p>
+                        <p>Agência/Conta/Operação</p>
+                        <p class="text-center"><?=$conta->agencia?>/<?=$conta->conta?>/<?=$conta->operacao?></p>
                     </td>
                     <td>
                         <p>Data do documento</p>
-                        <p class="text-center">23/05/2017</p>
+                        <p class="text-center"><?=date('d/m/Y', strtotime($parcela->vencimento))?></p>
                     </td>
                     <td>
                         <p>Número do documento</p>
-                        <p class="text-center">2566</p>
+                        <p class="text-center"><?=sprintf('%04d', $parcela->id)?></p>
                     </td>
                     <td>
                         <p>Data de processamento</p>
-                        <p class="text-center">23/05/2017</p>
+                        <p class="text-center"><?=date('d/m/Y', strtotime($contrato->data))?></p>
                     </td>
                     <td>
                         <p>Valor do documento</p>
-                        <p class="text-center">R$ 256,36</p>
+                        <p class="text-center"><?='R$' . number_format($parcela->valor, 2, ',', '.')?></p>
                     </td>
                 </tr>
                 <tr>
@@ -117,9 +119,9 @@
                     <td class="col-2" rowspan="3" colspan="4">
                         <p>Instruções</p>
                         <ul>
-                            <li>Após vencimento cobrar multa de R$ 11,39 e juros de R$ 1,13 ao dia;</li>
+                            <li>Após vencimento cobrar multa de <?='R$' . number_format($conta->multa, 2, ',', '.')?> e juros de <?='R$' . number_format($conta->juros, 2, ',', '.')?> ao dia;</li>
                             <li>O pagamento das parcelas deverá ser efetuado através de deposito identificado ou transferência na conta mencionada acima;</li>
-                            <li>Após pagamento, o pagador deverá enviar o comprovante para o E-mail francalves_alc@hotmail.com ou pelo WhatsApp  (88) 99404 2327.</li>
+                            <li>Após pagamento, o pagador deverá enviar o comprovante para o E-mail <?=$vendedor->email?> ou pelo WhatsApp  (88) 99404 2327.</li>
                         </ul>
                     </td>
                 </tr>
@@ -132,28 +134,28 @@
                 <tr>
                     <td colspan="2" class="col-1">
                         <p>Pagador</p>
-                        <p>Fulano dos Anzois Pereira</p>
+                        <p><?=$comprador->nome?></p>
                     </td>
                 </tr>
                 <tr>
                     <td class="col-1" colspan="2" rowspan="2">
                         <p>Numero do documento</p>
-                        <p class="text-center">2566</p>
+                        <p class="text-center"><?=sprintf('%04d', $parcela->id)?></p>
                     </td>
                     <td colspan="2">
-                        <p>Pagador: Fulano do Anzois Pereira</p>
+                        <p>Pagador: <?=$comprador->nome?></p>
                     </td>
                     <td colspan="2">
-                        <p>CPF: 025.654.123-99</p>
+                        <p>CPF: <?=System\Utilities::mask($comprador->cpf, '###.###.###-##')?></p>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="4">
-                        <p>Endereço: Rua Das Primeiras Damas S/N, Bairro: Nobreza, CEP: 63.654-321</p>
+                        <p><?=$comprador_endereco->logradouro?> <?=$comprador_endereco->numero?>, Bairro: <?=$comprador_endereco->bairro?>, CEP: <?=System\Utilities::mask($comprador_endereco->cep, '##.###-###')?>, <?=$comprador_endereco->cidade?>-<?=$comprador_endereco->estado?></p>
                     </td>
                 </tr>
             </tbody>
         </table>
-        <?php endfor;?>
+        <?php endforeach;?>
     </body>
 </html>
