@@ -7,13 +7,12 @@
         <link rel="stylesheet" href="public/css/normalize.css">
         <style>
             body {
-                margin: 1rem;
                 font-family: Sans-Serif;
             }
             table {
                 width: 100%;
                 border-collapse: collapse;
-                margin-bottom: 2.8rem;
+                margin-bottom: 4rem;
             }
             table td {
                 border: 1px solid #000;
@@ -25,6 +24,9 @@
             }
             p {
                 font-size: 10pt;
+            }
+            .text-small {
+                font-size: 9pt;
             }
             .text-center {
                 text-align: center;
@@ -45,7 +47,7 @@
         <?php 
         $count = 1;
         foreach($parcelas as $parcela):?>
-        <table cellspacing="0" cellpadding="0">
+        <table cellspacing="0" cellpadding="0" width="33%">
             <tbody>
                 <tr>
                     <td class="col-1" colspan="2" style="text-align: center;"><img src="public/imgs/caixa.png" alt="" width="100px"></td>
@@ -61,8 +63,7 @@
                         <p class="text-center"><?='R$' . number_format($parcela->valor, 2, ',', '.')?></p>
                     </td>
                     <td class="col-2" colspan="4">
-                        <p>PAGAMENTO: Depósito identificado ou tranferência para:</p>
-                        <p><strong>Banco:</strong> <?=$conta->banco?>, <strong>Agência:</strong> <?=$conta->agencia?>, <strong>Conta:</strong> <?=$conta->conta?>, <strong>Operação:</strong> <?=$conta->operacao?></p>
+                        <p>PAGAMENTO: Depósito identificado ou tranferência para: <strong>Banco:</strong> <?=$conta->banco?>, <strong>Agência:</strong> <?=$conta->agencia?>, <strong>Conta:</strong> <?=$conta->conta?>, <strong>Operação:</strong> <?=$conta->operacao?></p>
                     </td>
                 </tr>
                 <tr>
@@ -85,19 +86,19 @@
                         <p class="text-center"><?=$conta->agencia?>/<?=$conta->conta?>/<?=$conta->operacao?></p>
                     </td>
                     <td>
-                        <p>Data do documento</p>
+                        <p class="text-small">Data do documento</p>
                         <p class="text-center"><?=date('d/m/Y', strtotime($parcela->vencimento))?></p>
                     </td>
                     <td>
-                        <p>Número do documento</p>
+                        <p class="text-small">Número do documento</p>
                         <p class="text-center"><?=sprintf('%04d', $parcela->id)?></p>
                     </td>
                     <td>
-                        <p>Data de processamento</p>
+                        <p class="text-small">Data de processamento</p>
                         <p class="text-center"><?=date('d/m/Y', strtotime($contrato->data))?></p>
                     </td>
                     <td>
-                        <p>Valor do documento</p>
+                        <p class="text-small">Valor do documento</p>
                         <p class="text-center"><?='R$' . number_format($parcela->valor, 2, ',', '.')?></p>
                     </td>
                 </tr>

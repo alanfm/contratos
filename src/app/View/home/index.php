@@ -58,22 +58,22 @@
                 </tr>
             </thead>
             <tbody>
-                <?php for ($i = 0; $i < 10; $i++): ?>
+                <?php foreach($contratos as $contrato): ?>
                 <tr>
-                    <td><?=str_pad((string)rand(1, 999), 4, "0", STR_PAD_LEFT)?></td>
-                    <td>Fulano dos Anzois Pereira</td>
-                    <td>03/05/2016</td>
-                    <td>36x</td>
-                    <td>002/016</td>
+                    <td><?=sprintf('%03d', $contrato->id)?></td>
+                    <td><?=$contrato->cliente?></td>
+                    <td><?=date('d/m/Y', strtotime($contrato->data))?></td>
+                    <td><?=sprintf('%dx', $contrato->parcelas)?></td>
+                    <td><?=sprintf('%s/%s/%s', $contrato->terreno, $contrato->quadra, $contrato->lote)?></td>
                     <td>
                         <div class="btn-group" role="group">
-                            <a href="#" class="btn btn-info btn-xs" title="Mais Informações"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i></a>
-                            <a href="#" class="btn btn-warning btn-xs" title="Editar"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></i></a>
-                            <a href="#" class="btn btn-danger btn-xs" title="Remover"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
+                            <a href="<?=self::link('contratos/detalhes/'.$contrato->id)?>" class="btn btn-info btn-xs" title="Mais Informações"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i></a>
+                            <a href="<?=self::link('contratos/editar/'.$contrato->id)?>" class="btn btn-warning btn-xs" title="Editar"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></i></a>
+                            <a href="<?=self::link('contratos/cancelar/'.$contrato->id)?>" class="btn btn-danger btn-xs" title="Remover"><i class="fa fa-ban fa-lg" aria-hidden="true"></i></a>
                         </div>
                     </td>
                 </tr>
-                <?php endfor;?>
+                <?php endforeach;?>
             </tbody>
         </table>
     </section>
