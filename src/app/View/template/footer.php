@@ -18,6 +18,13 @@
                     window.location.href = $(this).attr('href');
                 }
             });
+            $(document).on('click', '.cancel', function(event) {
+                event.preventDefault();
+                result = confirm('Deseja realmente cancelar?');
+                if (result) {
+                    window.location.href = $(this).attr('href');
+                }
+            });
             $(document).on('click', '.payment', function(){
                 $('.payment-input').attr('value', $(this).data('parcela'));
             });

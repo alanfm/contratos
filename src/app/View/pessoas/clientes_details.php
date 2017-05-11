@@ -117,9 +117,12 @@
                 </div>
             </div>
             <div class="col-md-12">
+                <small>Para criar um contrato cadastre um Endereço e um Telefone</small>
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <a href="<?=self::link('contratos/'.$cliente->id)?>" class="btn btn-default btn-xs pull-right" title="Novo"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></a>
+                    <?php if (count($telefones) && count($enderecos)):?>
+                        <a href="<?=self::link('contratos/'.$cliente->id)?>" class="btn btn-primary btn-xs pull-right" title="Novo"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></a>
+                    <?php endif;?>
                         <h3 class="panel-title">Contratos</h3>
                     </div>
                     <table class="table table-striped table-hover">

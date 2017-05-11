@@ -50,9 +50,9 @@
                 <h3 class="panel-title">Opções de contrato</h3>
             </div>
             <div class="panel-body">            
-                <a href="#" class="btn btn-info btn-block">Visualizar Contrato</a>
-                <a href="<?=self::link('parcelas/carne/'.$contrato->id)?>" class="btn btn-success btn-block" target="_blank">Visualizar Carnê de Pagamento</a>
-                <a href="#" class="btn btn-danger btn-block">Cancelar Contrato</a>
+                <a href="#" class="btn btn-info btn-block"><i class="fa fa-file-text-o fa-lg" aria-hidden="true"></i> Visualizar Contrato</a>
+                <a href="<?=self::link('parcelas/carne/'.$contrato->id)?>" class="btn btn-success btn-block" target="_blank"><i class="fa fa-credit-card fa-lg" aria-hidden="true"></i> Visualizar Carnê de Pagamento</a>
+                <a href="#" class="btn btn-danger btn-block"><i class="fa fa-ban fa-lg" aria-hidden="true"></i> Cancelar Contrato</a>
             </div>
         </div>
     </section>    
@@ -82,21 +82,27 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($parcelas as $tupla):?>
-                    <tr>
+                    <?php
+                    $status = ['Em aberto', 'Quitada', 'Cancelada'];
+                    $class = ['', 'success', 'danger text-muted'];
+                    foreach ($parcelas as $tupla):?>
+                    <tr class="<?=$class[$tupla->status]?>">
                         <td><?=$tupla->id?></td>
                         <td><?=$tupla->descricao?></td>
                         <td><?=date('d/m/Y', strtotime($tupla->vencimento))?></td>
                         <td><?='R$ ' . number_format($tupla->valor, 2, ',', '.')?></td>
                         <td><?=!is_null($tupla->quitada)? date('d/m/Y', strtotime($tupla->quitada)): '-'?></td>
-                        <td><?='R$ ' . ($tupla->recebido? number_format($tupla->valor, 2, ',', '.'):'0,00')?></td>
+                        <td><?='R$ ' . ($tupla->recebido? number_format($tupla->recebido, 2, ',', '.'):'0,00')?></td>
                         <td><?=$tupla->documento?? '-'?></td>
-                        <td><?=$tupla->status? 'Quitada':'Em aberto'?></td>
+                        <td><?=$status[$tupla->status]?></td>
                         <td>                            
                             <div class="btn-group" role="group">
-                                <?php if (!$tupla->status):?>
+                                <?php if ($tupla->status == 0):?>
                                     <a href="#" class="btn btn-success btn-xs payment" title="Pagamento" data-toggle="modal" data-target="#pay" data-parcela="<?=$tupla->id?>"><i class="fa fa-money fa-lg" aria-hidden="true"></i></i></a>
-                                    <a href="<?=self::link('contratos/parcelas/cancelar/'.$tupla->id)?>" class="btn btn-danger btn-xs delete" title="Cancelar"><i class="fa fa-ban fa-lg" aria-hidden="true"></i></a>
+                                <?php endif;?>                                 
+                                <a href="<?=self::link('parcelas/editar/'.$tupla->id)?>" class="btn btn-warning btn-xs payment" title="Editar"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></i></a>
+                                <?php if ($tupla->status == 0):?>
+                                    <a href="<?=self::link('parcelas/cancelar/'.$tupla->id.'/'.System\Utilities::token())?>" class="btn btn-danger btn-xs cancel" title="Cancelar"><i class="fa fa-ban fa-lg" aria-hidden="true"></i></a>
                                 <?php endif;?>
                             </div>
                         </td>

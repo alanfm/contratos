@@ -46,7 +46,7 @@
     <body>
         <?php 
         $count = 1;
-        foreach($parcelas as $parcela):?>
+        foreach($parcelas as $parcela): ?>
         <table cellspacing="0" cellpadding="0" width="33%">
             <tbody>
                 <tr>
