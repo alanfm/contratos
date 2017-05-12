@@ -19,26 +19,26 @@
                     <input type="hidden" value="<?=System\Utilities::token();?>" name="token">
                     <div class="form-group">
                         <label for="entrada">Entrada</label>
-                        <input type="number" step="any" value="<?=$form['entrada']?>" name="entrada" class="form-control" placeholder="Valor da entrada" required autofocus>
+                        <input type="number" step="any" value="<?=$form['entrada']?>" name="entrada" class="form-control" placeholder="Valor da entrada" <?=isset($edit)? 'disabled':'required autofocus'?>>
                     </div>
                     <div class="form-group">
                         <label for="parcelas">Parcelas</label>
-                        <input type="number" value="<?=$form['parcelas']?>" name="parcelas" class="form-control" placeholder="Quantidade de Parcelas">
+                        <input type="number" value="<?=$form['parcelas']?>" name="parcelas" class="form-control" placeholder="Quantidade de Parcelas" <?=isset($edit)? 'disabled':'required'?>>
                     </div>
                     <div class="form-group">
                         <label for="vencimento">Dia de vencimento</label>
-                        <input type="number" value="<?=$form['vencimento']?>" name="vencimento" class="form-control" placeholder="Dia do vencimento das parcelas">
+                        <input type="number" value="<?=$form['vencimento']?>" name="vencimento" class="form-control" placeholder="Dia do vencimento das parcelas" <?=isset($edit)? 'autofocus':''?> required>
                     </div>
                     <div class="form-group">
                         <label for="situacao">Situação</label>
-                        <select name="status" class="form-control" id="situacao" required>
+                        <select name="status" class="form-control" id="situacao" <?=isset($edit)? 'disabled':'required'?>>
                             <option value="1"<?=$form['status']? ' selected':''?>>Ativo</option>
                             <option value="0"<?=$form['status'] === 0? ' selected':''?>>Cancelado</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="terreno">Terreno</label>
-                        <select name="terreno" class="form-control" id="terreno" required>
+                        <select name="terreno" class="form-control" id="terreno" <?=isset($edit)? 'disabled':'required'?>>
                             <option value="">-- Selecione um Terreno --</option>
                         <?php foreach($terrenos as $terreno):?>
                             <option value="<?=$terreno->id?>"<?=$form['terreno'] == $terreno->id? ' selected': '';?>>
@@ -48,8 +48,8 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="quadra">Quadras</label required>
-                        <select name="quadra" class="form-control" id="quadra">
+                        <label for="quadra">Quadras</label>
+                        <select name="quadra" class="form-control" id="quadra" <?=isset($edit)? 'disabled':'required'?>>
                             <option value="">-- Selecione um Terreno --</option>
                         <?php if (isset($edit)):
                             foreach ($quadras as $quadra):?>
@@ -58,13 +58,15 @@
                         </select>
                     </div>                    
                     <div class="form-group">
-                        <label for="lote">Lotes</label required>
-                        <select name="lote" class="form-control" id="lote" data="<?=$form['lote']?>">
+                        <label for="lote">Lotes</label>
+                        <select name="lote" class="form-control" id="lote" data="<?=$form['lote']?>" <?=isset($edit)? 'disabled':'required'?>>
                             <option value="">-- Selecione uma Quadra --</option>
-                        <?php if (isset($edit)):
-                            foreach ($lotes as $lote):?>
+                        <?php if (isset($edit)):?>
+                            <option value="<?=$lote->id?>" selected><?=$lote->descricao?></option>
+                            <?php foreach ($lotes as $lote):?>
                             <option value="<?=$lote->id?>"<?=$lote->id == $form['lote']? ' selected':''?>><?=$lote->descricao?></option>
-                        <?php endforeach; endif;?>
+                            <?php endforeach;
+                        endif;?>
                         </select>
                     </div>
                     <div class="form-group text-center">

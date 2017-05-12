@@ -34,6 +34,7 @@ class Contratos extends Controller
         $this->data['edit'] = true;
         $this->form($this->read($cliente, $id));
         $this->data['cliente'] = Pessoas::find($cliente);
+        $this->data['lote'] = Lotes::find(Model::find($id)->lotes_id);
         $this->data['lotes'] = Lotes::all(['conditions'=>['quadras_id = ? AND situacao = ?', $this->data['form']['quadra'], 'aberto']]);
         $this->data['quadras'] = Quadras::all(['conditions'=>['terrenos_id = ?', $this->data['form']['terreno']]]);
         $this->data['terrenos'] = Terrenos::all();
@@ -119,11 +120,7 @@ class Contratos extends Controller
 
     public function update($cliente, $id)
     {
-        $data['entrada'] = filter_input(INPUT_POST, 'entrada');
-        $data['parcelas'] = filter_input(INPUT_POST, 'parcelas');
         $data['vencimento'] = filter_input(INPUT_POST, 'vencimento');
-        $data['status'] = filter_input(INPUT_POST, 'status');
-        $data['lotes_id'] = filter_input(INPUT_POST, 'lote');     
 
         if (filter_input(INPUT_POST, 'token') !== Utilities::token() || !Model::find($id)->update_attributes($data)) {
             $_SESSION['alert'] = ['message'=>'Erro ao tentar alterar o registro!', 'error'=>'danger'];
@@ -136,7 +133,7 @@ class Contratos extends Controller
         exit();
     }
 
-    public function delete($cliente, $id)
+    public function cancel($id)
     {
         if (!Model::find($id)->delete()) {
             $_SESSION['alert'] = ['message'=>'Erro ao tentar alterar o registro!', 'error'=>'danger'];
