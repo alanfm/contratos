@@ -31,7 +31,7 @@ class Parcelas extends Controller
                                                             'conditions'=>['pessoas_id = ?', $this->data['comprador']->id],
                                                             'joins'=>['cidades', $join]])[0];
 
-        $this->data['parcelas'] = Model::all(['conditions'=>['contratos_id = ? AND status = ?', $id, 0]]);
+        $this->data['parcelas'] = Model::all(['conditions'=>['contratos_id = ?', $id]]);
         $this->view('contratos/payment_card', $this->data)->show();
     }
 
@@ -40,6 +40,8 @@ class Parcelas extends Controller
         $id = filter_input(INPUT_POST, 'parcela');
         $data['quitada'] = date('Y-m-d', strtotime(str_replace('/', '-', filter_input(INPUT_POST, 'quitada'))));
         $data['recebido'] = filter_input(INPUT_POST, 'recebido');
+        $data['multa'] = filter_input(INPUT_POST, 'multa');
+        $data['juros'] = filter_input(INPUT_POST, 'juros');
         $data['documento'] = filter_input(INPUT_POST, 'documento');
         $data['status'] = true;
 
@@ -82,6 +84,8 @@ class Parcelas extends Controller
     {
         $data['quitada'] = filter_input(INPUT_POST, 'quitada');
         $data['recebido'] = filter_input(INPUT_POST, 'recebido');
+        $data['multa'] = filter_input(INPUT_POST, 'multa');
+        $data['juros'] = filter_input(INPUT_POST, 'juros');
         $data['status'] = filter_input(INPUT_POST, 'status');
         $data['documento'] = filter_input(INPUT_POST, 'documento');
 

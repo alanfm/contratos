@@ -19,8 +19,8 @@ Route::group(['prefix' => 'contratos'], function() {
         (new Contratos())->update($cliente, $id);
     });
 
-    Route::get('/apagar/{id}', function($cliente, $id) {
-        (new Contratos())->delete($cliente, $id);
+    Route::get('/cancelar/{cliente}/{id}/{page}', function($cliente, $id, $page) {
+        (new Contratos())->cancel($cliente, $id, $page);
     });
 
     Route::post('/pesquisar/{cliente}', function($cliente) {

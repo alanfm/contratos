@@ -40,7 +40,13 @@
             </ul>
         </div>
     </div>
-    <div class="col-md-8">
+    <div class="col-md-8">        
+        <?php if (isset($_SESSION['alert'])): ?>
+        <div class="alert alert-<?=$_SESSION['alert']['error'];?> alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>Aviso!</strong> <?php echo $_SESSION['alert']['message']; unset($_SESSION['alert'])?>
+        </div>
+        <?php endif;?>
         <div class="row">
             <div class="col-md-7">
                 <div class="panel panel-default">
@@ -138,20 +144,29 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach($contratos as $tupla):?>
-                            <tr class="row">
+                            <?php
+                            $status = ['Ativo', 'Quitado', 'Cancelado'];
+                            foreach($contratos as $tupla):?>
+                            <tr class="row <?=$tupla->status == 2? 'danger text-muted': ''?>">
                                 <td><?=$tupla->id?></td>
                                 <td><?=date('d/m/Y', strtotime($tupla->data))?></td>
                                 <td><?='R$ ' . number_format($tupla->entrada, 2, ',', '.')?></td>
                                 <td><?=$tupla->vencimento?></td>
-                                <td><?=$tupla->status? 'Ativo': 'Cancelado'?></td>
-                                <td><?=$tupla->terreno.'/'.$tupla->quadra.'/'.$tupla->lote?></td>
-                                <td>                            
-                                    <div class="btn-group" role="group">
-                                        <a href="<?=self::link('contratos/detalhes/'.$tupla->id)?>" class="btn btn-info btn-xs" title="Detalhes"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i></i></a>
-                                        <a href="<?=self::link('contratos/editar/'.$cliente->id.'/'.$tupla->id)?>" class="btn btn-warning btn-xs" title="Editar"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></i></a>
-                                        <a href="<?=self::link('contratos/cancelar/'.$cliente->id.'/'.$tupla->id)?>" class="btn btn-danger btn-xs delete" title="Cancelar"><i class="fa fa-ban fa-lg" aria-hidden="true"></i></a>
-                                    </div>
+                                <td><?=$status[$tupla->status]?></td>
+                                <td>
+                                    <?php
+                                    if ($tupla->status != 2) {
+                                        echo $tupla->terreno.'/'.$tupla->quadra.'/'.$tupla->lote;
+                                    }?>
+                                </td>
+                                <td>
+                                    <?php if ($tupla->status != 2):?>
+                                        <div class="btn-group" role="group">
+                                            <a href="<?=self::link('contratos/detalhes/'.$tupla->id)?>" class="btn btn-info btn-xs" title="Detalhes"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i></i></a>
+                                            <a href="<?=self::link('contratos/editar/'.$cliente->id.'/'.$tupla->id)?>" class="btn btn-warning btn-xs" title="Editar"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></i></a>
+                                            <a href="<?=self::link('contratos/cancelar/'.$cliente->id.'/'.$tupla->id.'/clientes')?>" class="btn btn-danger btn-xs delete" title="Cancelar"><i class="fa fa-ban fa-lg" aria-hidden="true"></i></a>
+                                        </div>
+                                    <?php endif;?>
                                 </td>
                             </tr>
                             <?php endforeach;?>

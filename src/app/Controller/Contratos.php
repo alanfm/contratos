@@ -133,18 +133,35 @@ class Contratos extends Controller
         exit();
     }
 
-    public function cancel($id)
+    public function cancel($cliente, $id, $page)
     {
-        if (!Model::find($id)->delete()) {
-            $_SESSION['alert'] = ['message'=>'Erro ao tentar alterar o registro!', 'error'=>'danger'];
-            Utilities::redirect('contratos/'.$cliente);
+        if (!Model::find($id)->update_attributes(['status'=>2])) {
+            $_SESSION['alert'] = ['message'=>'Erro ao tentar cancelar o contrato!', 'error'=>'danger'];
+            Utilities::redirect($page.'/detalhes/'.$cliente);
             exit();
         }
 
-        $_SESSION['alert'] = ['message'=>'Registro apagado com sucesso!', 'error'=>'success'];
-        Utilities::redirect('contratos/'.$cliente);
-        exit();
+        if (!Lotes::find(Model::find($id)->lotes_id)->update_attributes(['situacao'=>'aberto'])) {
+            $_SESSION['alert'] = ['message'=>'Erro ao tentar cancelar o contrato!', 'error'=>'danger'];
+            Utilities::redirect($page.'/detalhes/'.$cliente);
+            exit();            
+        }
 
+        $parcelas = Parcelas::all(['conditions'=>['contratos_id = ?', $id]]);
+
+        foreach ($parcelas as $parcela) {
+            if ($parcela->status != 1) {
+                if (!Parcelas::find($parcela->id)->update_attributes(['status'=>2])) {                
+                    $_SESSION['alert'] = ['message'=>'Erro ao tentar cancelar o contrato!', 'error'=>'danger'];
+                    Utilities::redirect($page.'/detalhes/'.$cliente);
+                    exit();
+                }
+            }
+        }
+
+        $_SESSION['alert'] = ['message'=>'Contrato cancelado com sucesso!', 'error'=>'success'];
+        Utilities::redirect($page.'/detalhes/'.$cliente);
+        exit();
     }
 
     public function search($cliente)

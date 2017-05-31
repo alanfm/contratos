@@ -104,13 +104,20 @@
                         <td><?='R$ ' . number_format($tupla->entrada, 2, ',', '.')?></td>
                         <td><?=$tupla->vencimento?></td>
                         <td><?=$tupla->status? 'Ativo': 'Cancelado'?></td>
-                        <td><?=$tupla->terreno.'/'.$tupla->quadra.'/'.$tupla->lote?></td>
-                        <td>                            
-                            <div class="btn-group" role="group">
-                                <a href="<?=self::link('contratos/detalhes/'.$tupla->id)?>" class="btn btn-info btn-xs" title="Detalhes"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i></i></a>
-                                <a href="<?=self::link('contratos/editar/'.$cliente->id.'/'.$tupla->id)?>" class="btn btn-warning btn-xs" title="Editar"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></i></a>
-                                <a href="<?=self::link('contratos/apagar/'.$cliente->id.'/'.$tupla->id)?>" class="btn btn-danger btn-xs delete" title="Remover"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
-                            </div>
+                        <td>
+                            <?php
+                            if ($tupla->status != 2) {
+                                echo $tupla->terreno.'/'.$tupla->quadra.'/'.$tupla->lote;
+                            }?>
+                        </td>
+                        <td>
+                            <?php if ($tupla->status != 2):?>
+                                <div class="btn-group" role="group">
+                                    <a href="<?=self::link('contratos/detalhes/'.$tupla->id)?>" class="btn btn-info btn-xs" title="Detalhes"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i></i></a>
+                                    <a href="<?=self::link('contratos/editar/'.$cliente->id.'/'.$tupla->id)?>" class="btn btn-warning btn-xs" title="Editar"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></i></a>
+                                    <a href="<?=self::link('contratos/apagar/'.$cliente->id.'/'.$tupla->id)?>" class="btn btn-danger btn-xs delete" title="Remover"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
+                                </div>
+                            <?php endif;?>
                         </td>
                     </tr>
                     <?php endforeach;?>

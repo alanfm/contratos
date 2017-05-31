@@ -109,14 +109,17 @@
                         <label for="operacao">Operação</label>
                         <input type="text" value="<?=$form['operacao']?>" name="operacao" class="form-control" placeholder="Operação">
                     </div>
-                    <div class="form-group">
-                        <label for="multa">Multa</label>
-                        <input type="number" step="any" value="<?=$form['multa']?>" name="multa" class="form-control" placeholder="Multa" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="juros">Juros</label>
-                        <input type="number" step="any" value="<?=$form['juros']?>" name="juros" class="form-control" placeholder="Juros" required>
-                    </div>
+                    <fieldset>
+                        <legend>Parcelas</legend>
+                        <div class="form-group">
+                            <label for="multa">Multa</label>
+                            <input type="number" step="any" value="<?=$form['multa']?>" name="multa" class="form-control" placeholder="Multa" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="juros">Juros</label>
+                            <input type="number" step="any" value="<?=$form['juros']?>" name="juros" class="form-control" placeholder="Juros" required>
+                        </div>
+                    </fieldset>
                     <div class="form-group text-center">
                         <button class="btn btn-default" type="submit" title="Salvar"><i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i> Salvar</button>
                     </div>

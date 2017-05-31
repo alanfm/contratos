@@ -2,7 +2,7 @@
   <h1><i class="fa fa-user-circle-o fa-lg" aria-hidden="true"></i> Parcelas</h1>
 </div>
 <div class="row">
-    <section class="col-md-6">
+    <section class="col-md-offset-3 col-md-6">
         <?php if (isset($_SESSION['alert'])): ?>
         <div class="alert alert-<?=$_SESSION['alert']['error'];?> alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -35,6 +35,14 @@
                     <div class="form-group">
                         <label for="recebido">Valor recebido</label>
                         <input type="number" step="any" value="<?=$parcela->recebido?>" name="recebido" class="form-control" placeholder="Valor recebido">
+                    </div>
+                    <div class="form-group">
+                        <label for="multa">Valor da multa</label>
+                        <input type="number" step="any" value="<?=$parcela->multa?>" name="multa" class="form-control" placeholder="Valor da multa">
+                    </div>
+                    <div class="form-group">
+                        <label for="juros">Valor dos juros</label>
+                        <input type="number" step="any" value="<?=$parcela->juros?>" name="juros" class="form-control" placeholder="Valor dos juros">
                     </div>
                     <div class="form-group">
                         <label for="documento">Documento</label>

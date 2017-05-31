@@ -44,9 +44,14 @@
         </style>
     </head>
     <body>
-        <?php 
+        <?php
         $count = 1;
-        foreach($parcelas as $parcela): ?>
+        foreach($parcelas as $parcela):
+            if ($parcela->status != 0) {
+                $count++;
+                continue;
+            }
+        ?>
         <table cellspacing="0" cellpadding="0" width="33%">
             <tbody>
                 <tr>

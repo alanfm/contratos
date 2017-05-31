@@ -38,13 +38,7 @@
             </table>
         </div>
     </section>
-    <section class="col-md-4">
-        <?php if (isset($_SESSION['alert'])): ?>
-        <div class="alert alert-<?=$_SESSION['alert']['error'];?> alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <strong>Aviso!</strong> <?php echo $_SESSION['alert']['message']; unset($_SESSION['alert'])?>
-        </div>
-        <?php endif;?>
+    <section class="col-md-3">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title">Opções de contrato</h3>
@@ -52,11 +46,11 @@
             <div class="panel-body">            
                 <a href="#" class="btn btn-info btn-block"><i class="fa fa-file-text-o fa-lg" aria-hidden="true"></i> Visualizar Contrato</a>
                 <a href="<?=self::link('parcelas/carne/'.$contrato->id)?>" class="btn btn-success btn-block" target="_blank"><i class="fa fa-credit-card fa-lg" aria-hidden="true"></i> Visualizar Carnê de Pagamento</a>
-                <a href="#" class="btn btn-danger btn-block"><i class="fa fa-ban fa-lg" aria-hidden="true"></i> Cancelar Contrato</a>
+                <a href="<?=self::link('contratos/cancelar/'.$cliente->id.'/'.$contrato->id.'/contratos')?>" class="btn btn-danger btn-block"><i class="fa fa-ban fa-lg" aria-hidden="true"></i> Cancelar Contrato</a>
             </div>
         </div>
     </section>    
-    <section class="col-md-8">
+    <section class="col-md-9">
         <?php if (isset($_SESSION['alert'])): ?>
         <div class="alert alert-<?=$_SESSION['alert']['error'];?> alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -76,6 +70,8 @@
                         <th>Valor</th>
                         <th>Data de pagamento</th>
                         <th>Valor Recebido</th>
+                        <th>Multa</th>
+                        <th>Juros</th>
                         <th>Documento</th>
                         <th>Situação</th>
                         <th>Opções</th>
@@ -93,6 +89,8 @@
                         <td><?='R$ ' . number_format($tupla->valor, 2, ',', '.')?></td>
                         <td><?=!is_null($tupla->quitada)? date('d/m/Y', strtotime($tupla->quitada)): '-'?></td>
                         <td><?='R$ ' . ($tupla->recebido? number_format($tupla->recebido, 2, ',', '.'):'0,00')?></td>
+                        <td><?='R$ ' . ($tupla->multa? number_format($tupla->multa, 2, ',', '.'):'0,00')?></td>
+                        <td><?='R$ ' . ($tupla->juros? number_format($tupla->juros, 2, ',', '.'):'0,00')?></td>
                         <td><?=$tupla->documento?? '-'?></td>
                         <td><?=$status[$tupla->status]?></td>
                         <td>                            
@@ -136,6 +134,14 @@
                     <div class="form-group">
                         <label for="recebido">Valor recebido</label>
                         <input type="number" step="any" name="recebido" class="form-control" placeholder="Valor da parcela" required>
+                    </div>                    
+                    <div class="form-group">
+                        <label for="multa">Valor da multa</label>
+                        <input type="number" step="any" name="multa" class="form-control" placeholder="Valor da multa">
+                    </div>
+                    <div class="form-group">
+                        <label for="juros">Valor dos juros</label>
+                        <input type="number" step="any" name="juros" class="form-control" placeholder="Valor dos juros">
                     </div>
                     <div class="form-group">
                         <label for="documento">Número documento</label>
