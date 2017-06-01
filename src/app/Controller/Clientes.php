@@ -35,10 +35,10 @@ class Clientes extends Controller
     public function create()
     {
         $data['nome'] = filter_input(INPUT_POST, 'nome');
-        $data['data_nascimento'] = date('Y-m-d', strtotime(filter_input(INPUT_POST, 'data_nascimento')));
+        $data['data_nascimento'] = date('Y-m-d', strtotime(str_replace('/', '-', filter_input(INPUT_POST, 'data_nascimento'))));
         $data['cpf'] = filter_input(INPUT_POST, 'cpf');
         $data['rg'] = filter_input(INPUT_POST, 'rg');
-        $data['rg_emissao'] = date('Y-m-d', strtotime(filter_input(INPUT_POST, 'rg_emissao')));
+        $data['rg_emissao'] = date('Y-m-d', strtotime(str_replace('/', '-', filter_input(INPUT_POST, 'rg_emissao'))));
         $data['rg_org_expedidor'] = filter_input(INPUT_POST, 'rg_org_expedidor');
         $data['estado_civil'] = filter_input(INPUT_POST, 'estado_civil');
         $data['tipo'] = 'cliente';
@@ -83,10 +83,10 @@ class Clientes extends Controller
     public function update($id)
     {
         $data['nome'] = filter_input(INPUT_POST, 'nome');
-        $data['data_nascimento'] = date('Y-m-d', strtotime(filter_input(INPUT_POST, 'data_nascimento')));
+        $data['data_nascimento'] = date('Y-m-d', strtotime(str_replace('/', '-', filter_input(INPUT_POST, 'data_nascimento'))));
         $data['cpf'] = filter_input(INPUT_POST, 'cpf');
         $data['rg'] = filter_input(INPUT_POST, 'rg');
-        $data['rg_emissao'] = date('Y-m-d', strtotime(filter_input(INPUT_POST, 'rg_emissao')));
+        $data['rg_emissao'] = date('Y-m-d', strtotime(str_replace('/', '-', filter_input(INPUT_POST, 'rg_emissao'))));
         $data['rg_org_expedidor'] = filter_input(INPUT_POST, 'rg_org_expedidor');
         $data['estado_civil'] = filter_input(INPUT_POST, 'estado_civil');      
 

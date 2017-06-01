@@ -33,38 +33,38 @@
             <h3>Quadro Resumo: <?=mb_strtoupper($terreno->descricao, 'UTF-8')?>.</h3>
             <h4>ITEM 01 – PROMITENTE(S) VENDEDOR(ES)</h4>
             <ul>
-                <li><strong>Nome: </strong>Fulano de Tals</li>
-                <li><strong>Endereço: </strong>Rua Sem Nome, S/N</li>
-                <li><strong>Bairro: </strong>Centro</li>
-                <li><strong>CEP: </strong>62.120-000</li>
-                <li><strong>Cidade/UF: </strong>Alcântaras/CE</li>
-                <li><strong>Data de Nascimento: </strong>25/05/1985</li>
-                <li><strong>C.P.F.: </strong>000.000.000-99</li>
-                <li><strong>R.G.: </strong>20000125412 SSP/CE</li>
-                <li><strong>Estado Civil: </strong>Solteiro(a)</li>
+                <li><strong>Nome: </strong><?=$vendedor->nome?></li>
+                <li><strong>Endereço: </strong><?=$vendedor->logradouro.' '.$vendedor->numero?></li>
+                <li><strong>Bairro: </strong><?=$vendedor->bairro?></li>
+                <li><strong>CEP: </strong><?=$vendedor->cep?></li>
+                <li><strong>Cidade/UF: </strong><?=$vendedor->cidade.'/'.$vendedor->uf?></li>
+                <li><strong>Data de Nascimento: </strong><?=date('d/m/Y', strtotime($vendedor->data_nascimento))?></li>
+                <li><strong>C.P.F.: </strong><?=$vendedor->cpf?></li>
+                <li><strong>R.G.: </strong><?=$vendedor->rg.' '.$vendedor->rg_org_expedidor?></li>
+                <li><strong>Estado Civil: </strong><?=ucfirst($vendedor->estado_civil)?> (a)</li>
             </ul>
             <h4>ITEM 02 – PROMISSÁRIO(S) COMPRADOR(ES)</h4>
             <ul>
-                <li><strong>Nome: </strong>Fulano de Tals</li>
-                <li><strong>Endereço: </strong>Rua Sem Nome, S/N</li>
-                <li><strong>Bairro: </strong>Centro</li>
-                <li><strong>CEP: </strong>62.120-000</li>
-                <li><strong>Cidade/UF: </strong>Alcântaras/CE</li>
-                <li><strong>Data de Nascimento: </strong>25/05/1985</li>
-                <li><strong>C.P.F.: </strong>000.000.000-99</li>
-                <li><strong>R.G.: </strong>20000125412 SSP/CE</li>
-                <li><strong>Estado Civil: </strong>Solteiro(a)</li>
+                <li><strong>Nome: </strong><?=$cliente->nome?></li>
+                <li><strong>Endereço: </strong><?=$endereco->logradouro.' '.$endereco->numero?></li>
+                <li><strong>Bairro: </strong><?=$endereco->bairro?></li>
+                <li><strong>CEP: </strong><?=$endereco->cep?></li>
+                <li><strong>Cidade/UF: </strong><?=$endereco->cidade.'/'.$endereco->uf?></li>
+                <li><strong>Data de Nascimento: </strong><?=date('d/m/Y', strtotime($cliente->data_nascimento))?></li>
+                <li><strong>C.P.F.: </strong><?=$cliente->cpf?></li>
+                <li><strong>R.G.: </strong><?=$cliente->rg.' '.$cliente->rg_org_expedidor?></li>
+                <li><strong>Estado Civil: </strong><?=ucfirst($cliente->estado_civil)?> (a)</li>
             </ul>
             <h4>ITEM 03 – DESCRIÇAO DO IMÓVEL E OBJETIVO</h4>
             <ul>
-                <li><strong>Lote: </strong>L1</li>
-                <li><strong>Quadra: </strong>Q02</li>
-                <li><strong>Área Total: </strong>156,00m<sup>2</sup></li>
+                <li><strong>Lote: </strong><?=$lote->descricao?></li>
+                <li><strong>Quadra: </strong><?=$quadra->descricao?></li>
+                <li><strong>Área Total: </strong><?=$lote->largura*$lote->comprimento?>m<sup>2</sup></li>
                 <li>
                     <strong>Medidas: </strong>
                     <ul>
-                        <li><strong>Frente: </strong>6,00m</li>
-                        <li><strong>Fundo: </strong>25,00m</li>
+                        <li><strong>Frente: </strong><?=number_format($lote->largura, 2, ',', '.')?>m</li>
+                        <li><strong>Fundo: </strong><?=number_format($lote->comprimento, 2, ',', '.')?>m</li>
                     </ul>
                 </li>
             </ul>
@@ -75,8 +75,8 @@
             <h4>ITEM 04 – DO PREÇO E CONDIÇÕES DE PAGAMENTO</h4>
             <p>Serão pagos pelo promitente(s) comprador (a, es) da seguinte forma:</p>
             <ol type="a">
-                <li>R$ 1.500,00 (um mil e quinhentos reais) pago neste ato em moeda corrente, como sinal e princípio de pagamento.</li>
-                <li>Restante a ser pagos em 36 (trinta e seis) parcelas fixas no valor de R$ 227,98 (Duzentos e vinte sete reais e noventa e oito centavos) com a primeira para dia (10/09/2016) e o restante a cada dia 10 dos meses subsequentes, com pagamentos a serem pagos em forma de boletos.</li>
+                <li>R$ <?=number_format($contrato->entrada, 2, ',', '.')?> (<?php \App\Library\Extenso::valor($contrato->entrada); echo \App\Library\Extenso::numero(\App\Library\Extenso::MOEDA);?>) pago neste ato em moeda corrente, como sinal e princípio de pagamento.</li>
+                <li>Restante a ser pagos em <?=$contrato->parcelas?> (<?php \App\Library\Extenso::valor($contrato->parcelas); echo \App\Library\Extenso::numero(\App\Library\Extenso::NUMERO);?>) parcelas fixas no valor de R$ <?=$parcela->valor?> (<?php \App\Library\Extenso::valor($parcela->valor); echo \App\Library\Extenso::numero(\App\Library\Extenso::MOEDA);?>) com a primeira para dia (<?=date('d/m/Y', strtotime($parcela->vencimento))?>) e o restante a cada dia <?=$contrato->vencimento?> dos meses subsequentes, com pagamentos a serem pagos em forma de boletos.</li>
                 <li>O promissário comprador (a)s declara ter conhecimento e concorda que o pagamento das parcelas será efetuado através de deposito identificado ou transferência na Conta: 5616-3 Agencia: 3572 Operação: 013, Francisco Carlos A Silva, Caixa Econômica. Que os mesmo serão entregues no ato da assinatura deste contrato.</li>
                 <li>Após o vencimento será cobrado multa de R$ 11,39 (onze reais e trinta e nove centavos) e juros de R$ 1,13 (um real e treze centavos) ao dia.</li>
                 <li>Na falta de pagamento, pelo promissário comprador (a)s de 03 (três) ou mais parcelas do preço, o contrato será rescindido de pleno direito, caso o promissário comprador seja notificado com aviso de recebimento. Sendo que promissário comprador será avisado no prazo de 15 dias conforme Artigo 474 do Código Civil.</li>

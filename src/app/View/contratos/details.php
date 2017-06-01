@@ -44,7 +44,7 @@
                 <h3 class="panel-title">Opções de contrato</h3>
             </div>
             <div class="panel-body">            
-                <a href="#" class="btn btn-info btn-block"><i class="fa fa-file-text-o fa-lg" aria-hidden="true"></i> Visualizar Contrato</a>
+                <a href="<?=self::link('contratos/imprimir/'.$contrato->id)?>" class="btn btn-info btn-block" target="_blank"><i class="fa fa-file-text-o fa-lg" aria-hidden="true"></i> Visualizar Contrato</a>
                 <a href="<?=self::link('parcelas/carne/'.$contrato->id)?>" class="btn btn-success btn-block" target="_blank"><i class="fa fa-credit-card fa-lg" aria-hidden="true"></i> Visualizar Carnê de Pagamento</a>
                 <a href="<?=self::link('contratos/cancelar/'.$cliente->id.'/'.$contrato->id.'/contratos')?>" class="btn btn-danger btn-block"><i class="fa fa-ban fa-lg" aria-hidden="true"></i> Cancelar Contrato</a>
             </div>
