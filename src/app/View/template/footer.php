@@ -43,7 +43,7 @@
                             $('#cidade').html(options.join(''));
                         })
                         .fail(function() {
-                            $('#quadra').html('<option value="">-- Este terreno não tem quadras --</option>');
+                            $('#quadra').html('<option value="">-- Este estado não tem cidades --</option>');
                         });
                     } else {
                         $('#cidade').html('<option value="">-- Escolha um estado --</option>');

@@ -13,9 +13,13 @@ Route::group(['prefix' => 'configuracoes'], function() {
 
     Route::post('/conta', function() {
         (new Settings())->conta();
-    });    
+    });
 
     Route::post('/empresa', function() {
         (new Settings())->empresa();
+    });
+
+    Route::post('/endereco', function() {
+        (new Settings())->endereco();
     });
 });

@@ -85,9 +85,9 @@ class Lotes extends Controller
     public function update($id)
     {
         $data['descricao'] = filter_input(INPUT_POST, 'descricao');
-        $data['largura'] = filter_input(INPUT_POST, 'largura');
-        $data['comprimento'] = filter_input(INPUT_POST, 'comprimento');
-        $data['valor'] = filter_input(INPUT_POST, 'valor');
+        $data['largura'] = str_replace(',', '.', filter_input(INPUT_POST, 'largura'));
+        $data['comprimento'] = str_replace(',', '.', filter_input(INPUT_POST, 'comprimento'));
+        $data['valor'] = str_replace(',', '.', filter_input(INPUT_POST, 'valor'));;
         $data['situacao'] = filter_input(INPUT_POST, 'situacao');
         $data['quadras_id'] = filter_input(INPUT_POST, 'quadra');
 

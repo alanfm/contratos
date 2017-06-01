@@ -11,6 +11,7 @@ use App\Storage\Quadras;
 use App\Storage\Terrenos;
 use App\Storage\Usuarios;
 use App\Storage\Parcelas;
+use App\Storage\Enderecos;
 
 class Contratos extends Controller
 {
@@ -233,5 +234,27 @@ class Contratos extends Controller
         }
 
         return $total;
+    }
+
+    public function impress($id)
+    {
+        $data['contrato'] = Model::find($id);
+        $data['lote'] = Lotes::find(Model::find($id)->lotes_id);
+        $data['quadra'] = Quadras::find($data['lote']->quadras_id);
+        $data['terreno'] = Terrenos::find($data['quadra']->terrenos_id);
+        $data['cliente'] = Pessoas::all($data['contrato']->pessoas_id);
+
+        $join = 'INNER JOIN estados ON (estados.id = cidades.estados_id)';
+        $data['endereco'] = Enderecos::all(['select'=>'enderecos.*, cidades.nome, estados.uf',
+                                            'conditions'=>['pessoas_id = ?', $data['cliente']->id],
+                                            'joins'=>['cidades', $join]])[0];
+
+        $join = 'INNER JOIN enderecos ON (enderecos.pessoas_id = pessoas.id) INNER JOIN cidades ON (enderecos.cidades_id = cidades.id) INNER JOIN estados ON (estados.id = cidades.estados_id)';
+        $data['vendedor'] = Pessoas::all(['select'=>'pessoas.*, enderecos.logradouro, enderecos.numero, enderecos.bairro, enderecos.cep,
+                                                     cidades.nome, estados.uf',
+                                         'conditions'=>['tipo = ?', 'vendedor'],
+                                         'joins'=>[$join]])[0];
+
+        $this->view('contratos/contract')->data($data)->show();
     }
 }

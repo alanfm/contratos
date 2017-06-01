@@ -7,6 +7,9 @@ use System\Utilities;
 use App\Storage\Pessoas;
 use App\Storage\Contas;
 use App\Storage\Empresas;
+use App\Storage\Cidades;
+use App\Storage\Estados;
+use App\Storage\Enderecos;
 
 class Settings extends Controller
 {
@@ -20,6 +23,13 @@ class Settings extends Controller
         $this->data['create_vendedor'] = $this->form_vendedor()? 1: 0;
         $this->data['create_conta'] = $this->form_conta()? 1: 0;
         $this->data['create_empresa'] = $this->form_empresa()? 1: 0;
+
+        if ($this->data['form']['id']) {
+            $this->data['create_endereco'] = $this->form_endereco($this->data['form']['id'])? 1: 0;
+        }
+
+        $this->data['estados'] = Estados::all();
+        $this->data['cidades'] = Cidades::all(['conditions'=>['estados_id = ?', $this->data['form']['estado']]]);
 
         $this->content('pessoas/settings', $this->data);
     }    
@@ -109,6 +119,36 @@ class Settings extends Controller
         exit();
     }
 
+    public function endereco()
+    {
+        $data['logradouro'] = filter_input(INPUT_POST, 'logradouro');
+        $data['numero'] = filter_input(INPUT_POST, 'numero');
+        $data['complemento'] = filter_input(INPUT_POST, 'complemento');
+        $data['bairro'] = filter_input(INPUT_POST, 'bairro');
+        $data['cep'] = filter_input(INPUT_POST, 'cep');
+        $data['cidades_id'] = filter_input(INPUT_POST, 'cidade');
+        $data['pessoas_id'] = filter_input(INPUT_POST, 'cliente');
+
+        if (!filter_input(INPUT_POST, 'create')) {
+            if (filter_input(INPUT_POST, 'token') !== Utilities::token() || !Enderecos::create($data)) {
+                $_SESSION['alert'] = ['message'=>'Erro ao realizar o cadastro!', 'error'=>'danger'];
+                Utilities::redirect('configuracoes');
+                exit();
+            }
+        } else {
+            if (filter_input(INPUT_POST, 'token') !== Utilities::token() ||
+                !Enderecos::find(['conditions'=>['pessoas_id = ?', filter_input(INPUT_POST, 'cliente')]])->update_attributes($data)) {
+                $_SESSION['alert'] = ['message'=>'Erro ao tentar alterar o registro!', 'error'=>'danger'];
+                Utilities::redirect('configuracoes');
+                exit();
+            }
+        }
+
+        $_SESSION['alert'] = ['message'=>'Cadastro realizado com sucesso!', 'error'=>'success'];
+        Utilities::redirect('configuracoes');
+        exit();
+    }
+
     public function form_vendedor()
     {
         $vendedor = Pessoas::count(['conditions'=>['tipo = ?', 'vendedor']]);
@@ -117,6 +157,7 @@ class Settings extends Controller
             $model = Pessoas::all(['conditions'=>['tipo = ?', 'vendedor']])[0];
         }
 
+        $this->data['form']['id'] = $vendedor? $model->id: null;
         $this->data['form']['nome'] = $vendedor? $model->nome: null;
         $this->data['form']['email'] = $vendedor? $model->email: null;
         $this->data['form']['data_nascimento'] = $vendedor? date('d/m/Y', strtotime($model->data_nascimento)): null;
@@ -159,5 +200,24 @@ class Settings extends Controller
         $this->data['form']['cnpj'] = $empresa? $model->cnpj: null;
 
         return $empresa;
+    }
+
+    public function form_endereco($pessoa)
+    {
+        $endereco = Enderecos::count(['conditions'=>['pessoas_id = ?', $pessoa]]);
+
+        if ($endereco) {
+            $model = Enderecos::all(['conditions'=>['pessoas_id = ?', $pessoa]])[0];
+        }
+
+        $this->data['form']['logradouro'] = $endereco? $model->logradouro: null;
+        $this->data['form']['numero'] = $endereco? $model->numero: null;
+        $this->data['form']['complemento'] = $endereco? $model->complemento: null;
+        $this->data['form']['bairro'] = $endereco? $model->bairro: null;
+        $this->data['form']['cep'] = $endereco? $model->cep: null;
+        $this->data['form']['cidade'] = $endereco? $model->cidades_id: null;
+        $this->data['form']['estado'] = $endereco? Estados::find(Cidades::find($model->cidades_id)->estados_id)->id: null;
+
+        return $endereco;
     }
 }

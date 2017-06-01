@@ -4,10 +4,10 @@
 <div class="row">
     <section class="col-md-6">
         <?php if (isset($_SESSION['alert'])): ?>
-        <div class="alert alert-<?=$_SESSION['alert']['error'];?> alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <strong>Aviso!</strong> <?php echo $_SESSION['alert']['message']; unset($_SESSION['alert'])?>
-        </div>
+            <div class="alert alert-<?=$_SESSION['alert']['error'];?> alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>Aviso!</strong> <?php echo $_SESSION['alert']['message']; unset($_SESSION['alert'])?>
+            </div>
         <?php endif;?>
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -60,6 +60,64 @@
                     </div>
                 </form>
             </div>
+            <?php if ($form['id']):?>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Endereço</h3>
+                </div>
+                <div class="panel-body">
+                    <form action="<?=self::link('configuracoes/endereco')?>" method="post">
+                        <input type="hidden" value="<?=System\Utilities::token();?>" name="token">
+                        <input type="hidden" value="<?=$create_endereco?>" name="create">
+                        <input type="hidden" value="<?=$form['id']?>" name="cliente">
+                        <div class="form-group">
+                            <label for="logradouro">Logradouro</label>
+                            <input type="text" value="<?=$form['logradouro']?>" name="logradouro" class="form-control" placeholder="Rua, Sítio, Avenida etc." required autofocus>
+                        </div>
+                        <div class="form-group">
+                            <label for="numero">Número</label>
+                            <input type="text" value="<?=$form['numero']?>" name="numero" class="form-control" placeholder="Número da residência">
+                        </div>
+                        <div class="form-group">
+                            <label for="complemento">Complemento</label>
+                            <input type="text" value="<?=$form['complemento']?>" name="complemento" class="form-control" placeholder="Complemento do endereço">
+                        </div>
+                        <div class="form-group">
+                            <label for="bairro">Bairro</label>
+                            <input type="text" value="<?=$form['bairro']?>" name="bairro" class="form-control" placeholder="Bairro" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cep">C.E.P.</label>
+                            <input type="text" value="<?=$form['cep']?>" name="cep" class="form-control" placeholder="Código de endereçamento postal" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="descricao">Estado</label>
+                            <select name="estado" class="form-control" id="estado" required>
+                                <option value="">-- Selecione um Estado --</option>
+                            <?php foreach($estados as $estado):?>
+                                <option value="<?=$estado->id?>"<?=$form['estado'] == $estado->id? ' selected': '';?>>
+                                    <?=$estado->uf. ' - ' .$estado->nome;?>
+                                </option>
+                            <?php endforeach;?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="descricao">Cidade</label required>
+                            <select name="cidade" class="form-control" id="cidade">
+                                <option value="">-- Selecione um Estado --</option>
+                            <?php if ($create_endereco):
+                                foreach ($cidades as $city):?>
+                                <option value="<?=$city->id?>"<?=$city->id == $form['cidade']? ' selected':''?>><?=$city->nome?></option>
+                            <?php endforeach; endif;?>
+                            </select>
+                        </div>
+                        <div class="form-group text-center">
+                            <button class="btn btn-default" type="submit" title="Salvar"><i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i> Salvar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <?php endif;?>
         </div>
     </section>
     <section class="col-md-6">

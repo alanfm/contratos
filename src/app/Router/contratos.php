@@ -11,6 +11,10 @@ Route::group(['prefix' => 'contratos'], function() {
         (new Contratos())->create($cliente);
     });
 
+    Route::get('/imprimir/{id}', function($id) {
+        (new Contratos())->impress($id);
+    });
+
     Route::get('/editar/{cliente}/{id}', function($cliente, $id) {
         (new Contratos())->edit($cliente, $id);
     });
