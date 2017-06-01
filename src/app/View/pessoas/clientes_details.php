@@ -145,7 +145,7 @@
                         </thead>
                         <tbody>
                             <?php
-                            $status = ['Ativo', 'Quitado', 'Cancelado'];
+                            $status = [1=>'Ativo', 0=>'Quitado', 2=>'Cancelado'];
                             foreach($contratos as $tupla):?>
                             <tr class="row <?=$tupla->status == 2? 'danger text-muted': ''?>">
                                 <td><?=$tupla->id?></td>

@@ -60,7 +60,8 @@
                     </div>
                 </form>
             </div>
-            <?php if ($form['id']):?>
+        </div>
+        <?php if ($form['id']):?>
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">Endereço</h3>
@@ -117,8 +118,7 @@
                     </form>
                 </div>
             </div>
-            <?php endif;?>
-        </div>
+        <?php endif;?>
     </section>
     <section class="col-md-6">
         <div class="panel panel-default">
@@ -167,6 +167,10 @@
                         <label for="operacao">Operação</label>
                         <input type="text" value="<?=$form['operacao']?>" name="operacao" class="form-control" placeholder="Operação">
                     </div>
+                    <div class="form-group">
+                        <label for="cliente">Cliente</label>
+                        <input type="text" value="<?=$form['cliente']?>" name="cliente" class="form-control" placeholder="Cliente">
+                    </div>
                     <fieldset>
                         <legend>Parcelas</legend>
                         <div class="form-group">
@@ -176,6 +180,14 @@
                         <div class="form-group">
                             <label for="juros">Juros</label>
                             <input type="number" step="any" value="<?=$form['juros']?>" name="juros" class="form-control" placeholder="Juros" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="carne">Valor da 2ª via do carnê</label>
+                            <input type="number" step="any" value="<?=$form['carne']?>" name="carne" class="form-control" placeholder="Valor da 2ª via do carnê" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="transferencia">Valor da tranferência de proprietário</label>
+                            <input type="number" step="any" value="<?=$form['transferencia']?>" name="transferencia" class="form-control" placeholder="Valor da tranferência de proprietário" required>
                         </div>
                     </fieldset>
                     <div class="form-group text-center">

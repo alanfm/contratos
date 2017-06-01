@@ -71,8 +71,11 @@ class Settings extends Controller
         $data['agencia'] = filter_input(INPUT_POST, 'agencia');
         $data['conta'] = filter_input(INPUT_POST, 'conta');
         $data['operacao'] = filter_input(INPUT_POST, 'operacao');
+        $data['cliente'] = filter_input(INPUT_POST, 'cliente');
         $data['multa'] = filter_input(INPUT_POST, 'multa');
         $data['juros'] = filter_input(INPUT_POST, 'juros');
+        $data['carne'] = filter_input(INPUT_POST, 'carne');
+        $data['transferencia'] = filter_input(INPUT_POST, 'transferencia');
 
 
         if (!filter_input(INPUT_POST, 'create')) {
@@ -182,8 +185,11 @@ class Settings extends Controller
         $this->data['form']['agencia'] = $contas? $model->agencia: null;
         $this->data['form']['conta'] = $contas? $model->conta: null;
         $this->data['form']['operacao'] = $contas? $model->operacao: null;
+        $this->data['form']['cliente'] = $contas? $model->cliente: null;
         $this->data['form']['multa'] = $contas? $model->multa: null;
         $this->data['form']['juros'] = $contas? $model->juros: null;
+        $this->data['form']['carne'] = $contas? $model->carne: null;
+        $this->data['form']['transferencia'] = $contas? $model->transferencia: null;
 
         return $contas;
     }

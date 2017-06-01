@@ -12,6 +12,7 @@ use App\Storage\Terrenos;
 use App\Storage\Usuarios;
 use App\Storage\Parcelas;
 use App\Storage\Enderecos;
+use App\Storage\Contas;
 
 class Contratos extends Controller
 {
@@ -242,7 +243,12 @@ class Contratos extends Controller
         $data['parcela'] = Parcelas::find(['conditions'=>['contratos_id = ?', $data['contrato']->id]]);
         $data['lote'] = Lotes::find(Model::find($id)->lotes_id);
         $data['quadra'] = Quadras::find($data['lote']->quadras_id);
-        $data['terreno'] = Terrenos::find($data['quadra']->terrenos_id);
+
+        $join = 'INNER JOIN estados ON (estados.id = cidades.estados_id)';
+        $data['terreno'] = Terrenos::all(['select'=>'terrenos.*, cidades.nome as cidade, estados.uf',
+                                          'conditions'=>['terrenos.id = ?',$data['quadra']->terrenos_id],
+                                          'joins'=>['cidades', $join]])[0];
+
         $data['conta'] = Contas::find('first');
         $data['cliente'] = Pessoas::all($data['contrato']->pessoas_id);
 

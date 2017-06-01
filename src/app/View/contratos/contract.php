@@ -76,17 +76,17 @@
             <p>Serão pagos pelo promitente(s) comprador (a, es) da seguinte forma:</p>
             <ol type="a">
                 <li>R$ <?=number_format($contrato->entrada, 2, ',', '.')?> (<?php \App\Library\Extenso::valor($contrato->entrada); echo \App\Library\Extenso::numero(\App\Library\Extenso::MOEDA);?>) pago neste ato em moeda corrente, como sinal e princípio de pagamento.</li>
-                <li>Restante a ser pagos em <?=$contrato->parcelas?> (<?php \App\Library\Extenso::valor($contrato->parcelas); echo \App\Library\Extenso::numero(\App\Library\Extenso::NUMERO);?>) parcelas fixas no valor de R$ <?=$parcela->valor?> (<?php \App\Library\Extenso::valor($parcela->valor); echo \App\Library\Extenso::numero(\App\Library\Extenso::MOEDA);?>) com a primeira para dia (<?=date('d/m/Y', strtotime($parcela->vencimento))?>) e o restante a cada dia <?=$contrato->vencimento?> dos meses subsequentes, com pagamentos a serem pagos em forma de boletos.</li>
-                <li>O promissário comprador (a)s declara ter conhecimento e concorda que o pagamento das parcelas será efetuado através de deposito identificado ou transferência na Conta: 5616-3 Agencia: 3572 Operação: 013, Francisco Carlos A Silva, Caixa Econômica. Que os mesmo serão entregues no ato da assinatura deste contrato.</li>
-                <li>Após o vencimento será cobrado multa de R$ 11,39 (onze reais e trinta e nove centavos) e juros de R$ 1,13 (um real e treze centavos) ao dia.</li>
+                <li>Restante a ser pagos em <?=$contrato->parcelas?> (<?php \App\Library\Extenso::valor($contrato->parcelas); echo \App\Library\Extenso::numero(\App\Library\Extenso::NUMERO);?>) parcelas fixas no valor de R$ <?=$parcela->valor?> (<?php \App\Library\Extenso::valor($parcela->valor); echo \App\Library\Extenso::numero(\App\Library\Extenso::MOEDA);?>) com a primeira para dia (<?=date('d/m/Y', strtotime($parcela->vencimento))?>) e o restante a cada dia <?=$contrato->vencimento?> dos meses subsequentes, com pagamentos a serem pagos em forma de deposito bancário.</li>
+                <li>O promissário comprador (a)s declara ter conhecimento e concorda que o pagamento das parcelas será efetuado através de deposito identificado ou transferência na Conta: <?=$conta->conta?> Agencia: <?=$conta->agencia?> <?php if ($conta->operacao):?>Operação: <?=$conta->operacao?><?php endif;?>, <?=$conta->cliente?>, <?=$conta->banco?>. Que os mesmo serão entregues no ato da assinatura deste contrato.</li>
+                <li>Após o vencimento será cobrado multa de R$ <?=number_format($conta->multa, 2, ',', '.')?> (<?php \App\Library\Extenso::valor($conta->multa); echo \App\Library\Extenso::numero(\App\Library\Extenso::MOEDA);?>) e juros de R$ <?=number_format($conta->juros, 2, ',', '.')?> (<?php \App\Library\Extenso::valor($conta->juros); echo \App\Library\Extenso::numero(\App\Library\Extenso::MOEDA);?>) ao dia.</li>
                 <li>Na falta de pagamento, pelo promissário comprador (a)s de 03 (três) ou mais parcelas do preço, o contrato será rescindido de pleno direito, caso o promissário comprador seja notificado com aviso de recebimento. Sendo que promissário comprador será avisado no prazo de 15 dias conforme Artigo 474 do Código Civil.</li>
-                <li>Caso promissário comprador perca o carnê entregue no ato da assinatura do contrato, será cobrado uma taxa de R$ 200,00 (duzentos reais) para manutenção do sistema e pedidos ao banco para impressão dos mesmos, com prazo de 03 (três) dias úteis para entrega. Isso não impedirá o cômputo dos juros moratórios nem a multa pelo atraso.</li>
+                <li>Caso promissário comprador perca o carnê entregue no ato da assinatura do contrato, será cobrado uma taxa de R$ <?=number_format($conta->carne, 2, ',', '.')?> (<?php \App\Library\Extenso::valor($conta->carne); echo \App\Library\Extenso::numero(\App\Library\Extenso::MOEDA);?>) para manutenção do sistema e pedidos ao banco para impressão dos mesmos, com prazo de 03 (três) dias úteis para entrega. Isso não impedirá o cômputo dos juros moratórios nem a multa pelo atraso.</li>
                 <li>g)  Pagamento antecipados só terão descontos a partir de 05 (cinco) parcelas, sendo calculado o desconto proporcionalmente de 5% (cinco por cento) das 05 (cinco) parcelas em questão.</li>
             </ol>
             <h4>ITEM 05 – DA POSSE</h4>
             <p>O promitente vendedor obriga-se a entregar as benfeitorias prometidas no prazo máximo de 180 dias ao promissário comprador. A partir da transferência da posse do imóvel objeto do presente instrumento, o que ocorrerá após a quitação de todos os valores em aberto, o(s) promissário(s) comprador(es) passa(m) a responder pelos imposto, taxas despesas condominiais e outras despesas incidentes sobre o mesmo. Pelos débitos anteriores a essa data ainda que lançados ou cobrado posteriormente a data da transferência da passe, o(s) promitente(s) vendedor(es) será(ão) os únicos responsáveis.</p>
             <ul>
-                <li>Não obstante o disposto no “Caput” desta cláusula, o promitente vendedor poderá permitir que o promissário comprador a(s) ingresse no loto para inicias obras de edificação desde que:</li>
+                <li>Não obstante o disposto no “Caput” desta cláusula, o promitente vendedor poderá permitir que o promissário comprador a(s) ingresse no lote para iniciar obras de edificação desde que:</li>
                 <li>
                     <lo type="a">
                         <li>Tenham efetuado o pagamento mínimo de 50% (cinquenta por cento) do preço integral do lote.</li>
@@ -99,7 +99,7 @@
             <h4>ITEM 06 – DA ESCRITURA DEFINITIVA</h4>
             <p>A escritura participar definitiva estará disponível a partir da quitação dos pagamentos acordados neste contrato (Item 04).</p>
             <ol type="a">
-                <li>Na hipótese do promissário comprador a(s) desejar vender ou fazer a transferência do presente contrato para terceiros, haverá um custo de R$ 300,00 (trezentos reais) pela cessão e R$ 200,00 (duzentos reais) para impressão de novo contrato e boletos.</li>
+                <li>Na hipótese do promissário comprador a(s) desejar vender ou fazer a transferência do presente contrato para terceiros, haverá um custo de R$ <?=number_format($conta->transferencia, 2, ',', '.')?> (<?php \App\Library\Extenso::valor($conta->transferencia); echo \App\Library\Extenso::numero(\App\Library\Extenso::MOEDA);?>) pela cessão e R$ <?=number_format($conta->carne, 2, ',', '.')?> (<?php \App\Library\Extenso::valor($conta->carne); echo \App\Library\Extenso::numero(\App\Library\Extenso::MOEDA);?>) para impressão de novo contrato e boletos.</li>
                 <li>O promissário comprador deverá comunicar qualquer eventual modificação dos endereços, telefones ou qualificação, constantes do presente instrumento, sob pena de serem considerados como entregues as correspondências enviadas com a base nas informações contidas no quadro resumo.</li>
             </ol>
             <h4>ITEM 07 – DA IRREVOGABILIDADE E IRRETRATABILIDADE DESTE CONTRATO DE COMPRA E VENDA</h4>
@@ -117,7 +117,12 @@
                 <li>O presente instrumento obriga em todas os seus termos, itens condições os contratantes pro si mesmos, seus bens, herdeiros e sucessores a qualquer título.</li>
             </ol>
             <p>E, assim, por se acharem justos e contratados, as partes assinam o presente instrumento em 03 (três) vias de igual teor e forma para um só efeito.</p>
-            <p style="text-align: right;">Sobral-CE, 25 de maio de 2017.</p>
+            <p style="text-align: right;"><?=$terreno->cidade.'-'.$terreno->uf?>,
+            <?php
+            $meses = [1=>'janeiro', 2=>'fevereiro', 3=>'março', 4=>'abril', 5=>'maio', 6=>'junho', 7=>'julho', 8=>'agosto', 9=>'setembro', 10=>'outubro', 11=>'novembro', 12=>'dezembro'];
+            $data = explode('/', date('d/m/Y', strtotime($contrato->data)));
+            echo $data[0], ' de ', $meses[(int)$data[1]], ' de ', $data[2];
+            ?></p>
             <table>
                 <tr>
                     <td colspan="1">
