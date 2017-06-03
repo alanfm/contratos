@@ -1,4 +1,5 @@
 <?php
+mb_internal_encoding('UTF-8');
 /**
  * Carregamento automatico das classes
  */
@@ -25,7 +26,6 @@ require_once __DIR__ . '/src/app/config.php';
 /**
  * Rotas do sistema
  */
-//require_once __DIR__ . '/src/app/router_.php';
 
 $router = new Gears\Router();
 $router->routesPath = __DIR__ . '/src/app/Router';
