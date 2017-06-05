@@ -12,7 +12,7 @@
             table {
                 width: 100%;
                 border-collapse: collapse;
-                margin-bottom: 4rem;
+                margin-bottom: 3.3rem;
             }
             table td {
                 border: 1px solid #000;

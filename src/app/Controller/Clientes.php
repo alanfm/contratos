@@ -62,6 +62,7 @@ class Clientes extends Controller
 
         if (is_null($id)) {
             $data = Model::all(['select'=>'*',
+                                'conditions'=>['tipo = ?', 'cliente'],
                                 'limit'=>10,
                                 'offset'=>$_SESSION['clientes']['pagination'],
                                 'order'=>'id DESC']);

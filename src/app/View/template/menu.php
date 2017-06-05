@@ -7,7 +7,13 @@
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="<?=self::link('')?>">Principal</a></li>
-                    <li><a href="<?=self::link('clientes')?>">Clientes</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Clientes <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="<?=self::link('clientes')?>">Gerenciar</a></li>
+                            <li><a href="<?=self::link('clientes/relatorios')?>">Relatórios</a></li>
+                        </ul>
+                    </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Terrenos <span class="caret"></span></a>
                         <ul class="dropdown-menu">

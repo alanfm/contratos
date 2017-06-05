@@ -43,11 +43,11 @@
                     <div class="form-group">
                         <label for="estado_civil">Estado Civil</label>
                         <select name="estado_civil" id="estado_civil" class="form-control" required>
-                            <option value="solteiro"<?=$form['estado_civil'] == 'solteiro'? ' selected': ''?>>Solteiro</option>
-                            <option value="casado"<?=$form['estado_civil'] == 'casado'? ' selected': ''?>>Casado</option>
-                            <option value="divorciado"<?=$form['estado_civil'] == 'divorciado'? ' selected': ''?>>Divorciado</option>
-                            <option value="viuvo"<?=$form['estado_civil'] == 'viuvo'? ' selected': ''?>>Viuvo</option>
-                            <option value="separado"<?=$form['estado_civil'] == 'separado'? ' selected': ''?>>Separado</option>
+                            <option value="solteiro"<?=$form['estado_civil'] == 'solteiro'? ' selected': ''?>>Solteiro (a)</option>
+                            <option value="casado"<?=$form['estado_civil'] == 'casado'? ' selected': ''?>>Casado (a)</option>
+                            <option value="divorciado"<?=$form['estado_civil'] == 'divorciado'? ' selected': ''?>>Divorciado (a)</option>
+                            <option value="viuvo"<?=$form['estado_civil'] == 'viuvo'? ' selected': ''?>>Viuvo (a)</option>
+                            <option value="separado"<?=$form['estado_civil'] == 'separado'? ' selected': ''?>>Separado (a)</option>
                         </select>
                     </div>
                     <div class="form-group text-center">
@@ -101,7 +101,9 @@
                             <div class="btn-group" role="group">
                                 <a href="<?=self::link('clientes/detalhes/'.$tupla->id)?>" class="btn btn-info btn-xs" title="Detalhes"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i></i></a>
                                 <a href="<?=self::link('clientes/editar/'.$tupla->id)?>" class="btn btn-warning btn-xs" title="Editar"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></i></a>
-                                <a href="<?=self::link('clientes/apagar/'.$tupla->id)?>" class="btn btn-danger btn-xs delete" title="Remover"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
+                                <?php if (!App\Storage\Contratos::count(['conditions'=>['pessoas_id = ?', $tupla->id]])):?>
+                                    <a href="<?=self::link('clientes/apagar/'.$tupla->id)?>" class="btn btn-danger btn-xs delete" title="Remover"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
+                                <?php endif;?>
                             </div>
                         </td>
                     </tr>

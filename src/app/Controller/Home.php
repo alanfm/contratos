@@ -26,7 +26,7 @@ class Home extends Controller
                             'order'=>'id DESC']);
 
         $join = 'INNER JOIN quadras ON (quadras.id = lotes.quadras_id) INNER JOIN terrenos ON (terrenos.id = quadras.terrenos_id)';
-        $data['contratos'] = Contratos::all(['select'=>'contratos.*, pessoas.nome as cliente, lotes.descricao as lote, quadras.descricao as quadra, terrenos.descricao as terreno',
+        $data['contratos'] = Contratos::all(['select'=>'contratos.*, pessoas.nome as cliente, pessoas.id as cliente_id, lotes.descricao as lote, quadras.descricao as quadra, terrenos.descricao as terreno',
                                              'joins'=>['lotes', 'pessoas', $join],
                                              'limit'=>10,
                                              'order'=>'id DESC']);

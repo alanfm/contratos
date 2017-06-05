@@ -3,7 +3,7 @@
     <head>
         <base href="<?=URL_BASE?>">
         <meta charset="UTF-8">
-        <title>Contrato</title>
+        <title>Contrato de <?=$cliente->nome?></title>
         <link href="https://fonts.googleapis.com/css?family=Gudea" rel="stylesheet">
         <link rel="stylesheet" href="public/css/normalize.css">
         <style>

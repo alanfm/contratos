@@ -215,11 +215,11 @@ class Contratos extends Controller
     {
 
         $join = 'INNER JOIN quadras ON (quadras.id = lotes.quadras_id) INNER JOIN terrenos ON (terrenos.id = quadras.terrenos_id)';
-        $data['contrato'] = Model::all(['select'=>'contratos.*, lotes.descricao as lote, quadras.descricao as quadra, terrenos.descricao as terreno',
+        $data['contrato'] = Model::all(['select'=>'contratos.*, lotes.descricao as lote, lotes.valor, quadras.descricao as quadra, terrenos.descricao as terreno',
                             'conditions'=>['contratos.id = ?', $id],
                             'joins'=>['lotes', $join]])[0];
         $data['parcelas'] = Parcelas::all(['conditions'=>['contratos_id = ?', $id]]);
-        $data['parcelas_pagas'] = Parcelas::count(['conditions'=>['status = 1']]);
+        $data['parcelas_pagas'] = Parcelas::count(['conditions'=>['status = 1 AND contratos_id = ?', $id]]);
 
         $data['valor_recebido'] = $this->sum_parcelas($id) + Model::find($id)->entrada;
 

@@ -20,6 +20,7 @@
                         <th>Vencimento</th>
                         <th>Situação</th>
                         <th>Terreno/Quadra/Lote</th>
+                        <th>Valor do Lote</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,6 +34,7 @@
                         <td><?=$contrato->vencimento?></td>
                         <td><?=$contrato->status? 'Ativo': 'Cancelado'?></td>
                         <td><?=$contrato->terreno.'/'.$contrato->quadra.'/'.$contrato->lote?></td>
+                        <td><?='R$ ' . number_format($contrato->valor, 2, ',', '.')?></td>
                     </tr>
                 </tbody>
             </table>
