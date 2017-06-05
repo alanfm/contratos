@@ -127,7 +127,7 @@
                         <ul>
                             <li>Após vencimento cobrar multa de <?='R$' . number_format($conta->multa, 2, ',', '.')?> e juros de <?='R$' . number_format($conta->juros, 2, ',', '.')?> ao dia;</li>
                             <li>O pagamento das parcelas deverá ser efetuado através de deposito identificado ou transferência na conta mencionada acima;</li>
-                            <li>Após pagamento, o pagador deverá enviar o comprovante para o E-mail <?=$vendedor->email?> ou pelo WhatsApp  (88) 99404 2327.</li>
+                            <li>Após pagamento, o pagador deverá enviar o comprovante para o E-mail <?=$vendedor->email?> ou pelo WhatsApp  <?=System\Utilities::mask($fone_vendedor->ddd . $fone_vendedor->numero, '(##) #####-####')?>.</li>
                         </ul>
                     </td>
                 </tr>

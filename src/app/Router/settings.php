@@ -22,4 +22,8 @@ Route::group(['prefix' => 'configuracoes'], function() {
     Route::post('/endereco', function() {
         (new Settings())->endereco();
     });
+
+    Route::post('/telefone', function() {
+        (new Settings())->telefone();
+    });
 });

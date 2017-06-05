@@ -118,7 +118,43 @@
                     </form>
                 </div>
             </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Telefone</h3>
+                </div>
+                <div class="panel-body">            
+                    <form action="<?=self::link('configuracoes/telefone')?>" method="post">
+                        <input type="hidden" value="<?=System\Utilities::token();?>" name="token">
+                        <input type="hidden" value="<?=$create_telefone?>" name="create">
+                        <input type="hidden" value="<?=$form['id']?>" name="cliente">
+                        <div class="form-group">
+                            <label for="ddd">DDD</label>
+                            <input type="text" value="<?=$form['ddd']?>" name="ddd" maxlength="2" pattern=".{2}" class="form-control" placeholder="99" required autofocus>
+                        </div>
+                        <div class="form-group">
+                            <label for="numero">Número</label>
+                            <input type="text" value="<?=$form['numero']?>" name="numero" class="form-control" maxlength="9" pattern=".{8,9}" placeholder="999999999" required><small>Apenas números</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="operadora">Operadora</label>
+                            <input type="text" value="<?=$form['operadora']?>" name="operadora" class="form-control" placeholder="Operadora do telefone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="tipo">Tipo</label>
+                            <select name="tipo" id="tipo" class="form-control" required>
+                                <option value="celular"<?=$form['tipo'] == 'celular'? ' selected': ''?>>Celular</option>
+                                <option value="residencial"<?=$form['tipo'] == 'residencial'? ' selected': ''?>>Residencial</option>
+                                <option value="comercial"<?=$form['tipo'] == 'comercial'? ' selected': ''?>>Comercial</option>
+                            </select>
+                        </div>
+                        <div class="form-group text-center">
+                            <button class="btn btn-default btn-lg" type="submit" title="Salvar"><i class="fa fa-floppy-o fa-lg" aria-hidden="true"></i> Salvar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         <?php endif;?>
+
     </section>
     <section class="col-md-6">
         <div class="panel panel-default">

@@ -110,15 +110,10 @@
                     <?php endforeach;?>
                 </tbody>
             </table>
-            <?php if ($_SESSION['clientes']['count'] > 1 && empty($_SESSION['clientes']['search'])):?>
-            <nav aria-label="page navigation" class="text-center">
-                <ul class="pagination">
-                    <?php for ($i = 1; $i <= $_SESSION['clientes']['count']; $i++):?>
-                    <li <?=$_SESSION['clientes']['current_page'] == $i? 'class="active"': ''?>><a href="<?=self::link('clientes/pagina/'.$i);?>"><?=$i?></a></li>
-                    <?php endfor; ?>
-                </ul>
-            </nav>
-            <?php endif;?>
+            <?php
+            if ($_SESSION['clientes']['count'] > 1 && empty($_SESSION['clientes']['search'])):
+                $this->template('template/pagination')->data(['current'=>$_SESSION['clientes']['current_page'], 'count'=>$_SESSION['clientes']['count'], 'pagina'=>'clientes'])->show();
+            endif;?>
             <?php if (isset($_SESSION['clientes']['search'])): unset($_SESSION['clientes']['search']);?>
                 <div class="text-center">
                     <a href="<?=self::link('clientes');?>" class="btn btn-primary" style="margin-bottom: 2rem;margin-top: 2rem;">Mostrar todos</a>

@@ -10,6 +10,7 @@ use App\Storage\Empresas;
 use App\Storage\Cidades;
 use App\Storage\Estados;
 use App\Storage\Enderecos;
+use App\Storage\Telefones;
 
 class Settings extends Controller
 {
@@ -26,6 +27,7 @@ class Settings extends Controller
 
         if ($this->data['form']['id']) {
             $this->data['create_endereco'] = $this->form_endereco($this->data['form']['id'])? 1: 0;
+            $this->data['create_telefone'] = $this->form_telefone($this->data['form']['id'])? 1: 0;
         }
 
         $this->data['estados'] = Estados::all();
@@ -152,6 +154,34 @@ class Settings extends Controller
         exit();
     }
 
+    public function telefone()
+    {
+        $data['numero'] = filter_input(INPUT_POST, 'numero');
+        $data['ddd'] = filter_input(INPUT_POST, 'ddd');
+        $data['operadora'] = filter_input(INPUT_POST, 'operadora');
+        $data['tipo'] = filter_input(INPUT_POST, 'tipo');
+        $data['pessoas_id'] = filter_input(INPUT_POST, 'cliente');
+
+        if (!filter_input(INPUT_POST, 'create')) {
+            if (filter_input(INPUT_POST, 'token') !== Utilities::token() || !Telefones::create($data)) {
+                $_SESSION['alert'] = ['message'=>'Erro ao realizar o cadastro!', 'error'=>'danger'];
+                Utilities::redirect('configuracoes');
+                exit();
+            }
+        } else {
+            if (filter_input(INPUT_POST, 'token') !== Utilities::token() ||
+                !Telefones::find(['conditions'=>['pessoas_id = ?', filter_input(INPUT_POST, 'cliente')]])->update_attributes($data)) {
+                $_SESSION['alert'] = ['message'=>'Erro ao tentar alterar o registro!', 'error'=>'danger'];
+                Utilities::redirect('configuracoes');
+                exit();
+            }
+        }
+
+        $_SESSION['alert'] = ['message'=>'Cadastro realizado com sucesso!', 'error'=>'success'];
+        Utilities::redirect('configuracoes');
+        exit();
+    }
+
     public function form_vendedor()
     {
         $vendedor = Pessoas::count(['conditions'=>['tipo = ?', 'vendedor']]);
@@ -225,5 +255,22 @@ class Settings extends Controller
         $this->data['form']['estado'] = $endereco? Estados::find(Cidades::find($model->cidades_id)->estados_id)->id: null;
 
         return $endereco;
+    }
+
+
+    public function form_telefone($pessoa)
+    {
+        $telefone = Telefones::count(['conditions'=>['pessoas_id = ?', $pessoa]]);
+
+        if ($telefone) {
+            $model = Telefones::all(['conditions'=>['pessoas_id = ?', $pessoa]])[0];
+        }
+
+        $this->data['form']['ddd'] = $telefone? $model->ddd: null;
+        $this->data['form']['numero'] = $telefone? $model->numero: null;
+        $this->data['form']['operadora'] = $telefone? $model->operadora: null;
+        $this->data['form']['tipo'] = $telefone? $model->tipo: null;
+
+        return $telefone;
     }
 }

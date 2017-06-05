@@ -10,6 +10,7 @@ use App\Storage\Pessoas;
 use App\Storage\Empresas;
 use App\Storage\Contas;
 use App\Storage\Enderecos;
+use App\Storage\Telefones;
 
 class Parcelas extends Controller
 {
@@ -23,6 +24,7 @@ class Parcelas extends Controller
         $this->data['conta'] = Contas::find('last');
         $this->data['empresa'] = Empresas::find('last');
         $this->data['vendedor'] = Pessoas::all(['conditions'=>['tipo = ?', 'vendedor']])[0];
+        $this->data['fone_vendedor'] = Telefones::find(['conditions'=>['pessoas_id = ?', $this->data['vendedor']->id]]);
         $this->data['contrato'] = Contratos::find($id);
         $this->data['comprador'] = Pessoas::find($this->data['contrato']->pessoas_id);
 

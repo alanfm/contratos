@@ -81,15 +81,10 @@
                     <?php endforeach;?>
                 </tbody>
             </table>
-            <?php if ($_SESSION['quadras']['count'] > 1 && empty($_SESSION['quadras']['search'])):?>
-            <nav aria-label="page navigation" class="text-center">
-                <ul class="pagination">
-                    <?php for ($i = 1; $i <= $_SESSION['quadras']['count']; $i++):?>
-                    <li <?=$_SESSION['quadras']['current_page'] == $i? 'class="active"': ''?>><a href="<?=self::link('terrenos/quadras/pagina/'.$i);?>"><?=$i?></a></li>
-                    <?php endfor; ?>
-                </ul>
-            </nav>
-            <?php endif;?>
+            <?php
+            if ($_SESSION['quadras']['count'] > 1 && empty($_SESSION['quadras']['search'])):
+                $this->template('template/pagination')->data(['current'=>$_SESSION['quadras']['current_page'], 'count'=>$_SESSION['quadras']['count'], 'pagina'=>'terrenos/quadras'])->show();
+            endif;?>
             <?php if (isset($_SESSION['quadras']['search'])): unset($_SESSION['quadras']['search']);?>
                 <div class="text-center">
                     <a href="<?=self::link('terrenos/quadras');?>" class="btn btn-primary" style="margin-bottom: 2rem;margin-top: 2rem;">Mostrar todos</a>

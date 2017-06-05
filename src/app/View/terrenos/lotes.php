@@ -123,17 +123,10 @@
                     <?php endforeach;?>
                 </tbody>
             </table>
-            <?php if ($_SESSION['lotes']['count'] > 1 && empty($_SESSION['lotes']['search'])):?>
-            <nav aria-label="page navigation" class="text-center">
-                <ul class="pagination">
-                    <?php for ($i = 1; $i <= $_SESSION['lotes']['count']; $i++):?>
-                    <li <?=$_SESSION['lotes']['current_page'] == $i? 'class="active"': ''?>>
-                        <a href="<?=self::link('terrenos/lotes/pagina/'.$i);?>"><?=$i?></a>
-                    </li>
-                    <?php endfor; ?>
-                </ul>
-            </nav>
-            <?php endif;?>
+            <?php
+            if ($_SESSION['lotes']['count'] > 1 && empty($_SESSION['lotes']['search'])):
+                $this->template('template/pagination')->data(['current'=>$_SESSION['lotes']['current_page'], 'count'=>$_SESSION['lotes']['count'], 'pagina'=>'terrenos/lotes'])->show();
+            endif;?>
             <?php if (isset($_SESSION['lotes']['search'])): unset($_SESSION['lotes']['search']);?>
                 <div class="text-center">
                     <a href="<?=self::link('terrenos/lotes');?>" class="btn btn-primary" style="margin-bottom: 2rem;margin-top: 2rem;">Mostrar todos</a>
