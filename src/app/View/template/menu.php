@@ -7,19 +7,21 @@
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="<?=self::link('')?>">Principal</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Clientes <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="<?=self::link('clientes')?>">Gerenciar</a></li>
-                            <li><a href="<?=self::link('clientes/relatorios')?>">Relatórios</a></li>
-                        </ul>
-                    </li>
+                    <li><a href="<?=self::link('clientes')?>">Clientes</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Terrenos <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="<?=self::link('terrenos')?>">Terrenos</a></li>
                             <li><a href="<?=self::link('terrenos/quadras')?>">Quadra</a></li>
                             <li><a href="<?=self::link('terrenos/lotes')?>">Lotes</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Relatórios <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="<?=self::link('relatorios/parcelas')?>">Parcelas</a></li>
+                            <li><a href="<?=self::link('relatorios/contratos')?>">Contratos</a></li>
+                            <li><a href="<?=self::link('relatorios/clientes')?>">Clientes</a></li>
                         </ul>
                     </li>
                     <li><a href="<?=self::link('usuarios')?>">Usuários</a></li>
