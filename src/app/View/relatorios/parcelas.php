@@ -13,8 +13,8 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>125</td>
-                    <td>R$ 125.365,36</td>
+                    <td><?=$total_abertas->total?></td>
+                    <td>R$ <?=number_format($total_abertas->valor, 2, ',', '.')?></td>
                 </tr>
             </tbody>
         </table>
@@ -32,8 +32,8 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>125</td>
-                    <td>R$ 125.365,36</td>
+                    <td><?=$total_atrazadas->total?></td>
+                    <td>R$ <?=number_format($total_atrazadas->valor, 2, ',', '.')?></td>
                 </tr>
             </tbody>
         </table>
@@ -51,8 +51,8 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>125</td>
-                    <td>R$ 125.365,36</td>
+                    <td><?=$total_canceladas->total?></td>
+                    <td>R$ <?=number_format($total_canceladas->valor, 2, ',', '.')?></td>
                 </tr>
             </tbody>
         </table>
@@ -72,8 +72,8 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>125</td>
-                            <td>R$ 125.365,36</td>
+                            <td><?=$a_vencer->total?></td>
+                            <td>R$ <?=number_format($a_vencer->valor, 2, ',', '.')?></td>
                         </tr>
                     </tbody>
                 </table>
@@ -81,7 +81,7 @@
         </div>
         <div class="col-md-6">
             <div class="panel panel-default">
-                <div class="panel-heading"><h3 class="panel-title">Parcelas a receber <small class="pull-right">Mês atual</small></h3></div>
+                <div class="panel-heading"><h3 class="panel-title">Parcelas recebidas <small class="pull-right">Mês atual</small></h3></div>
                 <table class="table table-condensed table-striped table-hover">
                     <thead>
                         <tr>
@@ -91,8 +91,8 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>125</td>
-                            <td>R$ 125.365,36</td>
+                            <td><?=$recebidas->total?></td>
+                            <td>R$ <?=number_format($recebidas->valor, 2, ',', '.')?></td>
                         </tr>
                     </tbody>
                 </table>

@@ -3,7 +3,7 @@
     <head>
         <base href="<?=URL_BASE?>">
         <meta charset="UTF-8">
-        <title>Carnê de Pagamento</title>
+        <title>Carnê de Pagamento de <?=$comprador->nome?></title>
         <link rel="stylesheet" href="public/css/normalize.css">
         <style>
             body {

@@ -76,7 +76,7 @@ class Contratos extends Controller
             $par['descricao'] = sprintf("Parcela %02d", $i+1);
             $par['valor'] = $valor;
             $par['status'] = false;
-            $par['vencimento'] = $i == 0? $date->format('Y-m-d'): $date->add(new \DateInterval('P1M'))->format('Y-m-d');
+            $par['vencimento'] = $date->add(new \DateInterval('P1M'))->format('Y-m-d');
             $par['contratos_id'] = $contratos_id;
 
             if (!Parcelas::create($par)) {
