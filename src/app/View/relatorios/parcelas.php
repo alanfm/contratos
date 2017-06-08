@@ -32,8 +32,8 @@
             </thead>
             <tbody>
                 <tr>
-                    <td><?=$total_atrazadas->total?></td>
-                    <td>R$ <?=number_format($total_atrazadas->valor, 2, ',', '.')?></td>
+                    <td><?=$total_atrasadas->total?></td>
+                    <td>R$ <?=number_format($total_atrasadas->valor, 2, ',', '.')?></td>
                 </tr>
             </tbody>
         </table>
@@ -121,7 +121,7 @@
     <div class="col-md-6">
         <div class="col-md-12">
             <div class="panel panel-default">
-                <div class="panel-heading"><h3 class="panel-title">Clientes com parcelas atrazadas <small class="pull-right">Total</small></h3></div>
+                <div class="panel-heading"><h3 class="panel-title">Clientes com parcelas atrasadas <small class="pull-right">Total</small></h3></div>
                 <table class="table table-condensed table-striped table-hover">
                     <thead>
                         <tr>
@@ -132,12 +132,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Fulano dos Anzois Pereira</td>
-                            <td>Terrenos Altos/Q01/L02</td>
-                            <td>2556</td>
-                            <td>R$ 365,36</td>
-                        </tr>
+                        <?php foreach($atrasadas as $atrasada):?>
+                            <tr>
+                                <td><?=$atrasada->nome?></td>
+                                <td><?=sprintf('%s/%s/%s', $atrasada->terreno, $atrasada->quadra, $atrasada->lote)?></td>
+                                <td><?=$atrasada->parcela?></td>
+                                <td>R$ <?=number_format($atrasada->valor, 2, ',', '.')?></td>
+                            </tr>
+                        <?php endforeach;?>
                     </tbody>
                 </table>
             </div>
