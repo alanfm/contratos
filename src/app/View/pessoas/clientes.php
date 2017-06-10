@@ -96,7 +96,7 @@
                         <td><?=date("d/m/Y", strtotime($tupla->data_nascimento))?></td>
                         <td><?=System\Utilities::mask($tupla->cpf, '###.###.###-##')?></td>
                         <td><?=$tupla->rg?></td>
-                        <td><?=ucfirst($tupla->estado_civil)?></td>
+                        <td><?=ucfirst($tupla->estado_civil)?>(a)</td>
                         <td>                            
                             <div class="btn-group" role="group">
                                 <a href="<?=self::link('clientes/detalhes/'.$tupla->id)?>" class="btn btn-info btn-xs" title="Detalhes"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i></i></a>

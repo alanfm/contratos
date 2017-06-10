@@ -1,9 +1,9 @@
 <div class="page-header">
     <h1><i class="fa fa-bar-chart fa-lg" aria-hidden="true"></i> Relatórios <small>Parcelas</small></h1>
 </div>
-<div class="col-md-4">
+<div class="col-md-3">
     <div class="panel panel-default">
-        <div class="panel-heading"><h3 class="panel-title">Parcelas em aberto <small class="pull-right">Total</small></h3></div>
+        <div class="panel-heading"><h3 class="panel-title">Parcelas ativas <small class="pull-right">Total</small></h3></div>
         <table class="table table-condensed table-striped table-hover">
             <thead>
                 <tr>
@@ -20,7 +20,7 @@
         </table>
     </div>
 </div>
-<div class="col-md-4">
+<div class="col-md-3">
     <div class="panel panel-default">
         <div class="panel-heading"><h3 class="panel-title">Parcelas em atrazo <small class="pull-right">Total</small></h3></div>
         <table class="table table-condensed table-striped table-hover">
@@ -39,7 +39,7 @@
         </table>
     </div>
 </div>
-<div class="col-md-4">
+<div class="col-md-3">
     <div class="panel panel-default">
         <div class="panel-heading"><h3 class="panel-title">Parcelas canceladas <small class="pull-right">Total</small></h3></div>
         <table class="table table-condensed table-striped table-hover">
@@ -58,8 +58,30 @@
         </table>
     </div>
 </div>
+<div class="col-md-3">
+    <div class="panel panel-default">
+        <div class="panel-heading"><h3 class="panel-title">Parcelas Pagas <small class="pull-right">Total</small></h3></div>
+        <table class="table table-condensed table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Total</th>
+                    <th>Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><?=$total_pagas->total?></td>
+                    <td>R$ <?=number_format($total_pagas->valor, 2, ',', '.')?></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 <div class="row">
     <div class="col-md-6">
+        <div class="col-md-12">
+            <p>Valores abaixo são referentes a 01/<?=date('m')?> a <?=date('t/m')?>.</p>
+        </div>
         <div class="col-md-6">
             <div class="panel panel-default">
                 <div class="panel-heading"><h3 class="panel-title">Parcelas a vencer <small class="pull-right">Mês atual</small></h3></div>
@@ -98,25 +120,6 @@
                 </table>
             </div>    
         </div>
-        <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading"><h3 class="panel-title">Parcelas a receber <small class="pull-right">Mês atual</small></h3></div>
-                <table class="table table-condensed table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th>Total</th>
-                            <th>Valor</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>125</td>
-                            <td>R$ 125.365,36</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>    
-        </div>
     </div>
     <div class="col-md-6">
         <div class="col-md-12">
@@ -126,6 +129,7 @@
                     <thead>
                         <tr>
                             <th>Nome</th>
+                            <th>Data</th>
                             <th>Terreno/Quadra/Lote</th>
                             <th>Parcela</th>
                             <th>Valor</th>
@@ -134,7 +138,8 @@
                     <tbody>
                         <?php foreach($atrasadas as $atrasada):?>
                             <tr>
-                                <td><?=$atrasada->nome?></td>
+                                <td><?=$atrasada->cliente?></td>
+                                <td><?=date('d/m/Y', strtotime($atrasada->vencimento))?></td>
                                 <td><?=sprintf('%s/%s/%s', $atrasada->terreno, $atrasada->quadra, $atrasada->lote)?></td>
                                 <td><?=$atrasada->parcela?></td>
                                 <td>R$ <?=number_format($atrasada->valor, 2, ',', '.')?></td>
