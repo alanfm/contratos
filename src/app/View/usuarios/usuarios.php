@@ -88,8 +88,8 @@
                         <td><?=$tupla->id?></td>
                         <td><?=$tupla->usuario?></td>
                         <td><?=$tupla->email?></td>
-                        <td><?=date("d-m-Y H:i:s", strtotime($tupla->criado_em))?></td>
-                        <td><?=$tupla->ultimo_acesso? date("d-m-Y H:i:s", strtotime($tupla->ultimo_acesso)): ''?></td>
+                        <td><?=date("d/m/Y H:i:s", strtotime($tupla->criado_em))?></td>
+                        <td><?=$tupla->ultimo_acesso? date("d/m/Y H:i:s", strtotime($tupla->ultimo_acesso)): ''?></td>
                         <td><?=$nivel[$tupla->nivel]?></td>
                         <td>                            
                             <div class="btn-group" role="group">

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use System\Core\Controller;
+use App\Controller\Authentication;
 
 use App\Storage\Terrenos;
 use App\Storage\Quadras;
@@ -19,6 +20,9 @@ class Home extends Controller
 
     public function index()
     {
+        // Modulo Autentication
+        Authentication::verify();
+
         $join = 'INNER JOIN terrenos ON (terrenos.id = quadras.terrenos_id)';
         $data['lotes'] = Lotes::all(['select'=>'lotes.*, quadras.descricao as quadra, terrenos.descricao as terreno',
                             'joins'=>['quadras', $join],
