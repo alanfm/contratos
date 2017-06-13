@@ -48,6 +48,50 @@ class Relatorios extends Controller
         $this->content('relatorios/parcelas', $data);
     }
 
+    public function parcelas_date()
+    {
+        $data['data'] = [];
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if (!$this->check_date(filter_input(INPUT_POST, 'date_init'))) {
+                $_SESSION['alert'] = ['message'=>'A data inicial não é válida!', 'error'=>'danger'];
+                Utilities::redirect('relatorios/parcelas/data');
+                exit();
+            }
+
+
+            if (!$this->check_date(filter_input(INPUT_POST, 'date_end'))) {
+                $_SESSION['alert'] = ['message'=>'A data final não é válida!', 'error'=>'danger'];
+                Utilities::redirect('relatorios/parcelas/data');
+                exit();
+            }
+
+            $date_init = date('Y-m-d', strtotime(str_replace('/', '-', filter_input(INPUT_POST, 'date_init'))));
+            $date_end = date('Y-m-d', strtotime(str_replace('/', '-', filter_input(INPUT_POST, 'date_end'))));
+            $situacao = filter_input(INPUT_POST, 'situacao');
+
+            if ($date_end <= $date_init) {
+                $_SESSION['alert'] = ['message'=>'A data inicial deve ser menor que a data final!', 'error'=>'danger'];
+                Utilities::redirect('relatorios/parcelas/data');
+                exit();
+            }
+
+            $join = 'INNER JOIN pessoas ON (pessoas.id = contratos.pessoas_id) INNER JOIN lotes ON (lotes.id = contratos.lotes_id) INNER JOIN quadras ON (quadras.id = lotes.quadras_id) INNER JOIN terrenos ON (terrenos.id = quadras.terrenos_id)';
+
+            $data['data'] = Parcelas::all(['select'=>'parcelas.id as parcela, pessoas.nome as cliente, parcelas.vencimento, parcelas.valor as valor, parcelas.multa, parcelas.juros, parcelas.status, contratos.id as contrato, lotes.descricao as lote, quadras.descricao as quadra, terrenos.descricao as terreno',
+                                            'conditions'=>['(parcelas.vencimento BETWEEN ? AND ?) AND parcelas.status = ?', $date_init, $date_end, $situacao],
+                                            'joins'=>['contratos', $join]]);
+        }
+
+        $this->content('relatorios/parcelas_date', $data);
+    }
+
+    private function check_date($date)
+    {
+        $tmp = explode('/', $date);
+        return checkdate($tmp[1], $tmp[0], $tmp[2]);
+    }
+
     public function contratos()
     {
 

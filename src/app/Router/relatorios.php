@@ -7,6 +7,14 @@ Route::group(['prefix' => 'relatorios'], function() {
         (new Relatorios())->parcelas();
     });
 
+    Route::get('/parcelas/data', function() {
+        (new Relatorios())->parcelas_date();
+    });
+
+    Route::post('/parcelas/data', function() {
+        (new Relatorios())->parcelas_date();
+    });
+
     Route::get('/clientes', function() {
         (new Relatorios())->clientes();
     });
