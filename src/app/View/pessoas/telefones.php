@@ -67,7 +67,6 @@
                 <thead>
                     <tr class="row">
                         <th>#</th>
-                        <th>DDD</th>
                         <th>Número</th>
                         <th>Operadora</th>
                         <th>Tipo</th>
@@ -78,8 +77,7 @@
                     <?php foreach($data as $tupla):?>
                     <tr class="row">
                         <td><?=$tupla->id?></td>
-                        <td><?=$tupla->ddd?></td>
-                        <td><?=System\Utilities::mask($tupla->numero, '####-#####')?></td>
+                        <td><?=System\Utilities::mask($tupla->ddd . $tupla->numero, '(##) ####-#####')?></td>
                         <td><?=$tupla->operadora?></td>
                         <td><?=ucfirst($tupla->tipo)?></td>
                         <td>                            

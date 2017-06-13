@@ -10,7 +10,9 @@ use App\Storage\Enderecos;
 use App\Storage\Contratos;
 
 class Clientes extends Controller
-{
+{    
+    private $limit = 10;
+
     public function __construct()
     {
         Authentication::salesman();
@@ -64,16 +66,15 @@ class Clientes extends Controller
         if (is_null($id)) {
             $data = Model::all(['select'=>'*',
                                 'conditions'=>['tipo = ?', 'cliente'],
-                                'limit'=>10,
+                                'limit'=>$this->limit,
                                 'offset'=>$_SESSION['clientes']['pagination'],
                                 'order'=>'id DESC']);
 
             $count = Model::count();
-
-            if ($count > 10) {
-                $_SESSION['clientes']['count'] = $count % 10? (int)($count / 10) + 1: $count / 10;
+            if ($count >= $this->limit) {
+                $_SESSION['clientes']['count'] = $count % $this->limit? (int)($count / $this->limit) + 1: $count / $this->limit;
             } else {
-                $_SESSION['clientes']['count'] = 1;
+                $_SESSION['clientes']['count'] = 0;
             }
 
             return $data;

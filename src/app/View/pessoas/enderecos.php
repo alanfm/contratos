@@ -35,7 +35,7 @@
                     </div>
                     <div class="form-group">
                         <label for="cep">C.E.P.</label>
-                        <input type="text" value="<?=$form['cep']?>" name="cep" class="form-control" placeholder="Código de endereçamento postal" required>
+                        <input type="number" value="<?=$form['cep']?>" name="cep" class="form-control" maxlength="8" pattern=".{8,8}" placeholder="Código de endereçamento postal" required>
                     </div>
                     <div class="form-group">
                         <label for="descricao">Estado</label>

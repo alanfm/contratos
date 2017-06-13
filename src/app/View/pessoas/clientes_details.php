@@ -65,7 +65,7 @@
                                 <th>Opções</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="row">
                             <?php foreach($enderecos as $endereco):?>
                                 <tr>
                                     <td><?=$endereco->id?></td>
@@ -73,7 +73,7 @@
                                     <td><?=$endereco->bairro?></td>
                                     <td><?=$endereco->cep?></td>
                                     <td><?=$endereco->cidade.'/'.$endereco->estado?></td>
-                                    <td>
+                                    <td class="col-md-2">
                                         <div class="btn-group" role="group">
                                             <a href="<?=self::link('clientes/enderecos/editar/'.$cliente->id.'/'.$endereco->id)?>" class="btn btn-warning btn-xs" title="Editar"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></i></a>
                                             <a href="<?=self::link('clientes/enderecos/apagar/'.$cliente->id.'/'.$endereco->id)?>" class="btn btn-danger btn-xs delete" title="Remover"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
@@ -95,7 +95,6 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>DDD</th>
                                 <th>Telefone</th>
                                 <th>Operadora</th>
                                 <th>Tipo</th>
@@ -106,8 +105,7 @@
                             <?php foreach($telefones as $tupla):?>
                             <tr>
                                 <td><?=$tupla->id?></td>
-                                <td><?=$tupla->ddd?></td>
-                                <td><?=$tupla->numero?></td>
+                                <td><?=System\Utilities::mask($tupla->ddd . $tupla->numero, '(##) ####-#####')?></td>
                                 <td><?=$tupla->operadora?></td>
                                 <td><?=ucfirst($tupla->tipo)?></td>
                                 <td>
