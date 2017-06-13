@@ -13,6 +13,7 @@ class Enderecos extends Controller
 {
     public function __construct()
     {
+        Authentication::salesman();
         parent::__construct();
     }
 

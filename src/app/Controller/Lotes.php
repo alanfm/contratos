@@ -17,6 +17,7 @@ class Lotes extends Controller
 
     public function index()
     {
+        Authentication::manager();
         $this->form(null);
         $this->data['terrenos'] = Terrenos::all();
         $this->data['data'] = isset($_SESSION['search'])? unserialize($_SESSION['search']): $this->read();
@@ -26,6 +27,7 @@ class Lotes extends Controller
 
     public function edit($id)
     {
+        Authentication::manager();
         $this->data['edit'] = true;
         $this->form($this->read($id));
         $this->data['data'] = $this->read();
@@ -36,6 +38,7 @@ class Lotes extends Controller
 
     public function create()
     {
+        Authentication::manager();
         $data['descricao'] = filter_input(INPUT_POST, 'descricao');
         $data['largura'] = str_replace(',', '.', filter_input(INPUT_POST, 'largura'));
         $data['comprimento'] = str_replace(',', '.', filter_input(INPUT_POST, 'comprimento'));
@@ -84,6 +87,7 @@ class Lotes extends Controller
 
     public function update($id)
     {
+        Authentication::manager();
         $data['descricao'] = filter_input(INPUT_POST, 'descricao');
         $data['largura'] = str_replace(',', '.', filter_input(INPUT_POST, 'largura'));
         $data['comprimento'] = str_replace(',', '.', filter_input(INPUT_POST, 'comprimento'));
@@ -104,6 +108,7 @@ class Lotes extends Controller
 
     public function delete($id)
     {
+        Authentication::manager();
         if (!Model::find($id)->delete()) {
             $_SESSION['alert'] = ['message'=>'Erro ao tentar alterar o registro!', 'error'=>'danger'];
             Utilities::redirect('terrenos/lotes');
@@ -118,6 +123,7 @@ class Lotes extends Controller
 
     public function search()
     {
+        Authentication::manager();
         if (filter_input(INPUT_POST, 'token') !== Utilities::token()) {
             $_SESSION['alert'] = ['message'=>'Erro ao pesquisar!', 'error'=>'danger'];
             Utilities::redirect('terrenos/lotes');
@@ -160,6 +166,7 @@ class Lotes extends Controller
 
     public function pagination($page = 1, $redirect = true)
     {
+        Authentication::manager();
         $_SESSION['lotes']['pagination'] = $page > 1? ($page - 1) * 10: 0;
         $_SESSION['lotes']['current_page'] = $page > 1? $page: 1;
 
@@ -172,6 +179,7 @@ class Lotes extends Controller
 
     public function lotes_by_quadra($quadra)
     {
+        Authentication::salesman();
         foreach (Model::all(['conditions'=>['quadras_id = ? AND situacao = ?', $quadra, 'aberto']]) as $lote) {
             $data[] = ['id'=>$lote->id, 'descricao'=>$lote->descricao];
         }

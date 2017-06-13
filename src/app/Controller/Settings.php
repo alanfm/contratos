@@ -16,6 +16,7 @@ class Settings extends Controller
 {
     public function __construct()
     {
+        Authentication::admin();
         parent::__construct();
     }
 

@@ -1,6 +1,4 @@
 <?php
-
-
 use App\Controller\Authentication;
 
 Route::group(['prefix' => 'autenticacao'], function() {

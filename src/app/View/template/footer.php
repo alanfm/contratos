@@ -27,6 +27,7 @@
             });
             $(document).on('click', '.payment', function(){
                 $('.payment-input').attr('value', $(this).data('parcela'));
+                $('.description-input').attr('value', $(this).data('descricao'));
             });
             $(function(){
                 $('.date').mask('00/00/0000');

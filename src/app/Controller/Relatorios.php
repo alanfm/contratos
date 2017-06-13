@@ -14,6 +14,12 @@ use App\Storage\Telefones;
 
 class Relatorios extends Controller
 {
+    public function __construct()
+    {
+        Authentication::manager();
+        parent::__construct();
+    }
+    
     public function parcelas()
     {
         $data['total_abertas'] = Parcelas::find(['select'=>'SUM(VALOR) AS valor, COUNT(id) AS total',

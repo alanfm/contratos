@@ -9,6 +9,7 @@ class Cidades extends Controller
 {
     public function __construct()
     {
+        Authentication::manager();
         parent::__construct();
     }
 

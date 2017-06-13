@@ -16,6 +16,7 @@ class Quadras extends Controller
 
     public function index()
     {
+        Authentication::manager();
         $this->form(null);
         $this->data['terrenos'] = Terrenos::all();
         $this->data['data'] = isset($_SESSION['search'])? unserialize($_SESSION['search']): $this->read();
@@ -25,6 +26,7 @@ class Quadras extends Controller
 
     public function edit($id)
     {
+        Authentication::manager();
         $this->data['edit'] = true;
         $this->data['terrenos'] = Terrenos::all();
         $this->form($this->read($id));
@@ -34,6 +36,7 @@ class Quadras extends Controller
 
     public function create()
     {
+        Authentication::manager();
         $this->data['descricao'] = filter_input(INPUT_POST, 'descricao');
         $this->data['terrenos_id'] = filter_input(INPUT_POST, 'terreno');
 
@@ -77,6 +80,7 @@ class Quadras extends Controller
 
     public function update($id)
     {
+        Authentication::manager();
         $data['descricao'] = filter_input(INPUT_POST, 'descricao');        
 
         if (filter_input(INPUT_POST, 'token') !== Utilities::token() || !Model::find($id)->update_attributes($data)) {
@@ -92,6 +96,7 @@ class Quadras extends Controller
 
     public function delete($id)
     {
+        Authentication::manager();
         if (!Model::find($id)->delete()) {
             $_SESSION['alert'] = ['message'=>'Erro ao tentar alterar o registro!', 'error'=>'danger'];
             Utilities::redirect('terrenos/quadras');
@@ -106,6 +111,7 @@ class Quadras extends Controller
 
     public function search()
     {
+        Authentication::manager();
         if (filter_input(INPUT_POST, 'token') !== Utilities::token()) {
             $_SESSION['alert'] = ['message'=>'Erro ao pesquisar!', 'error'=>'danger'];
             Utilities::redirect('terrenos/quadras');
@@ -130,6 +136,7 @@ class Quadras extends Controller
 
     public function pagination($page = 1, $redirect = true)
     {
+        Authentication::manager();
         $_SESSION['quadras']['pagination'] = $page > 1? ($page - 1) * 10: 0;
         $_SESSION['quadras']['current_page'] = $page > 1? $page: 1;
 
@@ -142,6 +149,7 @@ class Quadras extends Controller
 
     public function quadras_by_terreno($terreno)
     {
+        Authentication::salesman();
         foreach (Model::all(['conditions'=>['terrenos_id = ?', $terreno]]) as $quadra) {
             $data[] = ['id'=>$quadra->id, 'descricao'=>$quadra->descricao];
         }

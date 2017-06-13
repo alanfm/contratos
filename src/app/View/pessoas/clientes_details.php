@@ -164,7 +164,9 @@
                                         <div class="btn-group" role="group">
                                             <a href="<?=self::link('contratos/detalhes/'.$tupla->id)?>" class="btn btn-info btn-xs" title="Detalhes"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i></i></a>
                                             <a href="<?=self::link('contratos/editar/'.$cliente->id.'/'.$tupla->id)?>" class="btn btn-warning btn-xs" title="Editar"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></i></a>
-                                            <a href="<?=self::link('contratos/cancelar/'.$cliente->id.'/'.$tupla->id.'/clientes')?>" class="btn btn-danger btn-xs delete" title="Cancelar"><i class="fa fa-ban fa-lg" aria-hidden="true"></i></a>
+                                            <?php if (App\Controller\Authentication::is_manager()):?>
+                                                <a href="<?=self::link('contratos/cancelar/'.$cliente->id.'/'.$tupla->id.'/clientes')?>" class="btn btn-danger btn-xs delete" title="Cancelar"><i class="fa fa-ban fa-lg" aria-hidden="true"></i></a>
+                                            <?php endif;?>
                                         </div>
                                     <?php endif;?>
                                 </td>

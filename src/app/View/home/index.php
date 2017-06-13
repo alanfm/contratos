@@ -25,7 +25,9 @@
             <div class="panel-heading">
                 <h3 class="panel-title">
                     <i class="fa fa-plus-square-o fa-lg" aria-hidden="true"></i> Quadras
-                    <a href="<?=self::link('terrenos/quadras')?>" class="btn btn-default btn-xs pull-right" title="Novo"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></a>
+                    <?php if (App\Controller\Authentication::is_manager()):?>
+                        <a href="<?=self::link('terrenos/quadras')?>" class="btn btn-default btn-xs pull-right" title="Novo"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></a>
+                    <?php endif;?>
                 </h3>
             </div>
             <div class="panel-body"><h3>Quadras Cadastrados: <?=$quadras_count;?></h3></div>
@@ -36,7 +38,9 @@
             <div class="panel-heading">
                 <h3 class="panel-title">
                     <i class="fa fa-square-o fa-lg" aria-hidden="true"></i> Lotes
-                    <a href="<?=self::link('terrenos/lotes')?>" class="btn btn-default btn-xs pull-right" title="Novo"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></a>
+                    <?php if (App\Controller\Authentication::is_manager()):?>
+                        <a href="<?=self::link('terrenos/lotes')?>" class="btn btn-default btn-xs pull-right" title="Novo"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></a>
+                    <?php endif;?>
                 </h3>
             </div>
             <div class="panel-body"><h3>Lotes Cadastrados: <?=$lotes_count;?></h3></div>
@@ -98,7 +102,7 @@
                     <td><?=str_pad((string) $lote->id, 3, "0", STR_PAD_LEFT)?></td>
                     <td><?=$lote->descricao?></td>
                     <td><?=$lote->largura . 'x' . $lote->comprimento?></td>
-                    <td><?=$lote->valor?></td>
+                    <td>R$ <?=number_format($lote->valor, 2, ',', '.')?></td>
                     <td><?=ucfirst($lote->situacao)?></td>
                     <td><?=$lote->quadra?></td>
                     <td><?=$lote->terreno?></td>

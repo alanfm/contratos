@@ -12,6 +12,7 @@ class Terrenos extends Controller
 {
     public function __construct()
     {
+        Authentication::manager();
         parent::__construct();
     }
 

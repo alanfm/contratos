@@ -15,4 +15,9 @@ class Error extends Controller
     {
         $this->view('error/404')->show();
     }
+
+    public function error401()
+    {
+        $this->content('error/401');
+    }
 }

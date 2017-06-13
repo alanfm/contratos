@@ -48,7 +48,9 @@
             <div class="panel-body">            
                 <a href="<?=self::link('contratos/imprimir/'.$contrato->id)?>" class="btn btn-info btn-block" target="_blank"><i class="fa fa-file-text-o fa-lg" aria-hidden="true"></i> Visualizar Contrato</a>
                 <a href="<?=self::link('parcelas/carne/'.$contrato->id)?>" class="btn btn-success btn-block" target="_blank"><i class="fa fa-credit-card fa-lg" aria-hidden="true"></i> Visualizar Carnê de Pagamento</a>
-                <a href="<?=self::link('contratos/cancelar/'.$cliente->id.'/'.$contrato->id.'/contratos')?>" class="btn btn-danger btn-block"><i class="fa fa-ban fa-lg" aria-hidden="true"></i> Cancelar Contrato</a>
+                <?php if(App\Controller\Authentication::is_manager()):?>
+                    <a href="<?=self::link('contratos/cancelar/'.$cliente->id.'/'.$contrato->id.'/contratos')?>" class="btn btn-danger btn-block"><i class="fa fa-ban fa-lg" aria-hidden="true"></i> Cancelar Contrato</a>
+                <?php endif;?>
             </div>
         </div>
     </section>    
@@ -98,7 +100,7 @@
                         <td>                            
                             <div class="btn-group" role="group">
                                 <?php if ($tupla->status == 0):?>
-                                    <a href="#" class="btn btn-success btn-xs payment" title="Pagamento" data-toggle="modal" data-target="#pay" data-parcela="<?=$tupla->id?>"><i class="fa fa-money fa-lg" aria-hidden="true"></i></i></a>
+                                    <a href="#" class="btn btn-success btn-xs payment" title="Pagamento" data-toggle="modal" data-target="#pay" data-parcela="<?=$tupla->id?>" data-descricao="<?=$tupla->descricao?>"><i class="fa fa-money fa-lg" aria-hidden="true"></i></i></a>
                                 <?php endif;?>                                 
                                 <a href="<?=self::link('parcelas/editar/'.$tupla->id)?>" class="btn btn-warning btn-xs payment" title="Editar"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></i></a>
                                 <?php if ($tupla->status == 0):?>
@@ -119,30 +121,34 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                <h4 class="modal-title" id="myModalLabel">Recebimento de Prestação</h4>
             </div>
             <form action="<?=self::link('/parcelas/pagamento')?>" method="post">
                 <div class="modal-body">
-                    <input type="hidden" value="<?=System\Utilities::token();?>" name="token">                    
+                    <input type="hidden" value="<?=System\Utilities::token();?>" name="token">
                     <div class="form-group">
-                        <label for="parcela">Parcela</label>
+                        <label for="parcela">Número</label>
                         <input type="text" name="parcela_show" value="" class="form-control payment-input" disabled>
                         <input type="hidden" name="parcela" value="" class="form-control payment-input">
+                    </div>
+                    <div class="form-group">
+                        <label for="parcela">Parcela</label>
+                        <input type="text" name="descricao_show" value="" class="form-control description-input" disabled>
                     </div>
                     <div class="form-group">
                         <label for="quitada">Data</label>
                         <input type="text" step="any" name="quitada" class="form-control date" placeholder="Data da entrada" required>
                     </div>
                     <div class="form-group">
-                        <label for="recebido">Valor recebido</label>
+                        <label for="recebido">Valor da Parcela</label>
                         <input type="number" step="any" name="recebido" class="form-control" placeholder="Valor da parcela" required>
                     </div>                    
                     <div class="form-group">
-                        <label for="multa">Valor da multa</label>
+                        <label for="multa">Multa</label>
                         <input type="number" step="any" name="multa" class="form-control" placeholder="Valor da multa">
                     </div>
                     <div class="form-group">
-                        <label for="juros">Valor dos juros</label>
+                        <label for="juros">Juros</label>
                         <input type="number" step="any" name="juros" class="form-control" placeholder="Valor dos juros">
                     </div>
                     <div class="form-group">

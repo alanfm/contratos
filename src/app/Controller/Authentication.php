@@ -18,9 +18,13 @@ class Authentication extends Controller
         $usuario = Usuarios::find(['conditions'=>['email = ?', filter_input(INPUT_POST, 'email')]]);
 
         if (is_object($usuario) && password_verify(filter_input(INPUT_POST, 'senha'), $usuario->password)) {
+            if (!$usuario->status) {
+                $_SESSION['alert'] = ['message'=>'Usuário desativado! Por favor entre em contato com o administrador.', 'error'=>'warning'];
+                Utilities::redirect('');
+                exit();
+            }
             $_SESSION['user_id'] = $usuario->id;
             $_SESSION['user_nome'] = $usuario->usuario;
-            $_SESSION['user_nivel'] = $usuario->nivel;
             $_SESSION['authenticated'] = md5($_SERVER['HTTP_USER_AGENT']);
             $_SESSION['limit_time'] = time();
 
@@ -28,7 +32,7 @@ class Authentication extends Controller
             $usuario->ultimo_acesso = date('Y-m-d H:i:s');
             $usuario->save();
         } else {
-            $_SESSION['alert'] = ['message'=>'Erro ao efetuar o login!', 'error'=>'warning'];
+            $_SESSION['alert'] = ['message'=>'Usuário ou senha incorretos!', 'error'=>'danger'];
         }
 
         Utilities::redirect('');
@@ -43,13 +47,13 @@ class Authentication extends Controller
         Utilities::redirect('autenticacao');
     }
 
-    public static function verify($level = null)
+    public static function verify()
     {        
         if (empty($_SESSION['authenticated'])) {
             Utilities::redirect('autenticacao/');
         }
 
-        if (isset($_SESSION) && $_SESSION['authenticated'] !== md5($_SERVER['HTTP_USER_AGENT'])) {
+        if (isset($_SESSION) && ($_SESSION['authenticated'] !== md5($_SERVER['HTTP_USER_AGENT']))) {
             Utilities::redirect('autenticacao/sair/');
         }
 
@@ -60,19 +64,43 @@ class Authentication extends Controller
         }
     }
 
+    public static function admin()
+    {
+        self::verify();
+        if (Usuarios::find($_SESSION['user_id'])->nivel != 'admin') {
+            Utilities::redirect('erro/401');
+        }
+    }
+
+    public static function manager()
+    {
+        self::verify();
+        if ((Usuarios::find($_SESSION['user_id'])->nivel !== 'admin') && (Usuarios::find($_SESSION['user_id'])->nivel !== 'manager')) {
+            Utilities::redirect('erro/401');
+        }
+    }
+
+    public static function salesman()
+    {
+        self::verify();
+        if ((Usuarios::find($_SESSION['user_id'])->nivel !== 'admin') && (Usuarios::find($_SESSION['user_id'])->nivel !== 'manager') && (Usuarios::find($_SESSION['user_id'])->nivel !== 'salesman')) {
+            Utilities::redirect('erro/401');
+        }
+    }
+
     public static function is_admin()
     {
-        return $_SESSION['user_nivel'] === 'admin';
+        return Usuarios::find($_SESSION['user_id'])->nivel == 'admin';
     }
 
     public static function is_manager()
     {
-        return $_SESSION['user_nivel'] === 'manager';
+        return Usuarios::find($_SESSION['user_id'])->nivel == 'admin' || Usuarios::find($_SESSION['user_id'])->nivel == 'manager';
     }
 
     public static function is_salesman()
     {
-        return $_SESSION['user_nivel'] === 'salesman';
+        return Usuarios::find($_SESSION['user_id'])->nivel == 'admin' || Usuarios::find($_SESSION['user_id'])->nivel == 'manager' || Usuarios::find($_SESSION['user_id'])->nivel == 'salesman';
     }
 }
 

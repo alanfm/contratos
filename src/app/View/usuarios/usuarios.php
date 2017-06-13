@@ -22,7 +22,7 @@
                     </div>
                     <div class="form-group">
                         <label for="senha">Senha</label>
-                        <input type="password" value="" name="senha" class="form-control" placeholder="Senha do Usuário" required>
+                        <input type="password" value="" name="senha" class="form-control" placeholder="Senha do Usuário" <?=!isset($edit)? 'required':''?>>
                     </div>
                     <div class="form-group">
                         <label for="email">E-mail</label>
@@ -31,8 +31,8 @@
                     <div class="form-group">
                         <label for="situacao">Situação</label>
                         <select name="situacao" id="situacao" class="form-control" required>
-                            <option value="ativo"<?=$form['status'] == 'ativo'? ' selected': ''?>>Ativo</option>
-                            <option value="desativado"<?=$form['status'] == 'desativado'? ' selected': ''?>>Desativado</option>
+                            <option value="0"<?=!$form['status']? ' selected': ''?>>Desativado</option>
+                            <option value="1"<?=$form['status']? ' selected': ''?>>Ativo</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -82,7 +82,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php $nivel = ['admin'=>'Admin', 'manager'=>'Gerente', 'salesman'=>'Vendedor'];
+                    <?php $nivel = ['admin'=>'Administrador(a)', 'manager'=>'Gerente', 'salesman'=>'Vendedor(a)'];
                     foreach($data as $tupla):?>
                     <tr class="row">
                         <td><?=$tupla->id?></td>
@@ -94,7 +94,9 @@
                         <td>                            
                             <div class="btn-group" role="group">
                                 <a href="<?=self::link('usuarios/editar/'.$tupla->id)?>" class="btn btn-warning btn-xs" title="Editar"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></i></a>
-                                <a href="<?=self::link('usuarios/apagar/'.$tupla->id)?>" class="btn btn-danger btn-xs delete" title="Remover"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
+                                <?php if(!App\Storage\Contratos::count(['conditions'=>['usuarios_id = ?', $tupla->id]])):?>
+                                    <a href="<?=self::link('usuarios/apagar/'.$tupla->id)?>" class="btn btn-danger btn-xs delete" title="Remover"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
+                                <?php endif;?>
                             </div>
                         </td>
                     </tr>

@@ -5,11 +5,13 @@ namespace App\Controller;
 use System\Core\Controller;
 use System\Utilities;
 use App\Storage\Usuarios as Model;
+use App\Storage\Contratos;
 
 class Usuarios extends Controller
 {
     public function __construct()
     {
+        Authentication::admin();
         parent::__construct();
     }
 
