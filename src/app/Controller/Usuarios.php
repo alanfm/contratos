@@ -6,17 +6,18 @@ use System\Core\Controller;
 use System\Utilities;
 use App\Storage\Usuarios as Model;
 use App\Storage\Contratos;
+use App\Storage\Sessoes;
 
 class Usuarios extends Controller
 {
     public function __construct()
     {
-        Authentication::admin();
         parent::__construct();
     }
 
     public function index()
     {
+        Authentication::admin();
         $this->form(null);
         $this->data['data'] = isset($_SESSION['search'])? unserialize($_SESSION['search']): $this->read();
         unset($_SESSION['search']);
@@ -25,6 +26,7 @@ class Usuarios extends Controller
 
     public function edit($id)
     {
+        Authentication::admin();
         $this->data['edit'] = true;
         $this->form($this->read($id));
         $this->data['data'] = $this->read();
@@ -33,6 +35,7 @@ class Usuarios extends Controller
 
     public function create()
     {
+        Authentication::admin();
         $data['usuario'] = filter_input(INPUT_POST, 'usuario');
         $data['password'] = password_hash(filter_input(INPUT_POST, 'senha'), PASSWORD_DEFAULT);
         $data['email'] = filter_input(INPUT_POST, 'email');
@@ -76,27 +79,29 @@ class Usuarios extends Controller
         return Model::find($id);
     }
 
-    public function update($id)
-    {        
+    public function update($id,$page = null)
+    {
+        Authentication::salesman();
         $data['usuario'] = filter_input(INPUT_POST, 'usuario');
         $data['password'] = password_hash(filter_input(INPUT_POST, 'senha'), PASSWORD_DEFAULT);
         $data['email'] = filter_input(INPUT_POST, 'email');
-        $data['status'] = filter_input(INPUT_POST, 'situacao');
-        $data['nivel'] = filter_input(INPUT_POST, 'nivel');       
+        $data['status'] = is_null($page)? filter_input(INPUT_POST, 'situacao'): 1;
+        $data['nivel'] = is_null($page)? filter_input(INPUT_POST, 'nivel'): Model::find($_SESSION['user_id'])->nivel;
 
         if (filter_input(INPUT_POST, 'token') !== Utilities::token() || !Model::find($id)->update_attributes($data)) {
             $_SESSION['alert'] = ['message'=>'Erro ao tentar alterar o registro!', 'error'=>'danger'];
-            Utilities::redirect('usuarios');
+            Utilities::redirect('usuarios/'.$page);
             exit();
         }
 
         $_SESSION['alert'] = ['message'=>'Registro realizado com sucesso!', 'error'=>'success'];
-        Utilities::redirect('usuarios');
+        Utilities::redirect('usuarios/'.$page);
         exit();
     }
 
     public function delete($id)
     {
+        Authentication::admin();
         if (!Model::find($id)->delete()) {
             $_SESSION['alert'] = ['message'=>'Erro ao tentar alterar o registro!', 'error'=>'danger'];
             Utilities::redirect('usuarios');
@@ -111,6 +116,7 @@ class Usuarios extends Controller
 
     public function search()
     {
+        Authentication::admin();
         if (filter_input(INPUT_POST, 'token') !== Utilities::token()) {
             $_SESSION['alert'] = ['message'=>'Erro ao pesquisar!', 'error'=>'danger'];
             Utilities::redirect('usuarios');
@@ -136,6 +142,7 @@ class Usuarios extends Controller
 
     public function pagination($page = 1, $redirect = true)
     {
+        Authentication::admin();
         $_SESSION['usuarios']['pagination'] = $page > 1? ($page - 1) * 10: 0;
         $_SESSION['usuarios']['current_page'] = $page > 1? $page: 1;
 
@@ -144,5 +151,16 @@ class Usuarios extends Controller
         }
 
         exit();
+    }
+
+    public function profile()
+    {        
+        Authentication::salesman();
+        $data['usuario'] = Model::find($_SESSION['user_id']);
+        $data['sessoes'] = Sessoes::all(['conditions'=>['usuarios_id = ?', $_SESSION['user_id']],
+                                         'order'=>'id DESC',
+                                         'limit'=>10]);
+
+        $this->content('usuarios/profile', $data);
     }
 }

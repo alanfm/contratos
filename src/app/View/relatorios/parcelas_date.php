@@ -1,5 +1,18 @@
 <div class="page-header">
-    <h1><i class="fa fa-bar-chart fa-lg" aria-hidden="true"></i> Relatórios <small>Parcelas</small></h1>
+    <h1>
+        <i class="fa fa-bar-chart fa-lg" aria-hidden="true"></i> Relatórios <small>Parcelas</small>
+
+        <!-- Single button -->
+        <div class="btn-group pull-right">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Mais Relatórios <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="<?=self::link('relatorios/parcelas')?>">Principal</a></li>
+                <li><a href="<?=self::link('relatorios/parcelas/data')?>">Por Data</a></li>
+            </ul>
+        </div>
+    </h1>
 </div>
 <div class="row">
     <form role="form" method="post">

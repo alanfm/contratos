@@ -1,6 +1,6 @@
 <div class="page-header">
     <a href="<?=self::link('clientes/detalhes/'.$cliente->id)?>" class="btn btn-info btn-lg pull-right"><i class="fa fa-user-circle-o fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;Detalhes</a>
-    <h1><i class="fa fa-user-circle-o fa-lg" aria-hidden="true"></i> Endereços de <small><?=$cliente->nome?></small></h1>
+    <h1><i class="fa fa-address-card-o fa-lg" aria-hidden="true"></i> Endereços de <small><?=$cliente->nome?></small></h1>
 </div>
 <div class="row">
     <section class="col-md-6">

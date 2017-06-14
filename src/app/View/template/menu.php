@@ -25,6 +25,7 @@
                                 <li><a href="<?=self::link('relatorios/parcelas')?>">Parcelas</a></li>
                                 <li><a href="<?=self::link('relatorios/contratos')?>">Contratos</a></li>
                                 <li><a href="<?=self::link('relatorios/clientes')?>">Clientes</a></li>
+                                <li><a href="<?=self::link('relatorios/usuarios')?>">Usuários</a></li>
                             </ul>
                         </li>
                     <?php endif;?>
@@ -33,7 +34,7 @@
                     <?php endif;?>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="javascript::void()">Bem vindo <strong><?=$_SESSION['user_nome']?></strong></a></li>
+                    <li><a href="<?=self::link('usuarios/perfil')?>">Bem vindo <strong><?=$_SESSION['user_nome']?></strong></a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i> <span class="caret"></span></a>
                         <ul class="dropdown-menu">

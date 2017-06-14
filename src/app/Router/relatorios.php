@@ -22,4 +22,8 @@ Route::group(['prefix' => 'relatorios'], function() {
     Route::get('/contratos', function() {
         (new Relatorios())->contratos();
     });
+
+    Route::get('/usuarios', function() {
+        (new Relatorios())->usuarios();
+    });
 });

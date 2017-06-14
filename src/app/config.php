@@ -33,3 +33,8 @@ define('DB_PASS', '');		// Senha do usuário do banco de dados
     $cfg->set_connections(array('development' =>
                                 sprintf('mysql://%s:%s@%s/%s?charset=utf8', DB_USER, DB_PASS, DB_HOST, DB_NAME)));
 });
+
+/**
+ * Configuração para formato de datas para MySQL
+ */
+\ActiveRecord\Connection::$datetime_format = 'Y-m-d H:i:s';

@@ -4,7 +4,11 @@ namespace App\Controller;
 
 use System\Core\Controller;
 use System\Utilities;
+
+use \ActiveRecord\MysqlAdapter;
+
 use App\Storage\Usuarios;
+use App\Storage\Sessoes;
 
 class Authentication extends Controller
 {
@@ -23,16 +27,19 @@ class Authentication extends Controller
                 Utilities::redirect('');
                 exit();
             }
+
             $_SESSION['user_id'] = $usuario->id;
             $_SESSION['user_nome'] = $usuario->usuario;
             $_SESSION['authenticated'] = md5($_SERVER['HTTP_USER_AGENT']);
             $_SESSION['limit_time'] = time();
 
-            \ActiveRecord\MysqlAdapter::$datetime_format = 'Y-m-d H:i:s';
             $usuario->ultimo_acesso = date('Y-m-d H:i:s');
             $usuario->save();
+
+            Sessoes::create(['inicio'=>date('Y-m-d H:i:s'), 'usuarios_id'=>$usuario->id]);
+            $_SESSION['user_session'] = Sessoes::find('last')->id;
         } else {
-            $_SESSION['alert'] = ['message'=>'Usuário ou senha incorretos!', 'error'=>'danger'];
+            $_SESSION['alert'] = ['message'=>'E-mail ou senha incorretos!', 'error'=>'danger'];
         }
 
         Utilities::redirect('');
@@ -41,6 +48,7 @@ class Authentication extends Controller
     public function logout()
     {
         if (isset($_SESSION['authenticated'])) {
+            Sessoes::find($_SESSION['user_session'])->update_attributes(['final'=>date('Y-m-d H:i:s')]);
             session_destroy();
         }
 

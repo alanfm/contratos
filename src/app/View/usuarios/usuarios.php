@@ -1,5 +1,5 @@
 <div class="page-header">
-  <h1><i class="fa fa-plus-square-o fa-lg" aria-hidden="true"></i> Usuários</h1>
+  <h1><i class="fa fa-users fa-lg" aria-hidden="true"></i> Usuários</h1>
 </div>
 <div class="row">
     <section class="col-md-6">

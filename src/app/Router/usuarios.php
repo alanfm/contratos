@@ -15,8 +15,8 @@ Route::group(['prefix' => 'usuarios'], function() {
         (new Usuarios())->edit($id);
     });
 
-    Route::post('/editar/{id}', function($id) {
-        (new Usuarios())->update($id);
+    Route::post('/editar/{id}/{page}', function($id, $page) {
+        (new Usuarios())->update($id, $page);
     });
 
     Route::get('/apagar/{id}', function($id) {
@@ -29,5 +29,9 @@ Route::group(['prefix' => 'usuarios'], function() {
 
     Route::get('/pagina/{page}', function($page) {
         (new Usuarios())->pagination($page);
+    });    
+
+    Route::get('/perfil', function() {
+        (new Usuarios())->profile();
     });
 });

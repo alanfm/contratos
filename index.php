@@ -1,5 +1,6 @@
 <?php
 mb_internal_encoding('UTF-8');
+date_default_timezone_set('America/Fortaleza');
 /**
  * Carregamento automatico das classes
  */

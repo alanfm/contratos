@@ -11,6 +11,8 @@ use App\Storage\Empresas;
 use App\Storage\Contas;
 use App\Storage\Enderecos;
 use App\Storage\Telefones;
+use App\Storage\Usuarios;
+use App\Storage\Sessoes;
 
 class Relatorios extends Controller
 {
@@ -100,5 +102,45 @@ class Relatorios extends Controller
     public function clientes()
     {
         
+    }
+
+    public function usuarios()
+    {
+        $data['total'] = Usuarios::count();
+        $data['total_admin'] = Usuarios::count(['conditions'=>['nivel = ?', 'admin']]);
+        $data['total_manager'] = Usuarios::count(['conditions'=>['nivel = ?', 'manager']]);
+        $data['total_salesman'] = Usuarios::count(['conditions'=>['nivel = ?', 'salesman']]);
+        $data['usuarios'] = Usuarios::all();
+        $data['sessoes'] = $this->sum_interval_sessions();
+        $this->content('relatorios/usuarios', $data);
+    }
+
+    public function sum_interval_sessions()
+    {
+        $users = Usuarios::all();
+        $usuarios = [];
+
+        $init = new \DateTime(date('Y-m-d H:i:s'));
+        foreach ($users as $user) {
+            $sessions = Sessoes::all(['conditions'=>['usuarios_id = ?', $user->id]]);
+            $tmp['usuario'] = $user->usuario;
+            $tmp['email'] = $user->email;
+
+            $end = $init;
+            var_dump($init);
+            var_dump($end);
+
+            foreach ($sessions as $session) {
+                $diff = (date_create($session->final))->diff(date_create($session->inicio));
+                $end->add(new \DateInterval('PT'.$diff->format('%h').'H'.$diff->format('%i').'M'.$diff->format('%s').'S'));
+                var_dump($init->diff($end)->format('%H:%I:%S'));
+            }
+
+            $tmp['all_time'] = $end->diff($init)->format('%D/%M/%Y %H:%I:%S');
+
+            $usuarios[] = (object)$tmp;
+        }
+
+        return $usuarios;
     }
 }
