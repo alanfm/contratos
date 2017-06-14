@@ -115,28 +115,25 @@ class Relatorios extends Controller
         $this->content('relatorios/usuarios', $data);
     }
 
-    public function sum_interval_sessions()
+    private function sum_interval_sessions()
     {
         $users = Usuarios::all();
         $usuarios = [];
 
-        $init = new \DateTime(date('Y-m-d H:i:s'));
+        $now = date('Y-m-d H:i:s');
         foreach ($users as $user) {
             $sessions = Sessoes::all(['conditions'=>['usuarios_id = ?', $user->id]]);
-            $tmp['usuario'] = $user->usuario;
-            $tmp['email'] = $user->email;
 
-            $end = $init;
-            var_dump($init);
-            var_dump($end);
+            $date = new \DateTime($now);
 
             foreach ($sessions as $session) {
                 $diff = (date_create($session->final))->diff(date_create($session->inicio));
-                $end->add(new \DateInterval('PT'.$diff->format('%h').'H'.$diff->format('%i').'M'.$diff->format('%s').'S'));
-                var_dump($init->diff($end)->format('%H:%I:%S'));
+                $date->add(new \DateInterval('PT'.$diff->format('%h').'H'.$diff->format('%i').'M'.$diff->format('%s').'S'));
             }
 
-            $tmp['all_time'] = $end->diff($init)->format('%D/%M/%Y %H:%I:%S');
+            $tmp['usuario'] = $user->usuario;
+            $tmp['email'] = $user->email;
+            $tmp['all_time'] = $date->diff(date_create($now))->format('%H:%I:%S %D/%M/%Y');
 
             $usuarios[] = (object)$tmp;
         }

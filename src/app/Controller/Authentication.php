@@ -30,7 +30,7 @@ class Authentication extends Controller
 
             $_SESSION['user_id'] = $usuario->id;
             $_SESSION['user_nome'] = $usuario->usuario;
-            $_SESSION['authenticated'] = md5($_SERVER['HTTP_USER_AGENT']);
+            $_SESSION['authenticated'] = md5($_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_USER_AGENT']);
             $_SESSION['limit_time'] = time();
 
             $usuario->ultimo_acesso = date('Y-m-d H:i:s');
@@ -48,11 +48,18 @@ class Authentication extends Controller
     public function logout()
     {
         if (isset($_SESSION['authenticated'])) {
-            Sessoes::find($_SESSION['user_session'])->update_attributes(['final'=>date('Y-m-d H:i:s')]);
+            $this->close_sessions();
             session_destroy();
         }
 
         Utilities::redirect('autenticacao');
+    }
+
+    private function close_sessions()
+    {
+        foreach(Sessoes::all(['conditions'=>['final IS NULL']]) as $session) {
+            Sessoes::find($session->id)->update_attributes(['final'=>date('Y-m-d H:i:s')]);
+        }
     }
 
     public static function verify()
@@ -61,7 +68,7 @@ class Authentication extends Controller
             Utilities::redirect('autenticacao/');
         }
 
-        if (isset($_SESSION) && ($_SESSION['authenticated'] !== md5($_SERVER['HTTP_USER_AGENT']))) {
+        if (isset($_SESSION) && ($_SESSION['authenticated'] !== md5($_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_USER_AGENT']))) {
             Utilities::redirect('autenticacao/sair/');
         }
 
