@@ -4,6 +4,7 @@
         <base href="<?=URL_BASE?>">
         <meta charset="UTF-8">
         <title>Contrato de <?=$cliente->nome?></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://fonts.googleapis.com/css?family=Gudea" rel="stylesheet">
         <link rel="stylesheet" href="public/css/normalize.css">
         <style>

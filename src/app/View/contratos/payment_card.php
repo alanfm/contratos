@@ -4,6 +4,7 @@
         <base href="<?=URL_BASE?>">
         <meta charset="UTF-8">
         <title>Carnê de Pagamento de <?=$comprador->nome?></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="public/css/normalize.css">
         <style>
             body {

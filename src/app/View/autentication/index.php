@@ -10,6 +10,7 @@ if (isset($_SESSION['authenticated']) &&
         <base href="<?=URL_BASE?>">
         <meta charset="UTF-8">
         <title>SGCP - Contratos e Prestações</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="public/css/bootstrap.min.css">
         <link rel="stylesheet" href="public/css/font-awesome.min.css">
         <link href="https://fonts.googleapis.com/css?family=Dosis" rel="stylesheet">
