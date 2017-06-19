@@ -19,8 +19,8 @@ Route::group(['prefix' => 'clientes/telefones'], function() {
         (new Telefones())->update($cliente, $id);
     });
 
-    Route::get('/apagar/{id}', function($cliente, $id) {
-        (new Telefones())->delete($cliente, $id);
+    Route::get('/apagar/{cliente}/{id}/{page}', function($cliente, $id, $page) {
+        (new Telefones())->delete($cliente, $id, $page);
     });
 
     Route::post('/pesquisar/{cliente}', function($cliente) {

@@ -20,4 +20,9 @@ class Error extends Controller
     {
         $this->content('error/401');
     }
+
+    public function error403()
+    {
+        $this->content('error/403');
+    }
 }

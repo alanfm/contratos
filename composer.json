@@ -1,6 +1,6 @@
 {
     "name": "alanfm/contratos",
-    "discription": "Projeto de um Sistema de Gerenciamento de Contratos e Prestações da venda de terrenos.",
+    "discription": "Projeto de um Sistema de Gerenciamento de Contratos e Prestações da venda de lotes.",
     "keywords": ["Contratos", "Gerenciamento", "Venda", "Terrenos"],
 
     "authors": [

@@ -173,4 +173,11 @@ class Clientes extends Controller
 
         exit();
     }
+
+    public static function relationship($id)
+    {
+        return (is_object(Telefones::find(['conditions'=>['pessoas_id = ?', $id]])) ||
+                is_object(Enderecos::find(['conditions'=>['pessoas_id = ?', $id]])) ||
+                is_object(Contratos::find(['conditions'=>['pessoas_id = ?', $id]])));
+    }
 }

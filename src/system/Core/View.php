@@ -69,7 +69,7 @@ class View
         $this->template = VIEW_DIR . $template . '.php';
 
         if (!is_file($this->template)) {
-            throw new \Exception('O parametro não corresponde a um arquivo de View.');
+            throw new \Exception('O parametro não corresponde a um arquivo do View.');
         }
 
         return $this;

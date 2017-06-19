@@ -110,8 +110,8 @@
                                 <td><?=ucfirst($tupla->tipo)?></td>
                                 <td>
                                     <div class="btn-group" role="group">
-                                        <a href="<?=self::link('clientes/telefones/editar/'.$cliente->id.'/'.$tupla->id)?>" class="btn btn-warning btn-xs" title="Editar"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></i></a>
-                                        <a href="<?=self::link('clientes/telefones/apagar/'.$cliente->id.'/'.$tupla->id)?>" class="btn btn-danger btn-xs delete" title="Remover"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
+                                        <a href="<?=self::link('clientes/telefones/editar/'.$cliente->id.'/'.$tupla->id.'/detalhes')?>" class="btn btn-warning btn-xs" title="Editar"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></i></a>
+                                        <a href="<?=self::link('clientes/telefones/apagar/'.$cliente->id.'/'.$tupla->id.'/detalhes')?>" class="btn btn-danger btn-xs delete" title="Remover"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
                                     </div>                                    
                                 </td>
                             </tr>

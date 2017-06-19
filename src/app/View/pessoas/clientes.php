@@ -101,7 +101,7 @@
                             <div class="btn-group" role="group">
                                 <a href="<?=self::link('clientes/detalhes/'.$tupla->id)?>" class="btn btn-info btn-xs" title="Detalhes"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i></i></a>
                                 <a href="<?=self::link('clientes/editar/'.$tupla->id)?>" class="btn btn-warning btn-xs" title="Editar"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></i></a>
-                                <?php if (!App\Storage\Contratos::count(['conditions'=>['pessoas_id = ?', $tupla->id]])):?>
+                                <?php if (!App\Controller\Clientes::relationship($tupla->id)):?>
                                     <a href="<?=self::link('clientes/apagar/'.$tupla->id)?>" class="btn btn-danger btn-xs delete" title="Remover"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
                                 <?php endif;?>
                             </div>

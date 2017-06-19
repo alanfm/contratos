@@ -97,16 +97,16 @@ class Telefones extends Controller
         exit();
     }
 
-    public function delete($cliente, $id)
+    public function delete($cliente, $id, $page = null)
     {
         if (!Model::find($id)->delete()) {
             $_SESSION['alert'] = ['message'=>'Erro ao tentar alterar o registro!', 'error'=>'danger'];
-            Utilities::redirect('clientes/telefones/'.$cliente);
+            Utilities::redirect(sprintf('clientes/%s/%d', (is_null($page)? 'telefones': $page), $cliente));
             exit();
         }
 
         $_SESSION['alert'] = ['message'=>'Registro apagado com sucesso!', 'error'=>'success'];
-        Utilities::redirect('clientes/telefones/'.$cliente);
+        Utilities::redirect(sprintf('clientes/%s/%d', (is_null($page)? 'telefones': $page), $cliente));
         exit();
 
     }

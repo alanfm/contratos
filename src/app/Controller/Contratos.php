@@ -53,7 +53,7 @@ class Contratos extends Controller
         $data['vencimento'] = filter_input(INPUT_POST, 'vencimento');
         $data['status'] = filter_input(INPUT_POST, 'status');
         $data['lotes_id'] = filter_input(INPUT_POST, 'lote');
-        $data['usuarios_id'] = 1; // Corrigir quando implementar móduto de Autenticação!
+        $data['usuarios_id'] = $_SESSION['user_id']; // Corrigir quando implementar móduto de Autenticação!
         $data['pessoas_id'] = $cliente;
 
         if (filter_input(INPUT_POST, 'token') !== Utilities::token() ||            
