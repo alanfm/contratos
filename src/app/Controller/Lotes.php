@@ -27,6 +27,8 @@ class Lotes extends Controller
 
     public function edit($id)
     {
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+
         Authentication::manager();
         $this->data['edit'] = true;
         $this->form($this->read($id));
@@ -82,11 +84,15 @@ class Lotes extends Controller
             return $data;
         }
 
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+
         return Model::find($id);
     }
 
     public function update($id)
     {
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+
         Authentication::manager();
         $data['descricao'] = filter_input(INPUT_POST, 'descricao');
         $data['largura'] = str_replace(',', '.', filter_input(INPUT_POST, 'largura'));
@@ -108,6 +114,8 @@ class Lotes extends Controller
 
     public function delete($id)
     {
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+
         Authentication::manager();
         if (!Model::find($id)->delete()) {
             $_SESSION['alert'] = ['message'=>'Erro ao tentar alterar o registro!', 'error'=>'danger'];
@@ -166,6 +174,9 @@ class Lotes extends Controller
 
     public function pagination($page = 1, $redirect = true)
     {
+        $page = filter_var($page, FILTER_SANITIZE_NUMBER_INT);
+        $redirect = filter_var($redurect);
+
         Authentication::manager();
         $_SESSION['lotes']['pagination'] = $page > 1? ($page - 1) * 10: 0;
         $_SESSION['lotes']['current_page'] = $page > 1? $page: 1;
@@ -179,6 +190,7 @@ class Lotes extends Controller
 
     public function lotes_by_quadra($quadra)
     {
+        $quadra = filter_var($quadra, FILTER_SANITIZE_NUMBER_INT);
         Authentication::salesman();
         foreach (Model::all(['conditions'=>['quadras_id = ? AND situacao = ?', $quadra, 'aberto']]) as $lote) {
             $data[] = ['id'=>$lote->id, 'descricao'=>$lote->descricao];

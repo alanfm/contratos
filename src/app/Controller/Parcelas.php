@@ -22,6 +22,8 @@ class Parcelas extends Controller
 
     public function payment_card($id)
     {
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+
         $this->data['conta'] = Contas::find('last');
         $this->data['empresa'] = Empresas::find('last');
         $this->data['vendedor'] = Pessoas::all(['conditions'=>['tipo = ?', 'vendedor']])[0];
@@ -61,6 +63,8 @@ class Parcelas extends Controller
 
     public function cancel($id, $token)
     {
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+
         $data['quitada'] = null;
         $data['recebido'] = null;
         $data['documento'] = null;
@@ -79,12 +83,16 @@ class Parcelas extends Controller
 
     public function edit($id)
     {
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+
         $data['parcela'] = Model::find($id);
         $this->content('contratos/parcelas', $data);
     }
 
     public function update($id)
     {
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+
         $data['quitada'] = filter_input(INPUT_POST, 'quitada');
         $data['recebido'] = filter_input(INPUT_POST, 'recebido');
         $data['multa'] = filter_input(INPUT_POST, 'multa');

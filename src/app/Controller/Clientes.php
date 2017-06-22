@@ -29,6 +29,8 @@ class Clientes extends Controller
 
     public function edit($id)
     {
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+
         $this->data['edit'] = true;
         $this->form($this->read($id));
         $this->data['data'] = $this->read();
@@ -57,8 +59,12 @@ class Clientes extends Controller
         exit();
     }
 
-    public function read($id = null)
+    private function read($id = null)
     {
+        if (!is_null($id)) {
+            $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+        }
+
         if (!isset($_SESSION['clientes']['pagination'])) {
             $this->pagination();
         }
@@ -84,7 +90,9 @@ class Clientes extends Controller
     }
 
     public function update($id)
-    {
+    {        
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+
         $data['nome'] = filter_input(INPUT_POST, 'nome');
         $data['data_nascimento'] = date('Y-m-d', strtotime(str_replace('/', '-', filter_input(INPUT_POST, 'data_nascimento'))));
         $data['cpf'] = filter_input(INPUT_POST, 'cpf');
@@ -106,6 +114,8 @@ class Clientes extends Controller
 
     public function delete($id)
     {
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+
         if (!Model::find($id)->delete()) {
             $_SESSION['alert'] = ['message'=>'Erro ao tentar alterar o registro!', 'error'=>'danger'];
             Utilities::redirect('clientes');
@@ -135,6 +145,8 @@ class Clientes extends Controller
 
     public function details($id)
     {
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+
         $this->data['cliente'] = Model::find($id);
         $this->data['telefones'] = Telefones::all(['conditions'=>['pessoas_id = ?', $id]]);
 
@@ -150,7 +162,7 @@ class Clientes extends Controller
         $this->content('pessoas/clientes_details', $this->data);
     }
 
-    public function form($model = null)
+    private function form($model = null)
     {
         $this->data['form']['nome'] = is_object($model)? $model->nome: null;
         $this->data['form']['data_nascimento'] = is_object($model)? date('d/m/Y', strtotime($model->data_nascimento)): null;
@@ -163,7 +175,10 @@ class Clientes extends Controller
     }
 
     public function pagination($page = 1, $redirect = true)
-    {
+    {        
+        $page = filter_var($page, FILTER_SANITIZE_NUMBER_INT);
+        $redirect = filter_var($redirect);
+
         $_SESSION['clientes']['pagination'] = $page > 1? ($page - 1) * 10: 0;
         $_SESSION['clientes']['current_page'] = $page > 1? $page: 1;
 
@@ -176,6 +191,8 @@ class Clientes extends Controller
 
     public static function relationship($id)
     {
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+
         return (is_object(Telefones::find(['conditions'=>['pessoas_id = ?', $id]])) ||
                 is_object(Enderecos::find(['conditions'=>['pessoas_id = ?', $id]])) ||
                 is_object(Contratos::find(['conditions'=>['pessoas_id = ?', $id]])));

@@ -144,6 +144,7 @@
                             <th>Nome</th>
                             <th>Data</th>
                             <th>Terreno/Quadra/Lote</th>
+                            <th>Contrato</th>
                             <th>Parcela</th>
                             <th>Valor</th>
                         </tr>
@@ -154,6 +155,7 @@
                                 <td><?=$atrasada->cliente?></td>
                                 <td><?=date('d/m/Y', strtotime($atrasada->vencimento))?></td>
                                 <td><?=sprintf('%s/%s/%s', $atrasada->terreno, $atrasada->quadra, $atrasada->lote)?></td>
+                                <td><?=$atrasada->contrato?></td>
                                 <td><?=$atrasada->parcela?></td>
                                 <td>R$ <?=number_format($atrasada->valor, 2, ',', '.')?></td>
                             </tr>

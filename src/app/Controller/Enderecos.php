@@ -19,6 +19,8 @@ class Enderecos extends Controller
 
     public function index($cliente)
     {
+        $cliente = filter_var($cliente, FILTER_SANITIZE_NUMBER_INT);
+
         $this->form(null);
         $this->data['cliente'] = Pessoas::find($cliente);
         $this->data['estados'] = Estados::all();
@@ -29,6 +31,9 @@ class Enderecos extends Controller
 
     public function edit($cliente, $id)
     {
+        $cliente = filter_var($cliente, FILTER_SANITIZE_NUMBER_INT);
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+
         $this->data['edit'] = true;
         $this->form($this->read($cliente, $id));
         $this->data['cliente'] = Pessoas::find($cliente);
@@ -40,6 +45,8 @@ class Enderecos extends Controller
 
     public function create($cliente)
     {
+        $cliente = filter_var($cliente, FILTER_SANITIZE_NUMBER_INT);
+
         $data['logradouro'] = filter_input(INPUT_POST, 'logradouro');
         $data['numero'] = filter_input(INPUT_POST, 'numero');
         $data['complemento'] = filter_input(INPUT_POST, 'complemento');
@@ -59,8 +66,10 @@ class Enderecos extends Controller
         exit();
     }
 
-    public function read($cliente, $id = null)
+    private function read($cliente, $id = null)
     {
+        $cliente = filter_var($cliente, FILTER_SANITIZE_NUMBER_INT);
+
         if (!isset($_SESSION['enderecos']['pagination'])) {
             $this->pagination($cliente);
         }
@@ -84,12 +93,17 @@ class Enderecos extends Controller
 
             return $data;
         }
+        
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
 
         return Model::find($id);
     }
 
     public function update($cliente, $id)
     {
+        $cliente = filter_var($cliente, FILTER_SANITIZE_NUMBER_INT);
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+
         $data['logradouro'] = filter_input(INPUT_POST, 'logradouro');
         $data['numero'] = filter_input(INPUT_POST, 'numero');
         $data['complemento'] = filter_input(INPUT_POST, 'complemento');
@@ -110,6 +124,9 @@ class Enderecos extends Controller
 
     public function delete($cliente, $id)
     {
+        $cliente = filter_var($cliente, FILTER_SANITIZE_NUMBER_INT);        
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+
         if (!Model::find($id)->delete()) {
             $_SESSION['alert'] = ['message'=>'Erro ao tentar alterar o registro!', 'error'=>'danger'];
             Utilities::redirect('clientes/enderecos/'.$cliente);
@@ -124,6 +141,8 @@ class Enderecos extends Controller
 
     public function search($cliente)
     {
+        $cliente = filter_var($cliente, FILTER_SANITIZE_NUMBER_INT);
+
         if (filter_input(INPUT_POST, 'token') !== Utilities::token()) {
             $_SESSION['alert'] = ['message'=>'Erro ao pesquisar!', 'error'=>'danger'];
             Utilities::redirect('clientes/enderecos/'.$cliente);
@@ -142,7 +161,7 @@ class Enderecos extends Controller
         exit();
     }
 
-    public function form($model = null)
+    private function form($model = null)
     {
         $this->data['form']['logradouro'] = is_object($model)? $model->logradouro: null;
         $this->data['form']['numero'] = is_object($model)? $model->numero: null;

@@ -24,6 +24,8 @@ class Contratos extends Controller
 
     public function index($cliente)
     {
+        $cliente = filter_var($cliente, FILTER_SANITIZE_NUMBER_INT);
+
         $this->form(null);
         $this->data['cliente'] = Pessoas::find($cliente);
         $this->data['terrenos'] = Terrenos::all();
@@ -34,6 +36,9 @@ class Contratos extends Controller
 
     public function edit($cliente, $id)
     {
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+        $cliente = filter_var($cliente, FILTER_SANITIZE_NUMBER_INT);
+
         $this->data['edit'] = true;
         $this->form($this->read($cliente, $id));
         $this->data['cliente'] = Pessoas::find($cliente);
@@ -47,6 +52,8 @@ class Contratos extends Controller
 
     public function create($cliente)
     {
+        $cliente = filter_var($cliente, FILTER_SANITIZE_NUMBER_INT);
+
         $data['data'] = date('Y-m-d');
         $data['entrada'] = filter_input(INPUT_POST, 'entrada');
         $data['parcelas'] = filter_input(INPUT_POST, 'parcelas');
@@ -94,6 +101,11 @@ class Contratos extends Controller
 
     public function read($cliente, $id = null)
     {
+        $cliente = filter_var($cliente, FILTER_SANITIZE_NUMBER_INT);
+        if (!is_null($id)) {
+            $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+        }
+
         if (!isset($_SESSION['contratos']['pagination'])) {
             $this->pagination($cliente);
         }
@@ -123,6 +135,9 @@ class Contratos extends Controller
 
     public function update($cliente, $id)
     {
+        $cliente = filter_var($cliente, FILTER_SANITIZE_NUMBER_INT);
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+
         $data['vencimento'] = filter_input(INPUT_POST, 'vencimento');
 
         if (filter_input(INPUT_POST, 'token') !== Utilities::token() || !Model::find($id)->update_attributes($data)) {
@@ -138,6 +153,10 @@ class Contratos extends Controller
 
     public function cancel($cliente, $id, $page)
     {
+        $cliente = filter_var($cliente, FILTER_SANITIZE_NUMBER_INT);
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+        $page = filter_var($page);
+
         if (!Model::find($id)->update_attributes(['status'=>2])) {
             $_SESSION['alert'] = ['message'=>'Erro ao tentar cancelar o contrato!', 'error'=>'danger'];
             Utilities::redirect($page.'/detalhes/'.$cliente);
@@ -169,6 +188,8 @@ class Contratos extends Controller
 
     public function search($cliente)
     {
+        $cliente = filter_var($cliente, FILTER_SANITIZE_NUMBER_INT);
+
         if (filter_input(INPUT_POST, 'token') !== Utilities::token()) {
             $_SESSION['alert'] = ['message'=>'Erro ao pesquisar!', 'error'=>'danger'];
             Utilities::redirect('contratos/'.$cliente);
@@ -187,7 +208,7 @@ class Contratos extends Controller
         exit();
     }
 
-    public function form($model = null)
+    private function form($model = null)
     {
         $this->data['form']['data'] = is_object($model)? $model->data: null;
         $this->data['form']['entrada'] = is_object($model)? $model->entrada: null;
@@ -202,6 +223,10 @@ class Contratos extends Controller
 
     public function pagination($cliente, $page = 1, $redirect = true)
     {
+        $cliente = filter_var($cliente, FILTER_SANITIZE_NUMBER_INT);
+        $page = filter_var($page, FILTER_SANITIZE_NUMBER_INT);
+        $redirect = filter_var($redirect);
+
         $_SESSION['contratos']['pagination'] = $page > 1? ($page - 1) * 10: 0;
         $_SESSION['contratos']['current_page'] = $page > 1? $page: 1;
 
@@ -214,6 +239,7 @@ class Contratos extends Controller
 
     public function details($id)
     {
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
 
         $join = 'INNER JOIN quadras ON (quadras.id = lotes.quadras_id) INNER JOIN terrenos ON (terrenos.id = quadras.terrenos_id)';
         $data['contrato'] = Model::all(['select'=>'contratos.*, lotes.descricao as lote, lotes.valor, quadras.descricao as quadra, terrenos.descricao as terreno',
@@ -230,6 +256,7 @@ class Contratos extends Controller
 
     private function sum_parcelas($contrato)
     {
+        $contrato = filter_var($contrato, FILTER_SANITIZE_NUMBER_INT);
         $total = 0;
         foreach(Parcelas::all(['conditions'=>['contratos_id = ? AND status = 1', $contrato]]) as $parcela) {
             $total += $parcela->recebido;
@@ -240,6 +267,8 @@ class Contratos extends Controller
 
     public function impress($id)
     {
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+        
         $data['contrato'] = Model::find($id);
         $data['parcela'] = Parcelas::find(['conditions'=>['contratos_id = ?', $data['contrato']->id]]);
         $data['lote'] = Lotes::find(Model::find($id)->lotes_id);

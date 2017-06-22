@@ -17,6 +17,8 @@ class Telefones extends Controller
 
     public function index($cliente)
     {
+        $cliente = filter_var($cliente, FILTER_SANITIZE_NUMBER_INT);
+
         $this->form(null);
         $this->data['cliente'] = Pessoas::find($cliente);
         $this->data['data'] = isset($_SESSION['search'])? unserialize($_SESSION['search']): $this->read($cliente);
@@ -26,6 +28,9 @@ class Telefones extends Controller
 
     public function edit($cliente, $id)
     {
+        $cliente = filter_var($cliente, FILTER_SANITIZE_NUMBER_INT);
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+
         $this->data['edit'] = true;
         $this->form($this->read($cliente, $id));
         $this->data['cliente'] = Pessoas::find($cliente);
@@ -35,6 +40,8 @@ class Telefones extends Controller
 
     public function create($cliente)
     {
+        $cliente = filter_var($cliente, FILTER_SANITIZE_NUMBER_INT);
+
         $data['numero'] = filter_input(INPUT_POST, 'numero');
         $data['ddd'] = filter_input(INPUT_POST, 'ddd');
         $data['operadora'] = filter_input(INPUT_POST, 'operadora');
@@ -54,6 +61,8 @@ class Telefones extends Controller
 
     public function read($cliente, $id = null)
     {
+        $cliente = filter_var($cliente, FILTER_SANITIZE_NUMBER_INT);
+
         if (!isset($_SESSION['telefones']['pagination'])) {
             $this->pagination($cliente);
         }
@@ -76,11 +85,16 @@ class Telefones extends Controller
             return $data;
         }
 
+        $cliente = filter_var($cliente, FILTER_SANITIZE_NUMBER_INT);
+
         return Model::find($id);
     }
 
     public function update($cliente, $id)
     {
+        $cliente = filter_var($cliente, FILTER_SANITIZE_NUMBER_INT);
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+
         $data['numero'] = filter_input(INPUT_POST, 'numero');
         $data['ddd'] = filter_input(INPUT_POST, 'ddd');
         $data['operadora'] = filter_input(INPUT_POST, 'operadora');
@@ -99,6 +113,9 @@ class Telefones extends Controller
 
     public function delete($cliente, $id, $page = null)
     {
+        $cliente = filter_var($cliente, FILTER_SANITIZE_NUMBER_INT);
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+
         if (!Model::find($id)->delete()) {
             $_SESSION['alert'] = ['message'=>'Erro ao tentar alterar o registro!', 'error'=>'danger'];
             Utilities::redirect(sprintf('clientes/%s/%d', (is_null($page)? 'telefones': $page), $cliente));
@@ -113,6 +130,8 @@ class Telefones extends Controller
 
     public function search($cliente)
     {
+        $cliente = filter_var($cliente, FILTER_SANITIZE_NUMBER_INT);
+
         if (filter_input(INPUT_POST, 'token') !== Utilities::token()) {
             $_SESSION['alert'] = ['message'=>'Erro ao pesquisar!', 'error'=>'danger'];
             Utilities::redirect('clientes/telefones/'.$cliente);
@@ -128,7 +147,7 @@ class Telefones extends Controller
         exit();
     }
 
-    public function form($model = null)
+    private function form($model = null)
     {
         $this->data['form']['numero'] = is_object($model)? $model->numero: null;
         $this->data['form']['ddd'] = is_object($model)? $model->ddd: null;
@@ -139,6 +158,10 @@ class Telefones extends Controller
 
     public function pagination($cliente, $page = 1, $redirect = true)
     {
+        $cliente = filter_var($cliente, FILTER_SANITIZE_NUMBER_INT);
+        $page = filter_var($page, FILTER_SANITIZE_NUMBER_INT);
+        $redirect = filter_var($redirect);
+
         $_SESSION['telefones']['pagination'] = $page > 1? ($page - 1) * 10: 0;
         $_SESSION['telefones']['current_page'] = $page > 1? $page: 1;
 

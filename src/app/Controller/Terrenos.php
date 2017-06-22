@@ -27,6 +27,8 @@ class Terrenos extends Controller
 
     public function edit($id)
     {
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+
         $this->data['edit'] = true;
         $this->form($this->read($id));
         $this->data['data'] = $this->read();
@@ -77,12 +79,15 @@ class Terrenos extends Controller
 
             return $data;
         }
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
 
         return Model::find($id);
     }
 
     public function update($id)
     {
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+
         $data['descricao'] = filter_input(INPUT_POST, 'descricao');
         $data['logradouro'] = filter_input(INPUT_POST, 'logradouro');
         $data['bairro'] = filter_input(INPUT_POST, 'bairro');
@@ -101,6 +106,8 @@ class Terrenos extends Controller
 
     public function delete($id)
     {
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+
         if (!Model::find($id)->delete()) {
             $_SESSION['alert'] = ['message'=>'Erro ao tentar alterar o registro!', 'error'=>'danger'];
             Utilities::redirect('terrenos');
@@ -153,6 +160,9 @@ class Terrenos extends Controller
 
     public function pagination($page = 1, $redirect = true)
     {
+        $page = filter_var($page, FILTER_SANITIZE_NUMBER_INT);
+        $redirect = filter_var($redirect);
+
         $_SESSION['terrenos']['pagination'] = $page > 1? ($page - 1) * 10: 0;
         $_SESSION['terrenos']['current_page'] = $page > 1? $page: 1;
 

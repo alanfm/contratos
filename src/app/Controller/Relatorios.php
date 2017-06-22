@@ -43,7 +43,7 @@ class Relatorios extends Controller
 
         $join = 'INNER JOIN pessoas ON (pessoas.id = contratos.pessoas_id) INNER JOIN lotes ON (lotes.id = contratos.lotes_id) INNER JOIN quadras ON (quadras.id = lotes.quadras_id) INNER JOIN terrenos ON (terrenos.id = quadras.terrenos_id)';
 
-        $data['atrasadas'] = Parcelas::all(['select'=>'parcelas.id as parcela, parcelas.vencimento, parcelas.valor as valor, lotes.descricao as lote, quadras.descricao as quadra, terrenos.descricao as terreno, pessoas.nome as cliente',
+        $data['atrasadas'] = Parcelas::all(['select'=>'parcelas.id as parcela, parcelas.vencimento, parcelas.valor as valor, lotes.descricao as lote, quadras.descricao as quadra, terrenos.descricao as terreno, pessoas.nome as cliente, contratos.id as contrato',
                                             'conditions'=>['parcelas.vencimento < ? AND parcelas.status = 0', date('Y-m-d')],
                                             'joins'=>['contratos', $join]]);
 
@@ -96,12 +96,25 @@ class Relatorios extends Controller
 
     public function contratos()
     {
+        $data['ativos'] = Contratos::find(['select'=>'count(contratos.id) as total, sum(lotes.valor) as valor',
+                                           'conditions'=>['status = 1'],
+                                           'joins'=>['lotes']]);
 
+        $data['quitados'] = Contratos::find(['select'=>'count(contratos.id) as total, sum(lotes.valor) as valor',
+                                             'conditions'=>['status = 0'],
+                                             'joins'=>['lotes']]);
+
+        $data['cancelados'] = Contratos::find(['select'=>'count(contratos.id) as total, sum(lotes.valor) as valor',
+                                               'conditions'=>['status = 2'],
+                                               'joins'=>['lotes']]);
+        
+        $this->content('relatorios/contratos', $data);
     }
 
     public function clientes()
     {
-        
+        $data = [];
+        $this->content('relatorios/clientes', $data);        
     }
 
     public function usuarios()

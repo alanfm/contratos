@@ -16,6 +16,7 @@ require_once $autoload;
 /**
  * Configuração das sessões
  */
+ini_set('session.cookie_httponly', 1);
 session_cache_expire(60); // Expira em 60 minutos
 session_name(md5('SGCP'.$_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_USER_AGENT']));
 session_start();

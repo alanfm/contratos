@@ -26,6 +26,8 @@ class Usuarios extends Controller
 
     public function edit($id)
     {
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+
         Authentication::admin();
         $this->data['edit'] = true;
         $this->form($this->read($id));
@@ -76,11 +78,15 @@ class Usuarios extends Controller
             return $data;
         }
 
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+
         return Model::find($id);
     }
 
-    public function update($id,$page = null)
+    public function update($id, $page = null)
     {
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+
         Authentication::salesman();
         $data['usuario'] = filter_input(INPUT_POST, 'usuario');
         $data['password'] = password_hash(filter_input(INPUT_POST, 'senha'), PASSWORD_DEFAULT);
@@ -101,6 +107,8 @@ class Usuarios extends Controller
 
     public function delete($id)
     {
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+
         Authentication::admin();
         if (!Model::find($id)->delete()) {
             $_SESSION['alert'] = ['message'=>'Erro ao tentar alterar o registro!', 'error'=>'danger'];
@@ -131,7 +139,7 @@ class Usuarios extends Controller
         exit();
     }
 
-    public function form($model = null)
+    private function form($model = null)
     {
         $this->data['form']['usuario'] = is_object($model)? $model->usuario: null;
         $this->data['form']['email'] = is_object($model)? $model->email: null;
@@ -142,6 +150,9 @@ class Usuarios extends Controller
 
     public function pagination($page = 1, $redirect = true)
     {
+        $page = filter_var($page, FILTER_SANITIZE_NUMBER_INT);
+        $redirect = filter_var($redirect);
+
         Authentication::admin();
         $_SESSION['usuarios']['pagination'] = $page > 1? ($page - 1) * 10: 0;
         $_SESSION['usuarios']['current_page'] = $page > 1? $page: 1;

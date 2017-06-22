@@ -110,7 +110,7 @@
                                 <td><?=ucfirst($tupla->tipo)?></td>
                                 <td>
                                     <div class="btn-group" role="group">
-                                        <a href="<?=self::link('clientes/telefones/editar/'.$cliente->id.'/'.$tupla->id.'/detalhes')?>" class="btn btn-warning btn-xs" title="Editar"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></i></a>
+                                        <a href="<?=self::link('clientes/telefones/editar/'.$cliente->id.'/'.$tupla->id)?>" class="btn btn-warning btn-xs" title="Editar"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></i></a>
                                         <a href="<?=self::link('clientes/telefones/apagar/'.$cliente->id.'/'.$tupla->id.'/detalhes')?>" class="btn btn-danger btn-xs delete" title="Remover"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i></a>
                                     </div>                                    
                                 </td>
@@ -151,12 +151,7 @@
                                 <td><?='R$ ' . number_format($tupla->entrada, 2, ',', '.')?></td>
                                 <td><?=$tupla->vencimento?></td>
                                 <td><?=$status[$tupla->status]?></td>
-                                <td>
-                                    <?php
-                                    if ($tupla->status != 2) {
-                                        echo $tupla->terreno.'/'.$tupla->quadra.'/'.$tupla->lote;
-                                    }?>
-                                </td>
+                                <td><?=$tupla->terreno.'/'.$tupla->quadra.'/'.$tupla->lote;?></td>
                                 <td>
                                     <?php if ($tupla->status != 2):?>
                                         <div class="btn-group" role="group">

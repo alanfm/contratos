@@ -26,6 +26,8 @@ class Quadras extends Controller
 
     public function edit($id)
     {
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+
         Authentication::manager();
         $this->data['edit'] = true;
         $this->data['terrenos'] = Terrenos::all();
@@ -51,7 +53,7 @@ class Quadras extends Controller
         exit();
     }
 
-    public function read($id = null)
+    private function read($id = null)
     {
         if (!isset($_SESSION['quadras']['pagination'])) {
             $this->pagination();
@@ -75,11 +77,15 @@ class Quadras extends Controller
             return $data;
         }
 
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+
         return Model::find($id);
     }
 
     public function update($id)
     {
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+
         Authentication::manager();
         $data['descricao'] = filter_input(INPUT_POST, 'descricao');        
 
@@ -96,6 +102,8 @@ class Quadras extends Controller
 
     public function delete($id)
     {
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+
         Authentication::manager();
         if (!Model::find($id)->delete()) {
             $_SESSION['alert'] = ['message'=>'Erro ao tentar alterar o registro!', 'error'=>'danger'];
@@ -127,7 +135,7 @@ class Quadras extends Controller
         exit();
     }
 
-    public function form($model)
+    private function form($model)
     {
         $this->data['form']['descricao'] = is_object($model)? $model->descricao: null;
         $this->data['form']['terreno'] = is_object($model)? $model->terrenos_id: null;
@@ -136,6 +144,9 @@ class Quadras extends Controller
 
     public function pagination($page = 1, $redirect = true)
     {
+        $page = filter_var($page, FILTER_SANITIZE_NUMBER_INT);
+        $redirect = filter_var($redirect);
+
         Authentication::manager();
         $_SESSION['quadras']['pagination'] = $page > 1? ($page - 1) * 10: 0;
         $_SESSION['quadras']['current_page'] = $page > 1? $page: 1;
@@ -149,6 +160,8 @@ class Quadras extends Controller
 
     public function quadras_by_terreno($terreno)
     {
+        $terreno = filter_var($terreno, FILTER_SANITIZE_NUMBER_INT);
+
         Authentication::salesman();
         foreach (Model::all(['conditions'=>['terrenos_id = ?', $terreno]]) as $quadra) {
             $data[] = ['id'=>$quadra->id, 'descricao'=>$quadra->descricao];
