@@ -1,6 +1,5 @@
 vendor/
 .phpintel/
-assets/
 database/
 
 composer.lock

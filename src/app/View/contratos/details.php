@@ -45,7 +45,8 @@
             <div class="panel-heading">
                 <h3 class="panel-title">Opções de contrato</h3>
             </div>
-            <div class="panel-body">            
+            <div class="panel-body">
+                <a href="<?=self::link('contratos/extrato/'.$contrato->id)?>" class="btn btn-primary btn-block" target="_blank"><i class="fa fa-file-o fa-lg" aria-hidden="true"></i> Extrato</a>
                 <a href="<?=self::link('contratos/imprimir/'.$contrato->id)?>" class="btn btn-info btn-block" target="_blank"><i class="fa fa-file-text-o fa-lg" aria-hidden="true"></i> Visualizar Contrato</a>
                 <a href="<?=self::link('parcelas/carne/'.$contrato->id)?>" class="btn btn-success btn-block" target="_blank"><i class="fa fa-credit-card fa-lg" aria-hidden="true"></i> Visualizar Carnê de Pagamento</a>
                 <?php if(App\Controller\Authentication::is_manager()):?>

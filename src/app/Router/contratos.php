@@ -38,4 +38,12 @@ Route::group(['prefix' => 'contratos'], function() {
     Route::get('/pagina/{cliente}/{page}', function($cliente, $page) {
         (new Contratos())->pagination($cliente, $page);
     });
+
+    Route::get('/extrato/{id}', function($id) {
+        (new Contratos())->extract($id);
+    });
+
+    Route::get('/extrato/pdf/{id}', function($id) {
+        (new Contratos())->extract_pdf($id);
+    });
 });

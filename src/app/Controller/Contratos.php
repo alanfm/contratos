@@ -13,6 +13,8 @@ use App\Storage\Usuarios;
 use App\Storage\Parcelas;
 use App\Storage\Enderecos;
 use App\Storage\Contas;
+use App\Storage\Empresas;
+use Spipu\Html2Pdf\Html2Pdf as PDF;
 
 class Contratos extends Controller
 {
@@ -294,5 +296,36 @@ class Contratos extends Controller
                                          'joins'=>[$join]])[0];
 
         $this->view('contratos/contract')->data($data)->show();
+    }
+
+    public function extract($id)
+    {
+        $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+        $data['empresa'] = Empresas::find('first');
+
+        $data['contrato'] = $contrato = Model::find($id);
+
+        $join = 'INNER JOIN terrenos ON (quadras.terrenos_id = terrenos.id)';
+        $data['lote'] = Lotes::find(['select'=>'lotes.*, quadras.descricao as quadra, terrenos.descricao as terreno',
+                                     'conditions'=>['lotes.id = ?', $contrato->lotes_id],
+                                     'joins'=>['quadras',$join]]);
+
+        $join = 'INNER JOIN estados ON (estados.id = cidades.estados_id)';
+        $data['cliente'] = Enderecos::all(['select'=>'pessoas.*, enderecos.logradouro, enderecos.numero, enderecos.complemento, enderecos.bairro, enderecos.cep, cidades.nome as cidade, estados.nome as estado',
+                                         'conditions'=>['enderecos.pessoas_id = ?', $contrato->pessoas_id],
+                                         'joins'=>['pessoas', 'cidades', $join]])[0];
+
+        $data['parcelas'] = Parcelas::all(['conditions'=>['contratos_id = ?',$id]]);
+        $data['pagas'] = Parcelas::find(['select'=>'COUNT(id) as total, SUM(valor) as valor',
+                                         'conditions'=>['contratos_id = ? AND status = 1', $contrato->id]]);
+        $data['abertas'] = Parcelas::find(['select'=>'COUNT(id) as total, SUM(valor) as valor',
+                                           'conditions'=>['contratos_id = ? AND status = 0', $contrato->id]]);
+        $data['canceladas'] = Parcelas::find(['select'=>'COUNT(id) as total, SUM(valor) as valor',
+                                              'conditions'=>['contratos_id = ? AND status = 2', $contrato->id]]);
+        $data['multas_juros'] = Parcelas::find(['select'=>'SUM(multa) as multa, SUM(juros) as juros',
+                                                'conditions'=>['contratos_id = ?', $contrato->id]]);
+        $data['usuario'] = Usuarios::find($_SESSION['user_id']);
+
+        $this->view('contratos/extract')->data($data)->show();
     }
 }
