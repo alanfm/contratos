@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="public/css/normalize.css">
         <style>
             body {
-                font-family: 'Gudea', sans-serif;
+                font-family: sans-serif;
             }
             .contrato {
                 text-align: justify;
@@ -141,11 +141,11 @@
                 <tr>
                     <td>
                         Testemunha<br>
-                        CPF: ______________________________________
+                        CPF: ______________________________
                     </td>
                     <td>
                         Testemunha<br>
-                        CPF: ______________________________________
+                        CPF: ______________________________
                     </td>
                 </tr>
             </table>

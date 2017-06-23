@@ -42,8 +42,4 @@ Route::group(['prefix' => 'contratos'], function() {
     Route::get('/extrato/{id}', function($id) {
         (new Contratos())->extract($id);
     });
-
-    Route::get('/extrato/pdf/{id}', function($id) {
-        (new Contratos())->extract_pdf($id);
-    });
 });
